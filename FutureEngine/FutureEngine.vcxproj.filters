@@ -28,6 +28,9 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{3262bcc5-17a8-48cd-b545-9bcafa204444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{a2d77829-f807-44af-9dcd-5521780c35a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -59,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="ShaderModule.h">
       <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTile.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="ShaderModule.cpp">
       <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTile.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
