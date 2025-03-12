@@ -31,6 +31,9 @@
     <Filter Include="Map">
       <UniqueIdentifier>{a2d77829-f807-44af-9dcd-5521780c35a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{a57c301a-0917-41a4-80c8-9ce54344c365}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="GameCam.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInput.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="GameCam.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInput.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

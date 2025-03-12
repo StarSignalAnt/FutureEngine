@@ -31,7 +31,7 @@ void GameMap::RenderMap(GameCam* camera)
 
 				float rot = camera->GetRotation().y;
 				
-				auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY),rot, 1.0f);
+				auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY),rot, camera->GetPosition().z);
 
 				renderPos = glm::vec2(midX, midY) + 
 					renderPos;	
@@ -40,7 +40,7 @@ void GameMap::RenderMap(GameCam* camera)
 				auto tile = GetTile(x, y, z);
 
 				if (tile != nullptr) {
-					m_TileRenderer->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0],rot);
+					m_TileRenderer->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0],rot,camera->GetPosition().z);
 					//RenderTile(drawX, drawY, tile);
 				}
 

@@ -8,10 +8,15 @@ public:
 	GameCam();
 	void SetPosition(glm::vec3 position);
 	void SetRotation(glm::vec3 rotation);
+	void SetPosition(glm::vec2 position);
 	glm::vec3 GetPosition() const { return m_Position; }
 	glm::vec3 GetRotation() const { return m_Rotation; }
 	void Turn(glm::vec3 rotation);
 	void Move(glm::vec3 delta);
+	void Move(glm::vec2 delta);
+	void MoveLocal(glm::vec2 delta);
+	void Zoom(float delta);
+
 
 private:
 

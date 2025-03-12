@@ -2,6 +2,7 @@
 #include <iostream>
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
+#include "GameInput.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust the OpenGL viewport to match the new framebuffer size
@@ -9,6 +10,23 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 
 	FutureApp::m_Inst->SetSize(width, height);
 }
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    if (action == GLFW_PRESS) {
+
+		GameInput::Buttons[button] = true;
+        //std::cout << "Mouse button " << button << " pressed\n";
+    }
+    else if (action == GLFW_RELEASE) {
+		GameInput::Buttons[button] = false;
+        //std::cout << "Mouse button " << button << " released\n";
+    }
+}
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+    //std::cout << "Mouse scrolled: " << yoffset << "\n";
+    GameInput::MouseDelta.z = yoffset;
+}
+
 
 
 FutureApp::FutureApp()
@@ -57,6 +75,8 @@ void FutureApp::SetApp(int width, int height, std::string app)
 
     glViewport(0, 0, m_Width, m_Height);
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+     glfwSetMouseButtonCallback(window, mouse_button_callback);
+     glfwSetScrollCallback(window, scroll_callback);
     InitGL();
 
 }
@@ -132,12 +152,29 @@ int FutureApp::Run()
 
             float delta = ((float)ntime) / 1000.0f;
 
+            double xpos, ypos;
+            glfwGetCursorPos(window, &xpos, &ypos);
+
+
+
+	
+			GameInput::MouseDelta = glm::vec3(GameInput::MousePosition.x-xpos,GameInput::MousePosition.y-ypos,GameInput::MouseDelta.z);
+            GameInput::MousePosition = glm::vec2(xpos, ypos);
+
+
+
+            // Print mouse position (0,0 is top-left by default in GLFW)
+            std::cout << "Mouse W: (" << GameInput::MouseDelta.z << ")\n";
 
 
             if (top != nullptr) {
                 top->UpdateState(delta);
                 top->RenderState();
             }
+
+
+
+            GameInput::MouseDelta.z = 0;
 
         }
 
