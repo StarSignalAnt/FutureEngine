@@ -34,6 +34,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{a57c301a-0917-41a4-80c8-9ce54344c365}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderTarget">
+      <UniqueIdentifier>{f4c15526-3ebf-40a2-8943-799ba76cb2d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="GameLight.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget2D.h">
+      <Filter>RenderTarget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="GameLight.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget2D.cpp">
+      <Filter>RenderTarget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

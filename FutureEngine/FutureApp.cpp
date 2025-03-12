@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 #include "GameInput.h"
+#include "RenderTarget2D.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust the OpenGL viewport to match the new framebuffer size
@@ -104,8 +105,7 @@ void FutureApp::InitGL() {
 
     // Enable alpha testing (optional, for discarding transparent fragments in certain cases)
     glDisable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.1f);  // Set the alpha threshold
-
+  
     // Set clear color (background color of the window)
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  // Set background to a dark gray
 
@@ -206,4 +206,33 @@ void FutureApp::PopState()
 
 }
 
+int FutureApp::GetWidth() {
+
+    if (m_BoundRT) {
+		return m_BoundRT->GetWidth();
+	}
+    else {
+        return m_Width;
+    }
+}
+
+int FutureApp::GetHeight() {
+    if (m_BoundRT) {
+        return m_BoundRT->GetHeight();
+    }
+    else {
+        return m_Height;
+    }
+}
+
 FutureApp* FutureApp::m_Inst = nullptr;
+
+void FutureApp::SetBind(RenderTarget2D* rt) {
+	m_BoundRT = rt;
+    if (rt != nullptr) {
+		glViewport(0, 0, rt->GetWidth(), rt->GetHeight());
+    }
+    else {
+		glViewport(0, 0, m_Width, m_Height);
+    }
+}

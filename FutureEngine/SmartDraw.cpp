@@ -27,7 +27,7 @@ void SmartDraw::Begin()
 	m_DrawLists.clear();
 	
 	m_CurrentZ = 0.01f;
-	m_ProjectionMatrix = glm::ortho(0.0f,(float)FutureApp::m_Inst->GetWidth(),(float)FutureApp::m_Inst->GetHeight(), 0.0f, -1.0f, 1.0f);
+
 //	m_SMSimple->Bind();
 //	m_SMSimple->SetUniformMat4("u_Projection", m_ProjectionMatrix);
 
@@ -93,9 +93,55 @@ DrawInfo* SmartDraw::Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, T
 
 }
 
-void SmartDraw::End()
+
+DrawInfo* SmartDraw::DrawDirect(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture)
 {
 
+	auto list = GetList(texture);
+
+	DrawInfo* info = new DrawInfo;
+
+
+
+	
+
+	info->SetCoord(0, position.x , position.y);
+	info->SetCoord(1, position.x + size.x, position.y);
+	info->SetCoord(2, position.x + size.x, position.y + size.y);
+	info->SetCoord(3, position.x , position.y + size.y);
+
+
+
+
+	//	info->SetCoord(0, x0, y0);
+	//	info->SetCoord(1, x1, y1);
+	//	info->SetCoord(2, x2, y2);
+	//	info->SetCoord(3, x3, y3);
+
+
+	info->SetTexCoord(0, 0, 0);
+	info->SetTexCoord(1, 1, 0);
+	info->SetTexCoord(2, 1, 1);
+	info->SetTexCoord(3, 0, 1);
+
+	info->SetColor(color);
+
+	info->SetTexture(texture);
+
+	info->SetZ(m_CurrentZ);
+
+	m_CurrentZ += 0.0001f;
+
+	list->Add(info);
+
+	return info;
+
+
+}
+
+void SmartDraw::End()
+{
+	m_ProjectionMatrix = glm::ortho(0.0f, (float)FutureApp::m_Inst->GetWidth(), (float)FutureApp::m_Inst->GetHeight(), 0.0f, -1.0f, 1.0f);
 	if (pdata == nullptr) {
 
 		//pdata = (float*)malloc(100000 * 9 * 4)
@@ -111,25 +157,30 @@ void SmartDraw::End()
 	// Iterate over the draw lists
 	for (auto list : m_DrawLists) {
 		m_SM->Bind();
+
+
 		m_SM->SetMat4("uProjection", m_ProjectionMatrix);
 
 		auto tex = list->GetList()[0]->GetTexture();
 		tex->Bind(0);
 		auto norm = list->GetList()[0]->GetNormalTexture();
-		norm->Bind(1);
+		if (norm != nullptr) {
+			norm->Bind(1);
+			m_SM->SetInt("feNormalMap", 1);
+		}
 
 		m_SM->SetInt("uTexture", 0);
-		m_SM->SetInt("feNormalMap", 1);
+	
 
 		// Get packed vertex data
 		float* data = GetData(list);
 		size_t vertexCount = list->GetList().size() * 6; // 4 verts per quad
-		size_t dataSize = vertexCount * 9 * sizeof(float); // Each vertex has 9 floats
+		size_t dataSize = vertexCount * 12 * sizeof(float); // Each vertex has 9 floats
 
 		// Generate indices for triangle list (6 indices per quad)
 		size_t quadCount = list->GetList().size();
 		int indexCount = quadCount * 6;
-	
+
 		// Create VAO once if not created
 		if (VAO == 0) {
 			glGenVertexArrays(1, &VAO);
@@ -141,7 +192,7 @@ void SmartDraw::End()
 		if (VBO == 0) {
 			glGenBuffers(1, &VBO);
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, MAX_VERTEX_SIZE, nullptr, GL_DYNAMIC_DRAW);  // Allocate the buffer with the correct size
+			glBufferData(GL_ARRAY_BUFFER, MAX_VERTEX_SIZE*2, nullptr, GL_DYNAMIC_DRAW);  // Allocate the buffer with the correct size
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		}
 
@@ -149,14 +200,14 @@ void SmartDraw::End()
 		glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, data);
 
 
-	
+
 
 		// Define vertex attributes
-		GLsizei stride = 9 * sizeof(float);
+		GLsizei stride = 12 * sizeof(float);
 
 		// Position (vec3)
 
-		
+
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
 		glEnableVertexAttribArray(0);
 
@@ -168,6 +219,8 @@ void SmartDraw::End()
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (void*)(9 * sizeof(float)));
+		glEnableVertexAttribArray(3);
 		// Draw the elements
 		//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
@@ -179,7 +232,9 @@ void SmartDraw::End()
 
 		// Unbind texture and reset the shader program
 		tex->Unbind(0);
-		norm->Unbind(1);
+		if (norm != nullptr) {
+			norm->Unbind(1);
+		}
 	}
 
 	// Unbind the VAO and shader
@@ -201,7 +256,7 @@ DrawList* SmartDraw::GetList(Texture2D* texture)
 	return list;
 }
 
-inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z, const glm::vec2& texCoord, const glm::vec4& color) {
+inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z, const glm::vec2& texCoord, const glm::vec4& color,const glm::vec3& real) {
 	data[index++] = pos.x;
 	data[index++] = pos.y;
 	data[index++] = z;
@@ -211,11 +266,14 @@ inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z
 	data[index++] = color.g;
 	data[index++] = color.b;
 	data[index++] = color.a;
+	data[index++] = real.x;
+	data[index++] = real.y;
+	data[index++] = real.z;
 }
 
 float* SmartDraw::GetData(DrawList* list) {
 	// Each info will now require 6 vertices instead of 4
-	int size = list->GetList().size() * 6 * 9 * sizeof(float);  // 6 vertices per quad, 9 floats per vertex
+	int size = list->GetList().size() * 9 * 9 * sizeof(float);  // 6 vertices per quad, 9 floats per vertex
 
 	float* data = nullptr;
 	if (size > pre_size) {
@@ -251,15 +309,20 @@ float* SmartDraw::GetData(DrawList* list) {
 		auto texCoord3 = info->GetTexCoord(3);
 		auto color = info->GetColor();
 
+		auto real0 = info->GetRealCoord(0);
+		auto real1 = info->GetRealCoord(1);
+		auto real2 = info->GetRealCoord(2);
+		auto real3 = info->GetRealCoord(3);
+
 		// First triangle (using vertices 0, 1, 2)
-		SetVertexData(data, index, pos0, z, texCoord0, color);
-		SetVertexData(data, index, pos1, z, texCoord1, color);
-		SetVertexData(data, index, pos2, z, texCoord2, color);
+		SetVertexData(data, index, pos0, z, texCoord0, color,real0);
+		SetVertexData(data, index, pos1, z, texCoord1, color,real1);
+		SetVertexData(data, index, pos2, z, texCoord2, color,real2);
 
 		// Second triangle (using vertices 2, 3, 0)
-		SetVertexData(data, index, pos2, z, texCoord2, color);
-		SetVertexData(data, index, pos3, z, texCoord3, color);
-		SetVertexData(data, index, pos0, z, texCoord0, color);
+		SetVertexData(data, index, pos2, z, texCoord2, color,real2);
+		SetVertexData(data, index, pos3, z, texCoord3, color,real3);
+		SetVertexData(data, index, pos0, z, texCoord0, color,real0);
 	}
 
 	return data;

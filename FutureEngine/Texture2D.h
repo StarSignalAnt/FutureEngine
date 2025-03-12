@@ -5,8 +5,17 @@ class Texture2D
 public:
 
 	Texture2D(std::string path);
+	Texture2D(int handle, int w, int h)
+	{
+		m_Handle = handle;
+		m_Width = w;
+		m_Height = h;
+	}
 	void Bind(int unit);
 	void Unbind(int unit);
+	int GetID() {
+		return m_Handle;
+	}
 
 private:
 

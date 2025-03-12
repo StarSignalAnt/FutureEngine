@@ -5,6 +5,7 @@
 #include <stack>
 
 class GLFWwindow;
+class RenderTarget2D;
 
 class FutureApp
 {
@@ -17,9 +18,10 @@ public:
 	void PushState(FutureState* state);
 	void PopState();
 	void SetSize(int width, int height);
-	int GetWidth() { return m_Width; };
-	int GetHeight() { return m_Height; };
-
+	int GetWidth();
+	int GetHeight();
+	void SetBind(RenderTarget2D* rt);
+	RenderTarget2D* GetBind() { return m_BoundRT; };
 	static FutureApp* m_Inst;
 
 private:
@@ -33,6 +35,7 @@ private:
 	//fps
 	int frames = 0;
 	int fps = 0;
+	RenderTarget2D* m_BoundRT;
 
 };
 

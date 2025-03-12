@@ -6,6 +6,7 @@ class GameTile;
 class GameCam;
 class GameLight;
 class ShaderModule;
+class RenderTarget2D;
 
 
 class GameMap
@@ -15,6 +16,7 @@ public:
 	GameMap(int width,int height,int depth,int tileWidth,int tileHeight) : m_Width(width), m_Height(height), m_Depth(depth), m_TileWidth(tileWidth), m_TileHeight(tileHeight), m_Tiles(width*height*depth) {
 	 
 		m_TileRenderer = new SmartDraw;
+		m_TestRender = new SmartDraw;
 		InitMap();
 
     }
@@ -53,6 +55,7 @@ public:
 	void AddLight(GameLight* light);
 
 	void RenderMap(GameCam* camera);
+	void RenderShadowMap();
 	
 
 private:
@@ -61,7 +64,13 @@ private:
 	int m_TileWidth, m_TileHeight;
 	std::vector<GameTile*> m_Tiles;
 	SmartDraw* m_TileRenderer;
+	SmartDraw* m_TestRender;
+	SmartDraw* m_ShadowRenderer;
 	ShaderModule* m_DrawLit;
+	ShaderModule* m_ShadowWrite;
 	std::vector<GameLight*> m_Lights;
+	RenderTarget2D* m_ShadowRT;
+	int m_ShadowMapSize = 1024;
+
 };
 

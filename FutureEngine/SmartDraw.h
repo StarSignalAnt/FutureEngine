@@ -14,11 +14,15 @@ public:
 	SmartDraw();
 	void Begin();
 	DrawInfo* Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture, float rotation = 0.0f, float scale = 1.0f);
+	DrawInfo* DrawDirect(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture);
 	void End();
 	DrawList* GetList(Texture2D* texture);
 	float* GetData(DrawList* list);
 	void SetShaderModule(ShaderModule* module);
-
+	void SetPitch(float pitch)
+	{
+		m_Pitch = pitch;
+	}
 
 private:
 
@@ -33,6 +37,7 @@ private:
 	const GLuint MAX_INDEX_SIZE = 9000000;
 	float* pdata = nullptr;
 	int pre_size = 0;
+	float m_Pitch=0;
 
 };
 

@@ -5,7 +5,7 @@ class GameLight : public GameObj
 {
 public:
 
-	GameLight() : m_Diffuse(glm::vec3(1, 1, 1)), m_Range(512) {};
+	GameLight() : m_Diffuse(glm::vec3(1, 1, 1)), m_Range(1512) {};
 
 	void SetRange(float range);
 	float GetRange();
