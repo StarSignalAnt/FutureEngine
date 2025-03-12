@@ -175,7 +175,7 @@ void SmartDraw::End()
 		// Get packed vertex data
 		float* data = GetData(list);
 		size_t vertexCount = list->GetList().size() * 6; // 4 verts per quad
-		size_t dataSize = vertexCount * 12 * sizeof(float); // Each vertex has 9 floats
+		size_t dataSize = vertexCount * 16 * sizeof(float); // Each vertex has 9 floats
 
 		// Generate indices for triangle list (6 indices per quad)
 		size_t quadCount = list->GetList().size();
@@ -203,7 +203,7 @@ void SmartDraw::End()
 
 
 		// Define vertex attributes
-		GLsizei stride = 12 * sizeof(float);
+		GLsizei stride = 16 * sizeof(float);
 
 		// Position (vec3)
 
@@ -221,6 +221,10 @@ void SmartDraw::End()
 
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (void*)(9 * sizeof(float)));
 		glEnableVertexAttribArray(3);
+
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, stride, (void*)(12 * sizeof(float)));
+		glEnableVertexAttribArray(4);
+
 		// Draw the elements
 		//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
@@ -256,7 +260,7 @@ DrawList* SmartDraw::GetList(Texture2D* texture)
 	return list;
 }
 
-inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z, const glm::vec2& texCoord, const glm::vec4& color,const glm::vec3& real) {
+inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z, const glm::vec2& texCoord, const glm::vec4& color,const glm::vec3& real,const glm::vec4& extra) {
 	data[index++] = pos.x;
 	data[index++] = pos.y;
 	data[index++] = z;
@@ -269,11 +273,17 @@ inline void SetVertexData(float* data, int& index, const glm::vec2& pos, float z
 	data[index++] = real.x;
 	data[index++] = real.y;
 	data[index++] = real.z;
+	data[index++] = extra.x;
+	data[index++] = extra.y;
+	data[index++] = extra.z;
+	data[index++] = extra.w;
+
+
 }
 
 float* SmartDraw::GetData(DrawList* list) {
 	// Each info will now require 6 vertices instead of 4
-	int size = list->GetList().size() * 9 * 9 * sizeof(float);  // 6 vertices per quad, 9 floats per vertex
+	int size = list->GetList().size() * 16 * 9 * sizeof(float);  // 6 vertices per quad, 9 floats per vertex
 
 	float* data = nullptr;
 	if (size > pre_size) {
@@ -314,15 +324,17 @@ float* SmartDraw::GetData(DrawList* list) {
 		auto real2 = info->GetRealCoord(2);
 		auto real3 = info->GetRealCoord(3);
 
+		auto extra = info->GetExtra();
+
 		// First triangle (using vertices 0, 1, 2)
-		SetVertexData(data, index, pos0, z, texCoord0, color,real0);
-		SetVertexData(data, index, pos1, z, texCoord1, color,real1);
-		SetVertexData(data, index, pos2, z, texCoord2, color,real2);
+		SetVertexData(data, index, pos0, z, texCoord0, color, real0, extra);
+		SetVertexData(data, index, pos1, z, texCoord1, color, real1, extra);
+		SetVertexData(data, index, pos2, z, texCoord2, color, real2, extra);
 
 		// Second triangle (using vertices 2, 3, 0)
-		SetVertexData(data, index, pos2, z, texCoord2, color,real2);
-		SetVertexData(data, index, pos3, z, texCoord3, color,real3);
-		SetVertexData(data, index, pos0, z, texCoord0, color,real0);
+		SetVertexData(data, index, pos2, z, texCoord2, color, real2, extra);
+		SetVertexData(data, index, pos3, z, texCoord3, color, real3, extra);
+		SetVertexData(data, index, pos0, z, texCoord0, color, real0, extra);
 	}
 
 	return data;

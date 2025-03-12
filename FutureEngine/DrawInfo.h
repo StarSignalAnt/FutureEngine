@@ -15,12 +15,20 @@ public:
 		m_TexY = new float[4];
 		m_RealX = new float[4];
 		m_RealY = new float[4];
+		m_Extra = new float[4];
 	}
 	void SetCoord(int coord, float x, float y);
 	void SetRealCoord(int coord, float x, float y)
 	{
 		m_RealX[coord] = x;
 		m_RealY[coord] = y;
+	}
+	void SetExtra(glm::vec4 extra)
+	{
+		m_Extra[0] = extra.x ;
+		m_Extra[1] = extra.y;
+		m_Extra[2] = extra.z;
+		m_Extra[3] = extra.w;
 	}
 	void SetTexCoord(int coord, float x, float y);
 	void SetColor(float r, float g, float b, float a);
@@ -38,7 +46,10 @@ public:
 		return glm::vec3(m_RealX[coord], m_RealY[coord],0);
 
 	}
+	glm::vec4 GetExtra() {
+		return glm::vec4(m_Extra[0], m_Extra[1], m_Extra[2], m_Extra[3]);
 
+	}
 
 
 	glm::vec2 GetTexCoord(int coord) {
@@ -71,6 +82,7 @@ private:
 	float* m_Y;
 	float* m_RealX;
 	float* m_RealY;
+	float* m_Extra;
 	float* m_TexX;
 	float* m_TexY;
 	float m_Z = 0.0f;

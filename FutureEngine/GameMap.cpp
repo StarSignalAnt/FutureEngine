@@ -124,6 +124,29 @@ void GameMap::RenderMap(GameCam* camera)
 					info->SetRealCoord(2, sX+ m_TileWidth, sY + m_TileHeight);
 					info->SetRealCoord(3, sX, sY + m_TileHeight);
 
+					glm::vec4 ext(0, 0, 0, 0);
+
+					if (tile->GetCastShadows()) {
+
+						ext.x = 1.0;
+
+					}
+
+					if (tile->GetReceivesShadows()) {
+						ext.y = 1.0;
+					}
+					else {
+						int a = 5;
+					}
+
+					if (tile->GetReceivesLight()) {
+						ext.z = 1.0;
+					}
+
+					info->SetExtra(ext);
+
+					//extra 0 = cast shadows, extra 2 = receive shadows, extra 3 = recieve light
+
 
 				}
 

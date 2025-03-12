@@ -17,6 +17,9 @@ public:
 		m_ReceivesLight = recievesLight;
 	}
 	bool GetCastShadows() { return m_CastShadow; }
+	bool GetReceivesShadows() { return m_ReceivesShadow; }
+	bool GetReceivesLight() { return m_ReceivesLight; }
+
 
 private:
 
