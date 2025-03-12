@@ -1,14 +1,19 @@
 #pragma once
 #include <vector>
+#include "SmartDraw.h"
 
 class GameTile;
+class GameCam;
+
 
 class GameMap
 {
 public:
 
 	GameMap(int width,int height,int depth,int tileWidth,int tileHeight) : m_Width(width), m_Height(height), m_Depth(depth), m_TileWidth(tileWidth), m_TileHeight(tileHeight), m_Tiles(width*height*depth) {
-	  
+	 
+		m_TileRenderer = new SmartDraw;
+
     }
 
 	int Index(int x, int y, int z) const {
@@ -38,10 +43,16 @@ public:
 		
 	}
 
+	void FIllBlock(GameTile* tile, int x, int y, int w, int h, int z);
+
+	void RenderMap(GameCam* camera);
+	
+
 private:
 
 	int m_Width, m_Height, m_Depth;
 	int m_TileWidth, m_TileHeight;
 	std::vector<GameTile*> m_Tiles;
+	SmartDraw* m_TileRenderer;
 };
 

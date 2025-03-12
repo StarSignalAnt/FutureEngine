@@ -69,6 +69,9 @@
     <ClInclude Include="GameTile.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="GameCam.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -108,6 +111,9 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="GameTile.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCam.cpp">
       <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>

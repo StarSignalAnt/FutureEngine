@@ -84,7 +84,7 @@ void SmartDraw::Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Textur
 
 	info->SetZ(m_CurrentZ);
 
-	m_CurrentZ += 0.005f;
+	m_CurrentZ += 0.001f;
 
 	list->Add(info);
 

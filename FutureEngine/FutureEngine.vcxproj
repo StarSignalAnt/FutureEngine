@@ -165,6 +165,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="FutureApp.h" />
     <ClInclude Include="FutureState.h" />
+    <ClInclude Include="GameCam.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameTile.h" />
     <ClInclude Include="MathsOps.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="FutureApp.cpp" />
     <ClCompile Include="FutureEngine.cpp" />
     <ClCompile Include="FutureState.cpp" />
+    <ClCompile Include="GameCam.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameTile.cpp" />
     <ClCompile Include="MathsOps.cpp" />
