@@ -42,6 +42,11 @@ void DrawInfo::SetTexture(Texture2D* texture)
 	m_Texture = texture;
 }
 
+void DrawInfo::SetNormalTexture(Texture2D* texture)
+{
+	m_NormalTexture = texture;
+}
+
 void DrawInfo::SetZ(float z)
 {
 	m_Z = z;
@@ -54,3 +59,4 @@ void DrawInfo::Free()
 	delete m_TexX;
 	delete m_TexY;
 }
+

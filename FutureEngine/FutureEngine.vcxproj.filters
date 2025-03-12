@@ -78,6 +78,12 @@
     <ClInclude Include="GameInput.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="GameObj.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLight.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -124,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="GameInput.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObj.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLight.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 class DrawList;
 class Texture2D;
 class ShaderModule;
+class DrawInfo;
 
 class SmartDraw
 {
@@ -12,15 +13,17 @@ public:
 
 	SmartDraw();
 	void Begin();
-	void Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture,float rotation=0.0f,float scale=1.0f);
+	DrawInfo* Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture, float rotation = 0.0f, float scale = 1.0f);
 	void End();
 	DrawList* GetList(Texture2D* texture);
 	float* GetData(DrawList* list);
+	void SetShaderModule(ShaderModule* module);
+
 
 private:
 
 	std::vector<DrawList*> m_DrawLists;
-	ShaderModule* m_SMSimple;
+	ShaderModule* m_SM;
 	float m_CurrentZ = 0.01f;
 	glm::mat4 m_ProjectionMatrix;
 	GLuint VAO, VBO, EBO;

@@ -4,6 +4,8 @@
 
 class GameTile;
 class GameCam;
+class GameLight;
+class ShaderModule;
 
 
 class GameMap
@@ -13,8 +15,11 @@ public:
 	GameMap(int width,int height,int depth,int tileWidth,int tileHeight) : m_Width(width), m_Height(height), m_Depth(depth), m_TileWidth(tileWidth), m_TileHeight(tileHeight), m_Tiles(width*height*depth) {
 	 
 		m_TileRenderer = new SmartDraw;
+		InitMap();
 
     }
+
+	void InitMap();
 
 	int Index(int x, int y, int z) const {
 		return x + m_Width * (y + m_Height * z);
@@ -45,6 +50,8 @@ public:
 
 	void FIllBlock(GameTile* tile, int x, int y, int w, int h, int z);
 
+	void AddLight(GameLight* light);
+
 	void RenderMap(GameCam* camera);
 	
 
@@ -54,5 +61,7 @@ private:
 	int m_TileWidth, m_TileHeight;
 	std::vector<GameTile*> m_Tiles;
 	SmartDraw* m_TileRenderer;
+	ShaderModule* m_DrawLit;
+	std::vector<GameLight*> m_Lights;
 };
 

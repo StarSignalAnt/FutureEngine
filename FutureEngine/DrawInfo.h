@@ -19,6 +19,7 @@ public:
 	void SetColor(float r, float g, float b, float a);
 	void SetColor(glm::vec4 color);
 	void SetTexture(Texture2D* texture);
+	void SetNormalTexture(Texture2D* texture);
 	void SetZ(float z);
 	glm::vec2 GetCoord(int coord) {
 		//x = *m_X;
@@ -36,6 +37,11 @@ public:
 	Texture2D* GetTexture() {
 		return m_Texture;
 	}
+	
+	Texture2D* GetNormalTexture() {
+		return m_NormalTexture;
+	}
+
 	float GetZ() {
 		return m_Z;
 	}
@@ -53,6 +59,7 @@ private:
 	float m_Z = 0.0f;
 	glm::vec4 m_Color;
 	Texture2D* m_Texture;
+	Texture2D* m_NormalTexture;
 
 
 

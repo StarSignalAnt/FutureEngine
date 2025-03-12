@@ -10,7 +10,7 @@
 SmartDraw::SmartDraw()
 {
 
-	m_SMSimple = new ShaderModule("engine/shader/drawVS.glsl", "engine/shader/drawFS.glsl");
+	m_SM = new ShaderModule("engine/shader/drawVS.glsl", "engine/shader/drawFS.glsl");
 	VAO = 0;
 	VBO = 0;
 	EBO = 0;
@@ -33,7 +33,7 @@ void SmartDraw::Begin()
 
 }
 
-void SmartDraw::Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture, float rotation, float scale)
+DrawInfo* SmartDraw::Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Texture2D* texture, float rotation, float scale)
 {
 
 	auto list = GetList(texture);
@@ -88,6 +88,8 @@ void SmartDraw::Draw(glm::vec2 position, glm::vec2 size, glm::vec4 color, Textur
 
 	list->Add(info);
 
+	return info;
+
 
 }
 
@@ -108,12 +110,16 @@ void SmartDraw::End()
 	}
 	// Iterate over the draw lists
 	for (auto list : m_DrawLists) {
-		m_SMSimple->Bind();
-		m_SMSimple->SetMat4("uProjection", m_ProjectionMatrix);
+		m_SM->Bind();
+		m_SM->SetMat4("uProjection", m_ProjectionMatrix);
 
 		auto tex = list->GetList()[0]->GetTexture();
 		tex->Bind(0);
-		m_SMSimple->SetInt("uTexture", 0);
+		auto norm = list->GetList()[0]->GetNormalTexture();
+		norm->Bind(1);
+
+		m_SM->SetInt("uTexture", 0);
+		m_SM->SetInt("feNormalMap", 1);
 
 		// Get packed vertex data
 		float* data = GetData(list);
@@ -173,11 +179,12 @@ void SmartDraw::End()
 
 		// Unbind texture and reset the shader program
 		tex->Unbind(0);
+		norm->Unbind(1);
 	}
 
 	// Unbind the VAO and shader
 	glBindVertexArray(0);
-	m_SMSimple->Unbind();
+	m_SM->Unbind();
 }
 DrawList* SmartDraw::GetList(Texture2D* texture)
 {
@@ -256,4 +263,10 @@ float* SmartDraw::GetData(DrawList* list) {
 	}
 
 	return data;
+}
+
+void SmartDraw::SetShaderModule(ShaderModule* module) {
+
+	m_SM = module;
+
 }

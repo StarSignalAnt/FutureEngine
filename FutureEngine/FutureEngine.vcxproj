@@ -167,7 +167,9 @@
     <ClInclude Include="FutureState.h" />
     <ClInclude Include="GameCam.h" />
     <ClInclude Include="GameInput.h" />
+    <ClInclude Include="GameLight.h" />
     <ClInclude Include="GameMap.h" />
+    <ClInclude Include="GameObj.h" />
     <ClInclude Include="GameTile.h" />
     <ClInclude Include="MathsOps.h" />
     <ClInclude Include="pch.h" />
@@ -183,7 +185,9 @@
     <ClCompile Include="FutureState.cpp" />
     <ClCompile Include="GameCam.cpp" />
     <ClCompile Include="GameInput.cpp" />
+    <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GameTile.cpp" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="pch.cpp">

@@ -1,9 +1,19 @@
 #include "GameMap.h"
 #include "GameTile.h"
 #include "GameCam.h"
+#include "GameLight.h"
 #include "SmartDraw.h"
 #include "FutureApp.h"
 #include "MathsOps.h"
+#include "ShaderModule.h"
+#include "DrawInfo.h"
+
+void GameMap::InitMap() {
+
+	m_DrawLit = new ShaderModule("engine/shader/drawLitVS.glsl", "engine/shader/drawLitFS.glsl");
+	m_TileRenderer->SetShaderModule(m_DrawLit);
+
+}
 
 void GameMap::RenderMap(GameCam* camera)
 {
@@ -40,17 +50,57 @@ void GameMap::RenderMap(GameCam* camera)
 				auto tile = GetTile(x, y, z);
 
 				if (tile != nullptr) {
-					m_TileRenderer->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0],rot,camera->GetPosition().z);
+					auto info = m_TileRenderer->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0],rot,camera->GetPosition().z);
 					//RenderTile(drawX, drawY, tile);
+					info->SetNormalTexture(tile->GetFrame(0)[1]);
 				}
 
 			}
 
 		}
 	}
-	m_TileRenderer->End();
+
+	for (auto light : m_Lights) {
+
+		m_DrawLit->Bind();
+
+		glm::vec3 lightPos = light->GetPosition();
+
+		lightPos -= glm::vec3(camera->GetPosition().x, camera->GetPosition().y, 0);
+
+		//
+
+		float pX = lightPos.x - midX;
+		float pY = lightPos.y - midY;
+
+		float rot = camera->GetRotation().y;
+
+		auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, camera->GetPosition().z);
+
+		lightPos = glm::vec3(midX, midY, lightPos.z) +
+			glm::vec3(renderPos.x,renderPos.y,0);
 
 
+
+
+		//
+		m_DrawLit->SetInt("feNormalMap", 1);
+		m_DrawLit->SetVec2("feScreenSize", glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
+		m_DrawLit->SetVec3("feLightPos", lightPos);
+		m_DrawLit->SetFloat("feLightRange", light->GetRange()*camera->GetPosition().z);
+		m_DrawLit->SetFloat("feCamRot", camera->GetRotation().y);
+
+		m_TileRenderer->End();
+
+	}
+
+
+
+}
+
+void GameMap::AddLight(GameLight* light) {
+
+	m_Lights.push_back(light);
 
 }
 

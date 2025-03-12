@@ -163,9 +163,7 @@ int FutureApp::Run()
 
 
 
-            // Print mouse position (0,0 is top-left by default in GLFW)
-            std::cout << "Mouse W: (" << GameInput::MouseDelta.z << ")\n";
-
+   
 
             if (top != nullptr) {
                 top->UpdateState(delta);
