@@ -9,6 +9,8 @@
 #include "DrawInfo.h"
 #include "RenderTarget2D.h"
 #include "Texture2D.h"
+#include "GameSprite.h"
+#include "GameAnimation.h"
 
 void GameMap::InitMap() {
 
@@ -60,6 +62,25 @@ void GameMap::RenderShadowMap() {
 		}
 	}
 
+	for (auto spr : m_Sprites) {
+
+
+		float spriteWidth = spr->GetCurrentAnimation()->GetFrameWidth() * xScale;
+		float spriteHeight = spr->GetCurrentAnimation()->GetFrameHeight() * yScale;
+		float drawX = spr->GetPosition().x * xScale;
+		float drawY = spr->GetPosition().y * yScale;
+
+
+
+		//m_ShadowRenderer->DrawDirect(glm::vec2(drawX, drawY), glm::vec2(spriteWidth,spriteHeight), glm::vec4(1, 1, 1, 1), spr->GetCurrentFrame()->m_Color);
+		m_ShadowRenderer->Draw(glm::vec2(drawX, drawY), glm::vec2(spriteWidth, spriteHeight),glm::vec4(1,1,1,1),spr->GetCurrentFrame()->m_Color, -spr->GetRotation().y,1.0f);
+
+
+	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
 	m_ShadowRenderer->End();
 
 	m_ShadowRT->Unbind();
@@ -78,8 +99,7 @@ void GameMap::RenderMap(GameCam* camera)
 	RenderShadowMap();
 
 
-
-
+	//
 	float midX = FutureApp::m_Inst->GetWidth() / 2.0f;
 	float midY = FutureApp::m_Inst->GetHeight() / 2.0f;
 
@@ -154,6 +174,71 @@ void GameMap::RenderMap(GameCam* camera)
 
 		}
 	}
+
+	for (auto spr : m_Sprites) {
+
+		float drawX = spr->GetPosition().x;
+		float drawY = spr->GetPosition().y;
+
+		drawX -= camera->GetPosition().x;
+
+		drawY -= camera->GetPosition().y;
+
+
+		float pX = drawX - midX;
+		float pY = drawY - midY;
+
+		float rot = camera->GetRotation().y;
+
+		auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, camera->GetPosition().z);
+
+		renderPos = glm::vec2(midX, midY) +
+			renderPos;
+
+		auto frame = spr->GetCurrentFrame();
+
+		auto anim = spr->GetCurrentAnimation();
+
+		auto info = m_TileRenderer->Draw(renderPos, glm::vec2(anim->GetFrameWidth(),anim->GetFrameHeight()), glm::vec4(1, 1, 1, 1), frame->m_Color, rot-spr->GetRotation().y, camera->GetPosition().z);
+		info->SetNormalTexture(frame->m_Normal);
+		
+		glm::vec4 ext(0, 0, 0, 0);
+
+		if (spr->GetCastShadows()) {
+
+			ext.x = 1.0;
+
+		}
+
+		if (spr->GetReceivesShadows()) {
+			ext.y = 1.0;
+		}
+		else {
+			int a = 5;
+		}
+
+		if (spr->GetReceivesLight()) {
+			ext.z = 1.0;
+		}
+
+		float sX = spr->GetPosition().x - anim->GetFrameWidth() / 2;
+		float sY = spr->GetPosition().y - anim->GetFrameHeight() / 2;
+
+
+
+		info->SetRealCoord(0, sX, sY);
+		info->SetRealCoord(1, sX + anim->GetFrameWidth(), sY);
+		info->SetRealCoord(2, sX + anim->GetFrameWidth(), sY + anim->GetFrameHeight());
+		info->SetRealCoord(3, sX, sY + anim->GetFrameHeight());
+
+		info->SetExtra(ext);
+		
+	
+
+	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (auto light : m_Lights) {
 

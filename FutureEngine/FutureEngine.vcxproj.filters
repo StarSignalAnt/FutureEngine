@@ -90,6 +90,12 @@
     <ClInclude Include="RenderTarget2D.h">
       <Filter>RenderTarget</Filter>
     </ClInclude>
+    <ClInclude Include="GameSprite.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAnimation.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -145,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="RenderTarget2D.cpp">
       <Filter>RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSprite.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAnimation.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

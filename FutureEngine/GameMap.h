@@ -5,6 +5,7 @@
 class GameTile;
 class GameCam;
 class GameLight;
+class GameSprite;
 class ShaderModule;
 class RenderTarget2D;
 
@@ -56,7 +57,12 @@ public:
 
 	void RenderMap(GameCam* camera);
 	void RenderShadowMap();
-	
+
+	void AddSprite(GameSprite* sprite) {
+		m_Sprites.push_back(sprite);
+	}
+
+
 
 private:
 
@@ -71,6 +77,7 @@ private:
 	std::vector<GameLight*> m_Lights;
 	RenderTarget2D* m_ShadowRT;
 	int m_ShadowMapSize = 1024;
+	std::vector<GameSprite*> m_Sprites;
 
 };
 
