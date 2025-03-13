@@ -16,7 +16,7 @@ void GameMap::InitMap() {
 
 	m_ShadowRenderer = new SmartDraw;
 	m_DrawLit = new ShaderModule("engine/shader/drawLitVS.glsl", "engine/shader/drawLitFS.glsl");
-	m_ShadowWrite = new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/shadowwriterfs.glsl");
+	m_ShadowWrite = new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/shadowwriterfs.glsl");		
 	
 	m_TileRenderer->SetShaderModule(m_DrawLit);
 	m_ShadowRenderer->SetShaderModule(m_ShadowWrite);

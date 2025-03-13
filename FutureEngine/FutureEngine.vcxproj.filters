@@ -37,6 +37,15 @@
     <Filter Include="RenderTarget">
       <UniqueIdentifier>{f4c15526-3ebf-40a2-8943-799ba76cb2d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resonance2">
+      <UniqueIdentifier>{f0f2c846-fd98-4039-a406-0f748c1305f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resonance2\Controls">
+      <UniqueIdentifier>{3ffb9d04-a759-4534-8796-e9f7faada572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{3bfa8c43-68cb-4d71-9f20-3ed23eec603f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -95,6 +104,27 @@
     </ClInclude>
     <ClInclude Include="GameAnimation.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUI.h">
+      <Filter>Resonance2</Filter>
+    </ClInclude>
+    <ClInclude Include="IControl.h">
+      <Filter>Resonance2</Filter>
+    </ClInclude>
+    <ClInclude Include="IImage.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IControlGroup.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelp.h">
+      <Filter>Resonance2</Filter>
+    </ClInclude>
+    <ClInclude Include="IButton.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFont.h">
+      <Filter>Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +187,27 @@
     </ClCompile>
     <ClCompile Include="GameAnimation.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUI.cpp">
+      <Filter>Resonance2</Filter>
+    </ClCompile>
+    <ClCompile Include="IControl.cpp">
+      <Filter>Resonance2</Filter>
+    </ClCompile>
+    <ClCompile Include="IImage.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IControlGroup.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelp.cpp">
+      <Filter>Resonance2</Filter>
+    </ClCompile>
+    <ClCompile Include="IButton.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFont.cpp">
+      <Filter>Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

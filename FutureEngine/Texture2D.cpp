@@ -4,6 +4,40 @@
 #include <iostream>
 #include <glad/glad.h>
 
+Texture2D::Texture2D(int width, int height, unsigned char* data, int channels) {
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    
+    
+    if (channels == 1) {
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED, // Store only the grayscale channel
+            width,
+            height,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            data
+        );
+    }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+    m_Handle = textureID;
+    m_Width = width;
+    m_Height = height;
+    m_Channels = channels;
+
+
+}
+
 Texture2D::Texture2D(std::string path) {
 
     int width, height, channels;

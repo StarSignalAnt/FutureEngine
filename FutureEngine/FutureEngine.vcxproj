@@ -115,7 +115,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -123,10 +123,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,7 +139,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
@@ -155,8 +155,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -167,18 +167,25 @@
     <ClInclude Include="FutureState.h" />
     <ClInclude Include="GameAnimation.h" />
     <ClInclude Include="GameCam.h" />
+    <ClInclude Include="GameFont.h" />
     <ClInclude Include="GameInput.h" />
     <ClInclude Include="GameLight.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GameSprite.h" />
     <ClInclude Include="GameTile.h" />
+    <ClInclude Include="GameUI.h" />
+    <ClInclude Include="IButton.h" />
+    <ClInclude Include="IControl.h" />
+    <ClInclude Include="IControlGroup.h" />
+    <ClInclude Include="IImage.h" />
     <ClInclude Include="MathsOps.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderTarget2D.h" />
     <ClInclude Include="ShaderModule.h" />
     <ClInclude Include="SmartDraw.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="UIHelp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawInfo.cpp" />
@@ -188,12 +195,18 @@
     <ClCompile Include="FutureState.cpp" />
     <ClCompile Include="GameAnimation.cpp" />
     <ClCompile Include="GameCam.cpp" />
+    <ClCompile Include="GameFont.cpp" />
     <ClCompile Include="GameInput.cpp" />
     <ClCompile Include="GameLight.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GameSprite.cpp" />
     <ClCompile Include="GameTile.cpp" />
+    <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="IButton.cpp" />
+    <ClCompile Include="IControl.cpp" />
+    <ClCompile Include="IControlGroup.cpp" />
+    <ClCompile Include="IImage.cpp" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -206,6 +219,7 @@
     <ClCompile Include="SmartDraw.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="UIHelp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

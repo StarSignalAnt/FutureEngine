@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include "GameInput.h"
 #include "RenderTarget2D.h"
+#include "UIHelp.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust the OpenGL viewport to match the new framebuffer size
@@ -109,7 +110,7 @@ void FutureApp::InitGL() {
     // Set clear color (background color of the window)
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  // Set background to a dark gray
 
-
+    UIHelp::InitHelp();
 
 }
 

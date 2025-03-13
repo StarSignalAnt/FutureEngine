@@ -5,6 +5,7 @@
 //#include "GameMap.h"
 //#include "GameTile.h"
 
+class GameUI;
 class GameMap;
 class GameTile;
 class GameCam;
@@ -35,6 +36,9 @@ private:
 	GameLight* m_Light1;
 	GameLight* m_Light2;
 	RenderTarget2D* m_RT1;
+	GameUI* m_UI;
 	GameSprite* m_Spr1;
+
+
 };
 

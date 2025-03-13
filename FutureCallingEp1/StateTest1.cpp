@@ -7,8 +7,11 @@
 #include "GameInput.h"
 #include "FutureApp.h"
 #include "GameSprite.h"
+#include "GameUI.h"
 #include "GameAnimation.h"
 #include "RenderTarget2D.h"
+#include "IImage.h"
+#include "IButton.h"
 
 
 
@@ -21,15 +24,15 @@ void StateTest1::InitState()
 	auto norm2 = new Texture2D("test/norm3.png");
 	m_Draw = new SmartDraw;
 
-	m_Map1 = new GameMap(16, 16, 3,128,128);
-	
+	m_Map1 = new GameMap(16, 16, 3, 128, 128);
+
 	m_Tile1 = new GameTile;
-	m_Tile1->AddFrame(m_Tex1,norm2);
-	
+	m_Tile1->AddFrame(m_Tex1, norm2);
+
 	m_Tile2 = new GameTile;
-	m_Tile2->AddFrame(m_Tex2,norm1);
+	m_Tile2->AddFrame(m_Tex2, norm1);
 	m_Tile2->Set(true, false, true);
-	
+
 	m_Tile1->Set(false, true, true);
 
 
@@ -40,14 +43,14 @@ void StateTest1::InitState()
 	m_Map1->FIllBlock(m_Tile2, 2, 5, 4, 1, 0);
 
 	m_Cam1 = new GameCam;
-	
+
 	m_Light1 = new GameLight;
 
-	m_Light1->SetPosition(glm::vec3(400, 450,356.0f));
+	m_Light1->SetPosition(glm::vec3(400, 450, 356.0f));
 
 	m_Map1->AddLight(m_Light1);
 
-	m_RT1 = new RenderTarget2D(1024,768);
+	m_RT1 = new RenderTarget2D(1024, 768);
 
 	int a = 5;
 	//m_Cam1->SetPosition(glm::vec3(300,300, 0));
@@ -66,11 +69,23 @@ void StateTest1::InitState()
 
 	m_Spr1->SetPosition(glm::vec3(200, 350, 1));
 
+	m_UI = new GameUI;
+
+	IImage* img1 = new IImage(glm::vec2(100, 100), glm::vec2(300, 300));
+	img1->SetImage(m_Tex1);
+	m_UI->GetRoot()->AddChild(img1);
+
+	IButton* but1 = new IButton(glm::vec2(450, 200), glm::vec2(128, 30));
+	m_UI->GetRoot()->AddChild(but1);
+
 }
+
 
 void StateTest1::UpdateState(float delta)
 {
 	m_Ang += 10.0f * delta;
+
+	m_UI->UpdateUI(delta);
 
 	if (GameInput::Buttons[MOUSE_BUTTON_RIGHT]) {
 		m_Cam1->MoveLocal(glm::vec2(GameInput::MouseDelta.x, GameInput::MouseDelta.y));
@@ -93,6 +108,10 @@ int ay = 0;
 
 void StateTest1::RenderState()
 {
+
+	m_UI->RenderUI();
+
+	return;
 	ax = ax + 1;
 	if (ax > 800) {
 		ax = 0;
