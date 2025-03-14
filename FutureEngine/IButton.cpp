@@ -42,9 +42,16 @@ void IButton::OnMouseLeave()
 void IButton::OnMouseDown(int button)
 {
 	m_Color = glm::vec4(1.3f, 1.6f, 1.6f, 1.0f);
+	Click();
 }
 
 void IButton::OnMouseUp(int button)
 {
 	m_Color = glm::vec4(1.3f,1.3f,1.3f, 1.0f);
+}
+
+void IButton::OnMouseDoubleClick()
+{
+
+	DoubleClick();
 }

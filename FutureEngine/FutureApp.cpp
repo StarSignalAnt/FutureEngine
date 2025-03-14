@@ -159,7 +159,7 @@ int FutureApp::Run()
 
 
 	
-			GameInput::MouseDelta = glm::vec3(GameInput::MousePosition.x-xpos,GameInput::MousePosition.y-ypos,GameInput::MouseDelta.z);
+			GameInput::MouseDelta = -glm::vec3(GameInput::MousePosition.x-xpos,GameInput::MousePosition.y-ypos,-GameInput::MouseDelta.z);
             GameInput::MousePosition = glm::vec2(xpos, ypos);
 
 

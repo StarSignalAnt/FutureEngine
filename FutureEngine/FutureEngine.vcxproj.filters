@@ -132,6 +132,9 @@
     <ClInclude Include="GameVideo.h">
       <Filter>Videon</Filter>
     </ClInclude>
+    <ClInclude Include="IWindow.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="GameVideo.cpp">
       <Filter>Videon</Filter>
+    </ClCompile>
+    <ClCompile Include="IWindow.cpp">
+      <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ private:
 	IControl* m_ControlOver = nullptr;
 	IControl* m_ControlPressed = nullptr;
 	IControl* m_ControlActive = nullptr;
+	int prev_Click = 0;
 
 };
 

@@ -2,17 +2,20 @@
 #include "SmartDraw.h"
 #include "GameFont.h"
 #include "ShaderModule.h"
+#include "Texture2D.h"
 
 SmartDraw* m_Draw;
 GameFont* m_UIFont;
 SmartDraw* m_FontDraw;
+Texture2D* m_RectTex;
 
 void UIHelp::InitHelp() {
 
 	m_Draw = new SmartDraw;
-	m_UIFont = new GameFont("engine/ui/uifont.ttf",18);
+	m_UIFont = new GameFont("engine/ui/uifont.ttf",14);
 	m_FontDraw = new SmartDraw;
 	m_FontDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawFont.glsl"));
+	m_RectTex = new Texture2D("engine/ui/rect.png");
 
 }
 
@@ -59,4 +62,16 @@ void UIHelp::DrawText(glm::vec2 position, std::string text, glm::vec4 color) {
 	m_UIFont->Render(position,text, color,1.0f);
 	m_FontDraw->End();
 
+}
+
+void UIHelp::DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glDisable(GL_DEPTH_TEST);
+	m_Draw->Begin();
+	m_Draw->DrawDirect(pos, size, color,m_RectTex);
+	m_Draw->End();
+	glEnable(GL_DEPTH_TEST);
 }

@@ -13,6 +13,8 @@
 #include "IImage.h"
 #include "IButton.h"
 #include "GameVideo.h"
+#include <iostream>
+#include "IWindow.h"
 
 
 
@@ -79,8 +81,20 @@ void StateTest1::InitState()
 	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
 	m_UI->GetRoot()->AddChild(but1);
 
-	m_Vid1 = new GameVideo("test/testVideo1.mp4");
-	m_Vid1->Play();
+	but1->SetOnClick([]() {
+		//std::cout << "Button clicked! (Lambda function)" << std::endl;
+		});
+	but1->SetOnDoubleClick([]() {
+		std::cout << "Double Click!" << std::endl;
+		});
+
+	auto win1 = new IWindow("Test Window", glm::vec2(100, 100), glm::vec2(300, 300));
+
+	m_UI->GetRoot()->AddChild(win1);
+
+//	m_Vid1 = new GameVideo("test/fcintro.mp4");
+//	m_Vid1->Play();
+
 }
 
 
@@ -89,6 +103,7 @@ bool click = false;
 void StateTest1::UpdateState(float delta)
 {
 
+	/*
 	if (GameInput::Buttons[MOUSE_BUTTON_LEFT] && click == false)
 	{
 		if (m_Playing) {
@@ -104,11 +119,11 @@ void StateTest1::UpdateState(float delta)
 	else if (GameInput::Buttons[MOUSE_BUTTON_LEFT] == false) {
 		click = false;
 	}
-
+	*/
 
 	m_Ang += 10.0f * delta;
 
-	m_Vid1->Update();
+	//m_Vid1->Update();
 
 	m_UI->UpdateUI(delta);
 
@@ -134,14 +149,15 @@ int ay = 0;
 void StateTest1::RenderState()
 {
 
-	auto frame = m_Vid1->GetFrame();
-	if (frame != nullptr) {
-		m_Draw->Begin();
-		m_Draw->DrawDirect(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()), glm::vec4(1, 1, 1, 1), frame);
-		m_Draw->End();
-	}
+	//auto frame = m_Vid1->GetFrame();
+//	if (frame != nullptr) {
+//		m_Draw->Begin();
+//		m_Draw->DrawDirect(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()), glm::vec4(1, 1, 1, 1), frame);
+//		m_Draw->End();
+	//}
 
-	//m_UI->RenderUI();
+
+	m_UI->RenderUI();
 
 
 	return;

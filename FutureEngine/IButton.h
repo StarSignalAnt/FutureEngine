@@ -13,6 +13,7 @@ public:
 	void OnMouseLeave() override;
 	void OnMouseDown(int button) override;
 	void OnMouseUp(int button) override;
+	void OnMouseDoubleClick() override;
 	void LoadResources();
 //	void SetImage(Texture2D* image) { m_Image = image; }
 //	Texture2D* GetImage() { return m_Image; }

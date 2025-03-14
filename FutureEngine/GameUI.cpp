@@ -66,6 +66,14 @@ void GameUI::UpdateUI(float delta)
 			if (m_ControlPressed == nullptr) {
 				m_ControlPressed = m_ControlOver;
 				m_ControlPressed->OnMouseDown(0);
+				
+				int ctime = clock();
+				//prev_Click = clock();
+				if (ctime < (prev_Click + 350)) {
+					m_ControlPressed->OnMouseDoubleClick();
+				}
+				prev_Click = ctime;
+				
 			}
 			else {
 
@@ -78,6 +86,16 @@ void GameUI::UpdateUI(float delta)
 			m_ControlPressed->OnMouseUp(0);
 			m_ControlPressed = nullptr;
 		}
+	}
+
+	if (m_ControlPressed != nullptr) {
+		m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
+
+	}
+	else if (m_ControlOver != nullptr) {
+
+		m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition() , GameInput::MouseDelta);
+
 	}
 
 	m_RootControl->Update(delta);
