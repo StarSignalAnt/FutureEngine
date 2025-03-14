@@ -24,7 +24,11 @@ class GameFont
 public:
 
 	GameFont(std::string path,int size);
-	void Render(glm::vec2 position,std::string text, glm::vec4 color);
+	void Render(glm::vec2 position,std::string text, glm::vec4 color,float scale);
+
+	float StrWidth(const std::string& text, float scale = 1.0f);
+	float StrHeight(const std::string& text, float scale = 1.0f);
+
 
 private:
 

@@ -55,14 +55,14 @@ GameFont::GameFont(std::string path,int size)
     FT_Done_FreeType(ft);
 
 }
-void GameFont::Render(glm::vec2 position, std::string text, glm::vec4 color) {
+void GameFont::Render(glm::vec2 position, std::string text, glm::vec4 color,float scale) {
     // Activate corresponding render state
     // Assuming you have a shader program for text rendering
     // shader.use();
     // glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
     // glActiveTexture(GL_TEXTURE0);
     // glBindVertexArray(VAO);
-    float scale = 1.0f;
+    
     float x = position.x;
     float y = position.y;
 
@@ -101,4 +101,40 @@ void GameFont::Render(glm::vec2 position, std::string text, glm::vec4 color) {
         // Now advance cursors for next glyph (advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64)
     }
+}
+
+float GameFont::StrWidth(const std::string& text, float scale) {
+    if (text.empty()) {
+        return 0.0f;
+    }
+
+    float totalWidth = 0.0f;
+    std::string::const_iterator c;
+
+    for (c = text.begin(); c != text.end(); c++) {
+        FontChar ch = m_Chars[*c];
+        totalWidth += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64)
+    }
+
+    return totalWidth;
+}
+
+// Calculate the pixel height of a string
+float GameFont::StrHeight(const std::string& text, float scale) {
+    if (text.empty()) {
+        return 0.0f;
+    }
+
+    float maxHeight = 0.0f;
+    std::string::const_iterator c;
+
+    for (c = text.begin(); c != text.end(); c++) {
+        FontChar ch = m_Chars[*c];
+        // Find the tallest character in the string
+        if (ch.Size.y > maxHeight) {
+            maxHeight = ch.Size.y;
+        }
+    }
+
+    return maxHeight * scale;
 }

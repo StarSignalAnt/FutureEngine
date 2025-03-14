@@ -115,7 +115,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -123,10 +123,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal32.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;postproc.lib;freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\openal\libs\Win64;C:\project\FCEp1\ffmpeg\lib;C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,6 +175,7 @@
     <ClInclude Include="GameSprite.h" />
     <ClInclude Include="GameTile.h" />
     <ClInclude Include="GameUI.h" />
+    <ClInclude Include="GameVideo.h" />
     <ClInclude Include="IButton.h" />
     <ClInclude Include="IControl.h" />
     <ClInclude Include="IControlGroup.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="GameSprite.cpp" />
     <ClCompile Include="GameTile.cpp" />
     <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="GameVideo.cpp" />
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="IControl.cpp" />
     <ClCompile Include="IControlGroup.cpp" />

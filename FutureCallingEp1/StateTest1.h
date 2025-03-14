@@ -12,6 +12,7 @@ class GameCam;
 class GameLight;
 class GameSprite;
 class RenderTarget2D;
+class GameVideo;
 
 
 class StateTest1 :
@@ -30,6 +31,7 @@ private:
 	Texture2D* m_Tex2;
 	SmartDraw* m_Draw;
 	float m_Ang = 0;
+	bool m_Playing = true;
 	GameMap* m_Map1;
 	GameTile* m_Tile1, * m_Tile2;
 	GameCam* m_Cam1;
@@ -38,7 +40,7 @@ private:
 	RenderTarget2D* m_RT1;
 	GameUI* m_UI;
 	GameSprite* m_Spr1;
-
+	GameVideo* m_Vid1;
 
 };
 

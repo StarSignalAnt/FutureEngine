@@ -12,6 +12,7 @@
 #include "RenderTarget2D.h"
 #include "IImage.h"
 #include "IButton.h"
+#include "GameVideo.h"
 
 
 
@@ -75,15 +76,39 @@ void StateTest1::InitState()
 	img1->SetImage(m_Tex1);
 	m_UI->GetRoot()->AddChild(img1);
 
-	IButton* but1 = new IButton(glm::vec2(450, 200), glm::vec2(128, 30));
+	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
 	m_UI->GetRoot()->AddChild(but1);
 
+	m_Vid1 = new GameVideo("test/testVideo1.mp4");
+	m_Vid1->Play();
 }
 
 
+bool click = false;
+
 void StateTest1::UpdateState(float delta)
 {
+
+	if (GameInput::Buttons[MOUSE_BUTTON_LEFT] && click == false)
+	{
+		if (m_Playing) {
+			m_Vid1->Pause();
+			m_Playing = false;
+		}
+		else {
+			m_Vid1->Resume();
+			m_Playing = true;
+		}
+		click = true;
+	}
+	else if (GameInput::Buttons[MOUSE_BUTTON_LEFT] == false) {
+		click = false;
+	}
+
+
 	m_Ang += 10.0f * delta;
+
+	m_Vid1->Update();
 
 	m_UI->UpdateUI(delta);
 
@@ -109,7 +134,15 @@ int ay = 0;
 void StateTest1::RenderState()
 {
 
-	m_UI->RenderUI();
+	auto frame = m_Vid1->GetFrame();
+	if (frame != nullptr) {
+		m_Draw->Begin();
+		m_Draw->DrawDirect(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()), glm::vec4(1, 1, 1, 1), frame);
+		m_Draw->End();
+	}
+
+	//m_UI->RenderUI();
+
 
 	return;
 	ax = ax + 1;

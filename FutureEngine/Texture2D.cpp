@@ -23,6 +23,19 @@ Texture2D::Texture2D(int width, int height, unsigned char* data, int channels) {
             data
         );
     }
+    else {
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGB, // Store only the grayscale channel
+            width,
+            height,
+            0,
+            GL_RGB,
+            GL_UNSIGNED_BYTE,
+            data
+        );
+    }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -89,4 +102,12 @@ void Texture2D::Bind(int unit) {
 void Texture2D::Unbind(int unit) {
 	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture2D::Free() {
+
+    GLuint id = m_Handle;
+
+	glDeleteTextures(1, &id);
+
 }

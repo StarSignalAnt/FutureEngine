@@ -26,9 +26,10 @@ public:
 	void AddChild(IControl* child) { m_Children.push_back(child); child->SetRoot(this); }
 	void SetImage(Texture2D* image) { m_Image = image; }
 	Texture2D* GetImage() { return m_Image; }
-	void SetText(std::string text) { Text = text; }
-	std::string GetText() { return Text; }
+	void SetText(std::string text) { m_Text = text; }
+	std::string GetText() { return m_Text; }
 	glm::vec2 GetRenderPosition();
+	std::vector<IControl*> GetChildren() { return m_Children; }
 
 
 	virtual void Update(float delta) = 0;
@@ -43,6 +44,16 @@ public:
 	virtual void OnMouseWheel(float delta) {};
 	virtual void OnKeyDown(int key) {};
 	virtual void OnKeyUp(int key) {};
+	bool InBounds(glm::vec2 position)
+	{
+		glm::vec2 root = GetRenderPosition();
+		if (position.x > root.x && position.x < root.x + m_Size.x &&
+			position.y > root.y && position.y < root.y + m_Size.y)
+		{
+			return true;
+		}
+		return false;
+	}
 
 protected:
 
@@ -51,7 +62,7 @@ protected:
 	std::vector<IControl*> m_Children;
 	IControl* m_RootControl = nullptr;
 	Texture2D* m_Image = nullptr;
-	std::string Text;
+	std::string m_Text;
 	glm::vec4 m_Color;
 	
 

@@ -17,7 +17,7 @@ public:
 	int GetID() {
 		return m_Handle;
 	}
-
+	void Free();
 private:
 
 	int m_Handle;

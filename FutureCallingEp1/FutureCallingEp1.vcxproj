@@ -107,7 +107,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -46,6 +46,9 @@
     <Filter Include="Font">
       <UniqueIdentifier>{3bfa8c43-68cb-4d71-9f20-3ed23eec603f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Videon">
+      <UniqueIdentifier>{cb4b0934-e01f-4c04-a2a2-0f6d7994ea6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="GameFont.h">
       <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="GameVideo.h">
+      <Filter>Videon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="GameFont.cpp">
       <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="GameVideo.cpp">
+      <Filter>Videon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

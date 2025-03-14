@@ -11,8 +11,14 @@ void IButton::Update(float delta)
 void IButton::Render()
 {
 
+	auto pos = GetRenderPosition();
+
+	pos.x = pos.x + m_Size.x / 2 - UIHelp::StrWidth(m_Text) / 2;
+	pos.y = pos.y + m_Size.y / 2 - UIHelp::StrHeight(m_Text) / 2;
+
+
 	UIHelp::DrawImage(GetRenderPosition(), m_Size, m_Image, m_Color);
-	UIHelp::DrawText(GetRenderPosition(), "This is a test!", m_Color);
+	UIHelp::DrawText(pos,m_Text, m_Color);
 
 	RenderChildren();
 }
@@ -25,7 +31,7 @@ void IButton::LoadResources() {
 
 void IButton::OnMouseEnter()
 {
-	m_Color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+	m_Color = glm::vec4(1.3f, 1.3f, 1.3f, 1.0f);
 }
 
 void IButton::OnMouseLeave()
@@ -35,10 +41,10 @@ void IButton::OnMouseLeave()
 
 void IButton::OnMouseDown(int button)
 {
-	m_Color = glm::vec4(0.6f, 0.6f, 0.6f, 1.0f);
+	m_Color = glm::vec4(1.3f, 1.6f, 1.6f, 1.0f);
 }
 
 void IButton::OnMouseUp(int button)
 {
-	m_Color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+	m_Color = glm::vec4(1.3f,1.3f,1.3f, 1.0f);
 }

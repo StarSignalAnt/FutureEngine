@@ -6,7 +6,7 @@ class IButton :
 public:
 
 	IButton() : IControl() { LoadResources(); }
-	IButton(glm::vec2 position, glm::vec2 size) : IControl(position, size) { LoadResources(); }
+	IButton(std::string text, glm::vec2 position, glm::vec2 size) : IControl(position, size) { m_Text = text; LoadResources(); }
 	void Update(float delta) override;
 	void Render() override;
 	void OnMouseEnter() override;

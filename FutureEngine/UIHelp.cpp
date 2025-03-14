@@ -10,7 +10,7 @@ SmartDraw* m_FontDraw;
 void UIHelp::InitHelp() {
 
 	m_Draw = new SmartDraw;
-	m_UIFont = new GameFont("engine/ui/uifont.ttf",22);
+	m_UIFont = new GameFont("engine/ui/uifont.ttf",18);
 	m_FontDraw = new SmartDraw;
 	m_FontDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawFont.glsl"));
 
@@ -28,15 +28,25 @@ void UIHelp::DrawImage(glm::vec2 position, glm::vec2 size, Texture2D* texture, g
 
 }
 
+float UIHelp::StrWidth(std::string text) {
+
+	return m_UIFont->StrWidth(text);
+
+}
+
+float UIHelp::StrHeight(std::string text) {
+	return m_UIFont->StrHeight(text);
+}
+
 void UIHelp::DrawCharacter(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color)
 {
 //	return;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_FontDraw->Begin();
+	//m_FontDraw->Begin();
 	m_FontDraw->DrawDirect(position, size, color, texture);
-	m_FontDraw->End();
+	//m_FontDraw->End();
 
 
 }
@@ -45,6 +55,8 @@ void UIHelp::DrawCharacter(glm::vec2 position, glm::vec2 size, Texture2D* textur
 void UIHelp::DrawText(glm::vec2 position, std::string text, glm::vec4 color) {
 
 	glClear(GL_DEPTH_BUFFER_BIT);
-	m_UIFont->Render(position,text, color);
+	m_FontDraw->Begin();
+	m_UIFont->Render(position,text, color,1.0f);
+	m_FontDraw->End();
 
 }
