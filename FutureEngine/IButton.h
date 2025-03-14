@@ -22,7 +22,12 @@ public:
 	//void SetClickFunction(std::function<void()> func) { m_ClickFunction = func; }
 
 
-
+	void SetRenderBody(bool render) { m_RenderBody = render; }
+	
 private:
+
+	bool m_RenderBody = true;
+	bool m_Over = false;
+
 };
 

@@ -1,5 +1,16 @@
 #include "IControlGroup.h"
 
+IControlGroup::IControlGroup() {
+
+}
+
+IControlGroup::IControlGroup(glm::vec2 position, glm::vec2 size) {
+
+	m_Position = position;
+	m_Size = size;
+
+}
+
 void IControlGroup::Update(float delta)
 {
 

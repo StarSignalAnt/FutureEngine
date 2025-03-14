@@ -17,7 +17,9 @@ void IButton::Render()
 	pos.y = pos.y + m_Size.y / 2 - UIHelp::StrHeight(m_Text) / 2;
 
 
-	UIHelp::DrawImage(GetRenderPosition(), m_Size, m_Image, m_Color);
+	if (m_RenderBody || m_Over) {
+		UIHelp::DrawImage(GetRenderPosition(), m_Size, m_Image, m_Color);
+	}
 	UIHelp::DrawText(pos,m_Text, m_Color);
 
 	RenderChildren();
@@ -32,12 +34,15 @@ void IButton::LoadResources() {
 void IButton::OnMouseEnter()
 {
 	m_Color = glm::vec4(1.3f, 1.3f, 1.3f, 1.0f);
+	m_Over = true;
 }
 
 void IButton::OnMouseLeave()
 {
 	m_Color = glm::vec4(1, 1, 1, 1);
+	m_Over = false;
 }
+
 
 void IButton::OnMouseDown(int button)
 {

@@ -5,6 +5,8 @@ class IControlGroup :
 {
 public:
 
+	IControlGroup();
+	IControlGroup(glm::vec2 position, glm::vec2 size);
 	void Update(float delta) override;
 	void Render() override;
 

@@ -135,6 +135,12 @@
     <ClInclude Include="IWindow.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IVerticalScroller.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IHorizontalScroller.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -222,6 +228,12 @@
       <Filter>Videon</Filter>
     </ClCompile>
     <ClCompile Include="IWindow.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IVerticalScroller.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IHorizontalScroller.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

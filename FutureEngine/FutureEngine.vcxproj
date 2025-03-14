@@ -179,7 +179,9 @@
     <ClInclude Include="IButton.h" />
     <ClInclude Include="IControl.h" />
     <ClInclude Include="IControlGroup.h" />
+    <ClInclude Include="IHorizontalScroller.h" />
     <ClInclude Include="IImage.h" />
+    <ClInclude Include="IVerticalScroller.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="MathsOps.h" />
     <ClInclude Include="pch.h" />
@@ -209,7 +211,9 @@
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="IControl.cpp" />
     <ClCompile Include="IControlGroup.cpp" />
+    <ClCompile Include="IHorizontalScroller.cpp" />
     <ClCompile Include="IImage.cpp" />
+    <ClCompile Include="IVerticalScroller.cpp" />
     <ClCompile Include="IWindow.cpp" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="pch.cpp">

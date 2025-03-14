@@ -75,10 +75,19 @@ public:
 	{
 		OnDoubleClick = callback;
 	}
+	int GetMaxHeight();
+	int GetMaxWidth();
+
+	glm::vec2 GetPosition() { return m_Position; }
+	glm::vec2 GetSize() { return m_Size; }
+	glm::vec2 GetOffset() { return m_Offset; }
+	void SetOffset(glm::vec2 offset) { m_Offset = offset; };
+	void SetCullChildren(bool cull) { m_CullChildren = cull; }
 protected:
 
 	glm::vec2 m_Position;
 	glm::vec2 m_Size;
+	glm::vec2 m_Offset;
 	std::vector<IControl*> m_Children;
 	IControl* m_RootControl = nullptr;
 	Texture2D* m_Image = nullptr;
@@ -86,6 +95,7 @@ protected:
 	glm::vec4 m_Color;
 	std::function<void()> OnClick = nullptr;
 	std::function<void()> OnDoubleClick = nullptr;
+	bool m_CullChildren = false;
 
 
 };

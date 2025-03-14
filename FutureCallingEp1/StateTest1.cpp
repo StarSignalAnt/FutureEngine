@@ -92,6 +92,13 @@ void StateTest1::InitState()
 
 	m_UI->GetRoot()->AddChild(win1);
 
+	auto wb1 = new IButton("Load Game", glm::vec2(20, 60), glm::vec2(130, 30));
+	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
+
+	win1->AddClientControl(wb1);
+	win1->AddClientControl(wb2);
+
+
 //	m_Vid1 = new GameVideo("test/fcintro.mp4");
 //	m_Vid1->Play();
 
