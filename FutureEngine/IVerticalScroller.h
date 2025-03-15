@@ -118,9 +118,9 @@ public:
             else if (mousePos.x >= renderPos.x && mousePos.x <= renderPos.x + m_Size.x)
             {
                 // Click on the track - jump to that position
-                float relativeY = mousePos.y - renderPos.y;
-                float newPos = relativeY / m_Size.y;
-                SetScrollPosition(newPos);
+              //  float relativeY = mousePos.y - renderPos.y;
+             //   float newPos = relativeY / m_Size.y;
+            //    SetScrollPosition(newPos);
             }
         }
     }
@@ -135,16 +135,17 @@ public:
 
     void OnMouseMove(glm::vec2 position, glm::vec2 delta) override
     {
+        if (delta.y == 0) return;
         if (m_IsScrolling)
         {
             // Calculate the scroll movement
-            float deltaY = position.y - m_LastMouseY;
+            float deltaY = GameInput::MousePosition.y - m_LastMouseY;
             float scrollDelta = deltaY / (m_Size.y - m_ScrollButtonSize);
 
             // Update the scroll position
             SetScrollPosition(m_ScrollPosition + scrollDelta);
 
-            m_LastMouseY = position.y;
+            m_LastMouseY = GameInput::MousePosition.y;
         }
     }
 

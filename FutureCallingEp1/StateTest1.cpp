@@ -15,14 +15,58 @@
 #include "GameVideo.h"
 #include <iostream>
 #include "IWindow.h"
-
-
+#include "IControlGroup.h"
+#include "IVideoPlayer.h"
+#include "IFrameBuffer.h"
+#include "window-dock-handler.h"
+#include "window-dock-implementation.h"
+// Adding a context menu option to undock windows:
 
 void StateTest1::InitState()
 {
-
 	m_Tex1 = new Texture2D("test/test1.png");
 	m_Tex2 = new Texture2D("test/test2.png");
+	m_UI = new GameUI;
+	
+	/*
+	IWindowDockHandler::GetInstance()->Initialize(m_UI->GetRoot());
+
+	auto gameUI = m_UI;
+
+	// Create the window dock (normally you would size this to fill most of your application area)
+	IWindowDock* mainDock = new IWindowDock(
+		glm::vec2(0, 0),  // Position
+		glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight())  // Size
+	);
+
+	// Add the dock to your UI
+	gameUI->GetRoot()->AddChild(mainDock);
+
+	// Register the dock with the handler
+	IWindowDockHandler::GetInstance()->RegisterDock(mainDock);
+
+	// Create some example windows
+	IWindow* window1 = new IWindow("Window 1", glm::vec2(100, 100), glm::vec2(400, 300));
+	IWindow* window2 = new IWindow("Window 2", glm::vec2(200, 150), glm::vec2(400, 300));
+	IWindow* window3 = new IWindow("Window 3", glm::vec2(300, 200), glm::vec2(400, 300));
+
+	// Add windows to your UI
+	gameUI->GetRoot()->AddChild(window1);
+	gameUI->GetRoot()->AddChild(window2);
+	gameUI->GetRoot()->AddChild(window3);
+
+	// Optionally, pre-dock some windows
+	mainDock->DockWindow(window1, DOCK_LEFT);
+
+	//mainDock->DockWindow(window2, DOCK_LEFT);  // This will create a tab with window1
+	mainDock->DockWindow(window3, DOCK_CENTER);
+
+
+
+
+	return;
+	*/
+
 	auto norm1 = new Texture2D("test/norm4.png");
 	auto norm2 = new Texture2D("test/norm3.png");
 	m_Draw = new SmartDraw;
@@ -72,7 +116,7 @@ void StateTest1::InitState()
 
 	m_Spr1->SetPosition(glm::vec3(200, 350, 1));
 
-	m_UI = new GameUI;
+	
 
 	IImage* img1 = new IImage(glm::vec2(100, 100), glm::vec2(300, 300));
 	img1->SetImage(m_Tex1);
@@ -95,8 +139,28 @@ void StateTest1::InitState()
 	auto wb1 = new IButton("Load Game", glm::vec2(20, 60), glm::vec2(130, 30));
 	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
 
-	win1->AddClientControl(wb1);
-	win1->AddClientControl(wb2);
+
+	//win1->AddClientControl(wb1);
+	//win1->AddClientControl(wb2);
+
+	auto vid = new IVideoPlayer("test/fcintro.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
+	
+	//win1->GetClientArea()->SetCullChildren(false);
+
+	auto fb = new IFrameBuffer(glm::vec2(20, 20), glm::vec2(512, 512));
+
+	fb->SetOnPreRender([&]() {
+
+		m_Draw->Begin();
+		m_Draw->Draw(glm::vec2(256, 256), glm::vec2(512,512), glm::vec4(1, 1, 1, 1), m_Tex1, 0, 1.0f);
+		m_Draw->End();
+
+		});
+
+	//m_UI->GetRoot()->AddChild(vid);
+	win1->AddClientControl(fb);
+
+	vid->Play();
 
 
 //	m_Vid1 = new GameVideo("test/fcintro.mp4");
@@ -134,6 +198,7 @@ void StateTest1::UpdateState(float delta)
 
 	m_UI->UpdateUI(delta);
 
+	return;
 	if (GameInput::Buttons[MOUSE_BUTTON_RIGHT]) {
 		m_Cam1->MoveLocal(glm::vec2(GameInput::MouseDelta.x, GameInput::MouseDelta.y));
 		//m_Cam1->SetPosition(glm::vec2(GameInput::

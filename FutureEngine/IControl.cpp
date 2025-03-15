@@ -1,5 +1,6 @@
 #include "IControl.h"
-
+#include <glad/glad.h>
+#include "FutureApp.h"
 
 glm::vec2 IControl::GetRenderPosition() {
 
@@ -20,29 +21,54 @@ void IControl::UpdateChildren(float delta) {
 	}
 }
 
+void IControl::PreRenderChildren() {
+
+	for (auto child : m_Children) {
+
+		child->PreRender();
+
+	}
+
+}
+
 void IControl::RenderChildren() {
 	auto gsize = GetSize();
 
 	auto os = GetOffset();
+
+	auto rpos = GetRenderPosition();
+
+	float sh = FutureApp::m_Inst->GetHeight();
+
+	//glViewport(rpos.x, rpos.y, gsize.x, gsize.y);
+	//glScissor(rpos.x, sh-rpos.y, gsize.x, -gsize.y);
+
+
 
 	for (auto child : m_Children) {
 		
 		auto pos = child->GetPosition() + os;
 		auto size = child->GetSize();
 		
-		if (m_CullChildren) {
+	//	if (m_CullChildren) {
 			if (pos.x >= 0 && pos.y >= 0 && pos.x + size.x <= gsize.x+2  && pos.y + size.y < gsize.y + 2) {
-				child->Render();
+			//	child->Render();
 
 			}
-		}
-		else {
+	//	}
+	//	else {
+			setScissor(rpos.x, rpos.y, gsize.x, gsize.y, sh);
+			glEnable(GL_SCISSOR_TEST);
 			child->Render();
-		}
-
+	//	}
+			glDisable(GL_SCISSOR_TEST);
 
 
 	}
+	
+
+	//glViewport(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
+
 }	
 
 int IControl::GetMaxHeight() {
@@ -80,4 +106,14 @@ int IControl::GetMaxWidth() {
 
 	return max_x;
 
+}
+
+void IControl::setScissor(int x, int y, int width, int height, int windowHeight) {
+	// Convert from left-top (0,0) to OpenGL's left-bottom (0,0)
+	// by flipping the Y coordinate
+	int openglY = windowHeight - (y + height);
+
+	// Set the scissor test
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(x, openglY, width, height);
 }

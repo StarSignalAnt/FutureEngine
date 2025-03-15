@@ -141,6 +141,18 @@
     <ClInclude Include="IHorizontalScroller.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IVideoPlayer.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrameBuffer.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="window-dock-handler.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="window-dock-implementation.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -234,6 +246,18 @@
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
     <ClCompile Include="IHorizontalScroller.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IVideoPlayer.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IFrameBuffer.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="window-dock-handler-implementation.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="window-dock-implementation.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

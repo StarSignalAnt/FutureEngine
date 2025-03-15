@@ -1,0 +1,26 @@
+#pragma once
+#include "IControl.h"
+
+class GameVideo;
+
+class IVideoPlayer :
+    public IControl
+{
+public:
+
+    IVideoPlayer(std::string video, glm::vec2 position, glm::vec2 size);
+    IVideoPlayer(glm::vec2 position, glm::vec2 size);
+    void SetVideo(std::string path);
+    void Play();
+    void Pause();
+    void Resume();
+    void Update(float delta) override;
+    void Render() override;
+
+
+private:
+
+    GameVideo* m_Video;
+
+};
+

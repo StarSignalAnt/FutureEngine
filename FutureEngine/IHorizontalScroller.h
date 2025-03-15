@@ -112,9 +112,9 @@ public:
             else if (mousePos.y >= renderPos.y && mousePos.y <= renderPos.y + m_Size.y)
             {
                 // Click on the track - jump to that position
-                float relativeX = mousePos.x - renderPos.x;
-                float newPos = relativeX / m_Size.x;
-                SetScrollPosition(newPos);
+                //float relativeX = mousePos.x - renderPos.x;
+                //float newPos = relativeX / m_Size.x;
+                //SetScrollPosition(newPos);
             }
         }
     }
@@ -132,13 +132,13 @@ public:
         if (m_IsScrolling)
         {
             // Calculate the scroll movement
-            float deltaX = position.x - m_LastMouseX;
+            float deltaX = GameInput::MousePosition.x - m_LastMouseX;
             float scrollDelta = deltaX / (m_Size.x - m_ScrollButtonSize);
 
             // Update the scroll position
             SetScrollPosition(m_ScrollPosition + scrollDelta);
 
-            m_LastMouseX = position.x;
+            m_LastMouseX = GameInput::MousePosition.x;
         }
     }
 

@@ -30,7 +30,14 @@ public:
 	bool InBounds(glm::vec2 position) override;
 	void AlignWindow();
 	void AddClientControl(IControl* control);
-	
+	IControlGroup* GetClientArea() {
+
+		return m_ClientArea;
+
+	}
+
+	void AfterSet() override;
+
 private:
 
 

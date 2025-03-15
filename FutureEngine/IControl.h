@@ -20,6 +20,7 @@ public:
 			m_Size = size;
 		}
 		m_Position = position;
+		AfterSet();
 	}
 	void SetRoot(IControl* root) { m_RootControl = root; }
 	IControl* GetRoot() { return m_RootControl; }
@@ -33,11 +34,16 @@ public:
 	glm::vec2 GetRenderPosition();
 	std::vector<IControl*> GetChildren() { return m_Children; }
 
+	void setScissor(int x, int y, int width, int height, int windowHeight);
 
 	virtual void Update(float delta) = 0;
 	virtual void Render() = 0;
+	virtual void PreRender() {
+		PreRenderChildren();
+	}
 	void UpdateChildren(float delta);
 	void RenderChildren();
+	void PreRenderChildren();
 	virtual void OnMouseEnter() {};
 	virtual void OnMouseLeave() {};
 	virtual void OnMouseDown(int button) {};
@@ -67,13 +73,24 @@ public:
 			OnDoubleClick();
 		}	
 	}
+	void CallPreRender() {
+		if (OnPreRender) {
+			OnPreRender();
+		}
+	}
 	
 	void SetOnClick(std::function<void()> callback) {
 		OnClick = callback;
 	}
 	void SetOnDoubleClick(std::function<void()> callback)
 	{
+	
 		OnDoubleClick = callback;
+	}
+	void SetOnPreRender(std::function<void()> callback) {
+
+		OnPreRender = callback;
+
 	}
 	int GetMaxHeight();
 	int GetMaxWidth();
@@ -83,6 +100,9 @@ public:
 	glm::vec2 GetOffset() { return m_Offset; }
 	void SetOffset(glm::vec2 offset) { m_Offset = offset; };
 	void SetCullChildren(bool cull) { m_CullChildren = cull; }
+	virtual void AfterSet() {};
+
+
 protected:
 
 	glm::vec2 m_Position;
@@ -95,6 +115,7 @@ protected:
 	glm::vec4 m_Color;
 	std::function<void()> OnClick = nullptr;
 	std::function<void()> OnDoubleClick = nullptr;
+	std::function<void()> OnPreRender = nullptr;
 	bool m_CullChildren = false;
 
 

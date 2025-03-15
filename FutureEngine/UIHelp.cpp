@@ -22,7 +22,7 @@ void UIHelp::InitHelp() {
 void UIHelp::DrawImage(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color)
 {
 	glEnable(GL_BLEND);
-
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	m_Draw->Begin();
 	m_Draw->DrawDirect(position, size, color, texture);

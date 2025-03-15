@@ -1,6 +1,7 @@
 #pragma once
-
+#include <glm/glm.hpp>
 class IControl;
+class IWindow;
 
 class GameUI
 {
@@ -14,6 +15,9 @@ public:
 
 
 private:
+	bool m_WindowDockingEnabled = true;
+	glm::vec2 m_LastWindowPosition;
+	IWindow* m_DraggingWindow = nullptr;
 
 	IControl* m_RootControl;
 	IControl* m_ControlOver = nullptr;

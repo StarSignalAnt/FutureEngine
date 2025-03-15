@@ -7,6 +7,8 @@ enum MouseButton {
 	MOUSE_BUTTON_MIDDLE = 2
 };
 
+class IWindow;
+
 class GameInput
 {
 public:
@@ -15,6 +17,8 @@ public:
 	static glm::vec3 MouseDelta;
 	static bool Buttons[16];
 	static bool Keys[256];
+	static IWindow* m_Dragging;;
+
 
 private:
 

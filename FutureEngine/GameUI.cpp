@@ -3,6 +3,8 @@
 #include "IControlGroup.h"
 #include "GameInput.h"
 #include "FutureApp.h"
+#include "window-dock-handler.h"
+#include "IWindow.h"
 
 std::vector<IControl*> AddControls(std::vector<IControl*> list, IControl* control) {
 
@@ -99,10 +101,47 @@ void GameUI::UpdateUI(float delta)
 	}
 
 	m_RootControl->Update(delta);
+	
+
+
+	if (m_WindowDockingEnabled && m_ControlPressed != nullptr) {
+		// Check if dragging a window
+		IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
+		if (window) {
+			// If this is a window being dragged
+			if (m_DraggingWindow == nullptr) {
+				m_DraggingWindow = window;
+				m_LastWindowPosition = window->GetPosition();
+			}
+
+			// Handle window dragging for potential docking
+			auto dockHandler = IWindowDockHandler::GetInstance();
+			dockHandler->HandleWindowDrag(window, GameInput::MousePosition);
+		}
+	}
+	else if (m_DraggingWindow != nullptr && !GameInput::Buttons[MOUSE_BUTTON_LEFT]) {
+		// Mouse released after dragging a window - attempt docking
+		auto dockHandler = IWindowDockHandler::GetInstance();
+		dockHandler->HandleWindowDrop(m_DraggingWindow, GameInput::MousePosition);
+		m_DraggingWindow = nullptr;
+	}
+
+	// Check for tab interaction in docked windows
+	if (GameInput::Buttons[MOUSE_BUTTON_LEFT] && m_ControlOver != nullptr) {
+		DockPanel* panel = dynamic_cast<DockPanel*>(m_ControlOver);
+		if (panel) {
+			int tabIndex;
+			if (panel->InTabBounds(GameInput::MousePosition, tabIndex)) {
+				panel->SetActiveWindow(tabIndex);
+			}
+		}
+	}
 
 }
 
 void GameUI::RenderUI()
 {
+	m_RootControl->PreRender();
+
 	m_RootControl->Render();
 }

@@ -179,9 +179,11 @@
     <ClInclude Include="IButton.h" />
     <ClInclude Include="IControl.h" />
     <ClInclude Include="IControlGroup.h" />
+    <ClInclude Include="IFrameBuffer.h" />
     <ClInclude Include="IHorizontalScroller.h" />
     <ClInclude Include="IImage.h" />
     <ClInclude Include="IVerticalScroller.h" />
+    <ClInclude Include="IVideoPlayer.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="MathsOps.h" />
     <ClInclude Include="pch.h" />
@@ -190,6 +192,8 @@
     <ClInclude Include="SmartDraw.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="UIHelp.h" />
+    <ClInclude Include="window-dock-handler.h" />
+    <ClInclude Include="window-dock-implementation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawInfo.cpp" />
@@ -211,9 +215,11 @@
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="IControl.cpp" />
     <ClCompile Include="IControlGroup.cpp" />
+    <ClCompile Include="IFrameBuffer.cpp" />
     <ClCompile Include="IHorizontalScroller.cpp" />
     <ClCompile Include="IImage.cpp" />
     <ClCompile Include="IVerticalScroller.cpp" />
+    <ClCompile Include="IVideoPlayer.cpp" />
     <ClCompile Include="IWindow.cpp" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="pch.cpp">
@@ -228,6 +234,8 @@
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="UIHelp.cpp" />
+    <ClCompile Include="window-dock-handler-implementation.cpp" />
+    <ClCompile Include="window-dock-implementation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

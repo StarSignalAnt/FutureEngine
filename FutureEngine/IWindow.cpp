@@ -31,11 +31,13 @@ void IWindow::Render()
 void IWindow::OnMouseDown(int button)
 {
 	m_Dragging = true;
-}
+	GameInput::m_Dragging = this;
 
+}
 void IWindow::OnMouseUp(int button)
 {
 	m_Dragging = false;
+	GameInput::m_Dragging = nullptr;
 }
 
 void IWindow::OnMouseDoubleClick()
@@ -241,5 +243,11 @@ void IWindow::AddClientControl(IControl* control) {
 
 	m_YScroller->SetContentHeight(m_Height);
 	m_XScroller->SetContentWidth(m_ClientArea->GetMaxWidth());
+
+}
+
+void IWindow::AfterSet() {
+
+	AlignWindow();
 
 }
