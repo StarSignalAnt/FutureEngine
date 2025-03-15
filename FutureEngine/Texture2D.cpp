@@ -94,6 +94,56 @@ Texture2D::Texture2D(std::string path) {
 
 }
 
+Texture2D::Texture2D(int w, int h)
+{
+    glActiveTexture(GL_TEXTURE0 );
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    // Set texture parameters without mipmaps
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    // Allocate memory for the texture but don't fill it with data
+    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB,w, h, 0,
+       GL_RGB , GL_UNSIGNED_BYTE, nullptr);
+
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    m_Handle = textureID;
+    m_Width = w;
+    m_Height = h;
+}
+
+void Texture2D::Grab(int x, int y) {
+
+   // void GrabFromFramebuffer(int x, int y)
+    //{
+    glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_Handle);
+
+
+        // Convert y-coordinate from top-left to bottom-left origin
+        // OpenGL has (0,0) at bottom-left, so we need to flip y
+        int flippedY = y;
+        if (y >= 0) {
+            // Get current viewport dimensions to calculate the flipped y-coordinate
+            GLint viewport[4];
+            glGetIntegerv(GL_VIEWPORT, viewport);
+            flippedY = viewport[3] - y - m_Height;
+        }
+
+        // Read pixels from the framebuffer to our texture
+        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, x, flippedY, m_Width, m_Height);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+    
+
+}
+
 void Texture2D::Bind(int unit) {
 	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, m_Handle);

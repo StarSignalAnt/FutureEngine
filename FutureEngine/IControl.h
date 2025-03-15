@@ -56,6 +56,18 @@ public:
 	virtual bool InBounds(glm::vec2 position)
 	{
 		glm::vec2 root = GetRenderPosition();
+		
+		if (m_RootControl != nullptr) {
+			if (position.x < m_RootControl->GetRenderPosition().x || position.y < m_RootControl->GetRenderPosition().y)
+			{
+				return false;
+
+			}
+			if (position.x > m_RootControl->GetRenderPosition().x + m_RootControl->GetSize().x || position.y > m_RootControl->GetRenderPosition().y + m_RootControl->GetSize().y) {
+				return false;
+			}
+		}
+		
 		if (position.x > root.x && position.x < root.x + m_Size.x &&
 			position.y > root.y && position.y < root.y + m_Size.y)
 		{
@@ -78,6 +90,13 @@ public:
 			OnPreRender();
 		}
 	}
+
+	void Move(glm::vec2 delta) {
+
+		if (OnMove) {
+			OnMove(delta);
+		}
+	}
 	
 	void SetOnClick(std::function<void()> callback) {
 		OnClick = callback;
@@ -92,6 +111,12 @@ public:
 		OnPreRender = callback;
 
 	}
+	void SetOnMoved(std::function<void(glm::vec2)> move)
+	{
+		OnMove = move;
+
+	}
+
 	int GetMaxHeight();
 	int GetMaxWidth();
 
@@ -116,6 +141,7 @@ protected:
 	std::function<void()> OnClick = nullptr;
 	std::function<void()> OnDoubleClick = nullptr;
 	std::function<void()> OnPreRender = nullptr;
+	std::function<void(glm::vec2 delta)> OnMove = nullptr;
 	bool m_CullChildren = false;
 
 

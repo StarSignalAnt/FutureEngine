@@ -9,6 +9,7 @@ class UIHelp
 public:
 
 	static void InitHelp();
+	static void DrawImageBlur(glm::vec2 pos, glm::vec2 size, Texture2D* image, glm::vec4 color, float blur = 0.1);
 	static void DrawImage(glm::vec2 pos, glm::vec2 size, Texture2D* image,glm::vec4 color);
 	static void DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color);
 	static void DrawCharacter(glm::vec2 pos, glm::vec2 size, Texture2D* image, glm::vec4 color);

@@ -12,6 +12,9 @@ public:
 		m_Width = w;
 		m_Height = h;
 	}
+	Texture2D(int w, int h);
+	void Grab(int x, int y);
+
 	void Bind(int unit);
 	void Unbind(int unit);
 	int GetID() {

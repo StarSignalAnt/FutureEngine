@@ -2,19 +2,22 @@
 #include "IControl.h"
 #include "UIHelp.h"
 #include "GameInput.h"
+#include "Texture2D.h"
 
 class IHorizontalScroller : public IControl
 {
 public:
     IHorizontalScroller() : IControl(), m_ContentWidth(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
-        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f)),
+        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollButtonHeight(15.0f) {
+        m_ScrollImage = new Texture2D("engine/ui/softrecth.png");;
     }
 
     IHorizontalScroller(glm::vec2 position, glm::vec2 size)
         : IControl(position, size), m_ContentWidth(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
-        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f)),
+        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollButtonHeight(15.0f) {
+        m_ScrollImage = new Texture2D("engine/ui/softrecth.png");;
     }
 
     // Set the total content width that needs to be scrolled
@@ -78,7 +81,7 @@ public:
         glm::vec2 renderPos = GetRenderPosition();
 
         // Draw the scroll track (background)
-        UIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight), m_ScrollTrackColor);
+        
 
         // Only draw the scroll button if content requires scrolling
         if (m_ContentWidth > m_Size.x)
@@ -86,9 +89,12 @@ public:
             // Calculate the position of the scroll button
             float buttonLeft = renderPos.x + m_ScrollPosition * (m_Size.x - m_ScrollButtonSize);
             glm::vec2 buttonPos = glm::vec2(buttonLeft, renderPos.y);
-
+//            UIHelp::DrawImage(buttUIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight), m_ScrollTrackColor);onPos + glm::vec2(1, 1), glm::vec2(m_ScrollButtonWidth - 7, m_ScrollButtonSize - 2), m_ScrollImage, glm::vec4(0.1, 1, 1, 1));
+            UIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight), m_ScrollTrackColor);
+            UIHelp::DrawImage(buttonPos + glm::vec2(1,1), glm::vec2(m_ScrollButtonSize-2, m_ScrollButtonHeight-7), m_ScrollImage, glm::vec4(0.678 * 1.8, 0.847 * 1.8, 0.902 * 1.8, 1));
             // Draw the scroll button (thumb)
-            UIHelp::DrawRect(buttonPos, glm::vec2(m_ScrollButtonSize, m_ScrollButtonHeight), m_ScrollButtonColor);
+
+            //UIHelp::DrawRect(buttonPos, glm::vec2(m_ScrollButtonSize, m_ScrollButtonHeight), m_ScrollButtonColor);
         }
 
         // Render children controls (if any)
@@ -181,7 +187,7 @@ private:
     glm::vec4 m_ScrollTrackColor; // Color of the scroll track
     glm::vec4 m_ScrollButtonColor; // Color of the scroll button
     float m_ScrollButtonHeight;   // Height of the scroll button
-
+    Texture2D* m_ScrollImage;
     // Helper method to check if a point is on the scroll button
     bool IsPointOnScrollButton(const glm::vec2& point)
     {

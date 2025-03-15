@@ -7,15 +7,34 @@
 SmartDraw* m_Draw;
 GameFont* m_UIFont;
 SmartDraw* m_FontDraw;
+SmartDraw* m_BlurDraw;
 Texture2D* m_RectTex;
+
 
 void UIHelp::InitHelp() {
 
 	m_Draw = new SmartDraw;
-	m_UIFont = new GameFont("engine/ui/uifont.ttf",14);
+	m_UIFont = new GameFont("engine/ui/uifont.ttf",12);
 	m_FontDraw = new SmartDraw;
+	m_BlurDraw = new SmartDraw;
+	m_BlurDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawBlurFS.glsl"));
 	m_FontDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawFont.glsl"));
 	m_RectTex = new Texture2D("engine/ui/rect.png");
+
+}
+
+void UIHelp::DrawImageBlur(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color,float blur)
+{
+	glEnable(GL_BLEND);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_BlurDraw->Begin();
+
+	m_BlurDraw->GetShaderModule()->Bind();
+	m_BlurDraw->GetShaderModule()->SetFloat("blurAmount", blur*500);
+	m_BlurDraw->DrawDirect(position, size, color, texture);
+
+	m_BlurDraw->End();
 
 }
 

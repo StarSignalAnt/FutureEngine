@@ -24,7 +24,7 @@
 
 void StateTest1::InitState()
 {
-	m_Tex1 = new Texture2D("test/test1.png");
+	m_Tex1 = new Texture2D("test/bg1.png");
 	m_Tex2 = new Texture2D("test/test2.png");
 	m_UI = new GameUI;
 	
@@ -118,7 +118,7 @@ void StateTest1::InitState()
 
 	
 
-	IImage* img1 = new IImage(glm::vec2(100, 100), glm::vec2(300, 300));
+	IImage* img1 = new IImage(glm::vec2(0,0), glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight()));
 	img1->SetImage(m_Tex1);
 	m_UI->GetRoot()->AddChild(img1);
 
@@ -140,8 +140,9 @@ void StateTest1::InitState()
 	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
 
 
-	//win1->AddClientControl(wb1);
-	//win1->AddClientControl(wb2);
+	win1->AddClientControl(wb1);
+	win1->AddClientControl(wb2);
+
 
 	auto vid = new IVideoPlayer("test/fcintro.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
 	
@@ -158,7 +159,7 @@ void StateTest1::InitState()
 		});
 
 	//m_UI->GetRoot()->AddChild(vid);
-	win1->AddClientControl(fb);
+//	win1->AddClientControl(fb);
 
 	vid->Play();
 

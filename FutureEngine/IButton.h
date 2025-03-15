@@ -14,6 +14,7 @@ public:
 	void OnMouseDown(int button) override;
 	void OnMouseUp(int button) override;
 	void OnMouseDoubleClick() override;
+	void OnMouseMove(glm::vec2 position, glm::vec2 delta) override;
 	void LoadResources();
 //	void SetImage(Texture2D* image) { m_Image = image; }
 //	Texture2D* GetImage() { return m_Image; }
@@ -28,6 +29,6 @@ private:
 
 	bool m_RenderBody = true;
 	bool m_Over = false;
-
+	bool m_Dragging = false;
 };
 

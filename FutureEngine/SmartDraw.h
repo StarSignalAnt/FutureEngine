@@ -23,6 +23,9 @@ public:
 	{
 		m_Pitch = pitch;
 	}
+	ShaderModule* GetShaderModule() {
+		return m_SM;
+	}
 
 private:
 

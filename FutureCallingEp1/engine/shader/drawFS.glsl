@@ -10,5 +10,10 @@ uniform sampler2D uTexture; // Texture sampler
 void main()
 {
     vec4 texColor = texture(uTexture, fragTexCoord); // Sample texture
+    if(texColor.a<0.1)
+    {
+        discard;
+        return;
+    }
     outColor = fragColor*texColor; // Combine texture, vertex color, and uniform color
 }

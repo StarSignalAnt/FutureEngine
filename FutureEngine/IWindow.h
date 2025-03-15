@@ -45,11 +45,15 @@ private:
 	WindowArea m_CurrentArea = AREA_NONE;
 	IButton* m_CloseButton = nullptr;
 	IButton* m_MaximizeButton = nullptr;
+	IButton* m_Resizer = nullptr;
 	IButton* m_MinimizeButton = nullptr;
 	IControlGroup* m_ClientArea = nullptr;
 	IVerticalScroller* m_YScroller = nullptr;
 	IHorizontalScroller* m_XScroller = nullptr;
+	Texture2D* m_TitleBarImage;
 	//IButton* m_Resizer;
+	Texture2D* m_TitleBG;
+	Texture2D* m_ClientBG;
 
 	glm::vec2 m_OriginalSize;
 	glm::vec2 m_OriginalPosition;
