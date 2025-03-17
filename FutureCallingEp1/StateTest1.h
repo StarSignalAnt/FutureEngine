@@ -13,7 +13,8 @@ class GameLight;
 class GameSprite;
 class RenderTarget2D;
 class GameVideo;
-
+class IDocker;
+class IWindow;
 
 class StateTest1 :
     public FutureState
@@ -26,7 +27,9 @@ public:
 	void EndState() override;
 
 private:
+	void CreateDemoWindows();
 
+	std::vector<IWindow*> m_Windows;
 	Texture2D* m_Tex1;
 	Texture2D* m_Tex2;
 	SmartDraw* m_Draw;
@@ -41,6 +44,6 @@ private:
 	GameUI* m_UI;
 	GameSprite* m_Spr1;
 	GameVideo* m_Vid1;
-
+	IDocker* m_Dock;
 };
 

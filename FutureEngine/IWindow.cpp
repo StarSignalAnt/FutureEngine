@@ -7,6 +7,7 @@
 #include "IHorizontalScroller.h"
 #include <iostream>
 #include "Texture2D.h"
+#include "IDocker.h"
 
 void IWindow::Update(float delta)
 {
@@ -24,9 +25,9 @@ void IWindow::Render()
 
 
 //	UIHelp::DrawRect(pos-glm::vec2(1,1), m_Size+glm::vec2(2,2), glm::vec4(1.0f, 1, 1, 1.0f));
-	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 1.9);
+	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 
-	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.3, 0.847 * 0.3, 0.902 * 0.3, 0.7f));
+	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.3, 0.847 * 0.3, 0.902 * 0.3, 0.8f));
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
 // 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
@@ -34,7 +35,7 @@ void IWindow::Render()
 	
 	UIHelp::DrawImageBlur(pos + glm::vec2(0, 20), glm::vec2(m_Size.x, -20), m_TitleBG, glm::vec4(1,1,1,1),1.3);
 
-	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(0.678*0.8, 0.847*0.8 , 0.902*0.8, 0.65f));
+	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(0.678*0.8, 0.847*0.8 , 0.902*0.8, 0.45f));
 	
 
 	auto tpos = pos;
@@ -81,6 +82,16 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Dragging) {
 			m_Position += delta;
+			if (delta.x < 0 || delta.x>0 || delta.y < 0 || delta.y>0)
+			{
+				if (m_Docked) {
+					if (m_Dock != nullptr) {
+						m_Dock->UndockWindow(this);
+						m_Dock = nullptr;
+						m_Docked = false;
+					}
+				}
+			}
 		}
 	}
 	if (m_CurrentArea == AREA_RESIZER)
@@ -93,7 +104,7 @@ bool IWindow::InBounds(glm::vec2 position)
 {
 	glm::vec2 root = GetRenderPosition();
 	if (position.x > root.x && position.x < root.x + m_Size.x &&
-		position.y > root.y && position.y < root.y + 25)
+		position.y > root.y && position.y < root.y + 16)
 	{
 		m_CurrentArea = AREA_TITLE;
 		return true;
@@ -227,7 +238,7 @@ void IWindow::AlignWindow() {
 	m_MaximizeButton->Set(glm::vec2(m_Size.x - 40, 0));
 	m_MinimizeButton->Set(glm::vec2(m_Size.x - 60, 0));
 
-	m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));
+	m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	RemoveChild(m_YScroller);
 	m_TitleBG->Free();
 	m_TitleBG = new Texture2D(m_Size.x, 20);

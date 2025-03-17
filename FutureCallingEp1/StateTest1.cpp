@@ -18,9 +18,11 @@
 #include "IControlGroup.h"
 #include "IVideoPlayer.h"
 #include "IFrameBuffer.h"
-#include "window-dock-handler.h"
-#include "window-dock-implementation.h"
-// Adding a context menu option to undock windows:
+#include "UIHelp.h"
+#include "IDocker.h"
+
+// Adding a 
+// context menu option to undock windows:
 
 void StateTest1::InitState()
 {
@@ -122,8 +124,13 @@ void StateTest1::InitState()
 	img1->SetImage(m_Tex1);
 	m_UI->GetRoot()->AddChild(img1);
 
+
+	auto dock = new IDocker(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
+	m_UI->GetRoot()->AddChild(dock);
+
+
 	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
-	m_UI->GetRoot()->AddChild(but1);
+	//m_UI->GetRoot()->AddChild(but1);
 
 	but1->SetOnClick([]() {
 		//std::cout << "Button clicked! (Lambda function)" << std::endl;
@@ -133,9 +140,9 @@ void StateTest1::InitState()
 		});
 
 	auto win1 = new IWindow("Test Window", glm::vec2(100, 100), glm::vec2(300, 300));
-
+	auto win2 = new IWindow("Other Window", glm::vec2(250, 200), glm::vec2(300, 300));
 	m_UI->GetRoot()->AddChild(win1);
-
+	m_UI->GetRoot()->AddChild(win2);
 	auto wb1 = new IButton("Load Game", glm::vec2(20, 60), glm::vec2(130, 30));
 	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
 
@@ -199,6 +206,7 @@ void StateTest1::UpdateState(float delta)
 
 	m_UI->UpdateUI(delta);
 
+	
 	return;
 	if (GameInput::Buttons[MOUSE_BUTTON_RIGHT]) {
 		m_Cam1->MoveLocal(glm::vec2(GameInput::MouseDelta.x, GameInput::MouseDelta.y));
@@ -231,7 +239,17 @@ void StateTest1::RenderState()
 
 
 	m_UI->RenderUI();
+	if (m_UI->GetDraggingWindow() != nullptr) {
 
+		UIHelp::DrawText(glm::vec2(5, 5), "Dragging window:" + m_UI->GetDraggingWindow()->GetText(), glm::vec4(0, 1, 0, 1));
+		if (m_UI->GetBeneathWindow() != nullptr) {
+			UIHelp::DrawText(glm::vec2(5, 35), "Beneath:" + m_UI->GetBeneathWindow()->GetText(), glm::vec4(0, 1, 0, 1));
+		}
+
+	}
+	else {
+		UIHelp::DrawText(glm::vec2(5, 5), "Not dragging a window.", glm::vec4(1, 0, 0, 1));
+	}
 
 	return;
 	ax = ax + 1;

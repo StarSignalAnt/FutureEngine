@@ -26,8 +26,11 @@ void main() {
         for (int x = -radius; x <= radius; x++) {
             vec2 offset = vec2(float(x), float(y)) * (effectiveBlur / texSize);
             vec2 uv = fragTexCoord + offset;
-            col += texture(uTexture, uv).rgb;
-            samples += 1.0;
+            if(uv.x>=0 && uv.y>=0 && uv.x<=1.0 && uv.y<=1.0)
+            {
+                col += texture(uTexture, uv).rgb;
+                samples += 1.0;
+            }
         }
     }
     

@@ -147,10 +147,7 @@
     <ClInclude Include="IFrameBuffer.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="window-dock-handler.h">
-      <Filter>Resonance2\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="window-dock-implementation.h">
+    <ClInclude Include="IDocker.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
   </ItemGroup>
@@ -254,10 +251,7 @@
     <ClCompile Include="IFrameBuffer.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="window-dock-handler-implementation.cpp">
-      <Filter>Resonance2\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="window-dock-implementation.cpp">
+    <ClCompile Include="IDocker.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,8 +3,10 @@
 #include "IControlGroup.h"
 #include "GameInput.h"
 #include "FutureApp.h"
-#include "window-dock-handler.h"
+#include "IDocker.h"
 #include "IWindow.h"
+
+
 
 std::vector<IControl*> AddControls(std::vector<IControl*> list, IControl* control) {
 
@@ -23,125 +25,196 @@ GameUI::GameUI()
 	m_RootControl->Set(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight()));
 	
 
-}
-
-void GameUI::UpdateUI(float delta)
+}void GameUI::UpdateUI(float delta)
 {
-
-	std::vector<IControl*> list;
-
-	list = AddControls(list, m_RootControl);
-
-	std::reverse(list.begin(), list.end()); // Reverse the vector in-place
-
-	auto mouse_pos = GameInput::MousePosition;
+    // Process any pending undock operations first
 
 
-	if (m_ControlPressed == nullptr) {
-		for (auto control : list) {
+    std::vector<IControl*> list;
 
-			if (control->InBounds(mouse_pos))
-			{
-				if (m_ControlOver) {
-					if (m_ControlOver == control) {
+    list = AddControls(list, m_RootControl);
 
-					}
-					else {
-						m_ControlOver->OnMouseLeave();
-						m_ControlOver = control;
-						control->OnMouseEnter();
-					}
-				}
-				else {
-					m_ControlOver = control;
-					control->OnMouseEnter();
-				}
-				break;
-			}
-		}
+    std::reverse(list.begin(), list.end()); // Reverse the vector in-place
 
-	}
-	if (GameInput::Buttons[MOUSE_BUTTON_LEFT])
-	{
-
-		if (m_ControlOver != nullptr) {
-			if (m_ControlPressed == nullptr) {
-				m_ControlPressed = m_ControlOver;
-				m_ControlPressed->OnMouseDown(0);
-				
-				int ctime = clock();
-				//prev_Click = clock();
-				if (ctime < (prev_Click + 350)) {
-					m_ControlPressed->OnMouseDoubleClick();
-				}
-				prev_Click = ctime;
-				
-			}
-			else {
-
-			}
-
-		}
-	}
-	else {
-		if (m_ControlPressed != nullptr) {
-			m_ControlPressed->OnMouseUp(0);
-			m_ControlPressed = nullptr;
-		}
-	}
-
-	if (m_ControlPressed != nullptr) {
-		m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
-
-	}
-	else if (m_ControlOver != nullptr) {
-
-		m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition() , GameInput::MouseDelta);
-
-	}
-
-	m_RootControl->Update(delta);
-	
+    auto mouse_pos = GameInput::MousePosition;
 
 
-	if (m_WindowDockingEnabled && m_ControlPressed != nullptr) {
-		// Check if dragging a window
-		IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
-		if (window) {
-			// If this is a window being dragged
-			if (m_DraggingWindow == nullptr) {
-				m_DraggingWindow = window;
-				m_LastWindowPosition = window->GetPosition();
-			}
+    if (m_ControlPressed == nullptr) {
+        for (auto control : list) {
 
-			// Handle window dragging for potential docking
-			auto dockHandler = IWindowDockHandler::GetInstance();
-			dockHandler->HandleWindowDrag(window, GameInput::MousePosition);
-		}
-	}
-	else if (m_DraggingWindow != nullptr && !GameInput::Buttons[MOUSE_BUTTON_LEFT]) {
-		// Mouse released after dragging a window - attempt docking
-		auto dockHandler = IWindowDockHandler::GetInstance();
-		dockHandler->HandleWindowDrop(m_DraggingWindow, GameInput::MousePosition);
-		m_DraggingWindow = nullptr;
-	}
+            if (control->InBounds(mouse_pos))
+            {
+                if (m_ControlOver) {
+                    if (m_ControlOver == control) {
 
-	// Check for tab interaction in docked windows
-	if (GameInput::Buttons[MOUSE_BUTTON_LEFT] && m_ControlOver != nullptr) {
-		DockPanel* panel = dynamic_cast<DockPanel*>(m_ControlOver);
-		if (panel) {
-			int tabIndex;
-			if (panel->InTabBounds(GameInput::MousePosition, tabIndex)) {
-				panel->SetActiveWindow(tabIndex);
-			}
-		}
-	}
+                    }
+                    else {
+                        m_ControlOver->OnMouseLeave();
+                        m_ControlOver = control;
+                        control->OnMouseEnter();
+                        prev_Click = 0;
+                    }
+                }
+                else {
+                    m_ControlOver = control;
+                    control->OnMouseEnter();
+                    prev_Click = 0;
+                }
+                break;
+            }
+        }
+
+    }
+    if (GameInput::Buttons[MOUSE_BUTTON_LEFT])
+    {
+
+        if (m_ControlOver != nullptr) {
+            if (m_ControlPressed == nullptr) {
+                m_ControlPressed = m_ControlOver;
+                m_ControlPressed->OnMouseDown(0);
+
+                // Check if this is a window and being dragged by title area
+                IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
+                if (window != nullptr && window->GetCurrentArea() == AREA_TITLE) {
+                    m_DraggingWindow = window;
+                }
+
+                int ctime = clock();
+                //prev_Click = clock();
+                if (ctime < (prev_Click + 350) && m_FirstClick == m_ControlPressed) {
+                    m_ControlPressed->OnMouseDoubleClick();
+                    m_FirstClick = nullptr;
+                }
+                else {
+                    m_FirstClick = nullptr;
+                }
+                prev_Click = ctime;
+                m_FirstClick = m_ControlPressed;
+
+            }
+            else {
+
+            }
+
+        }
+    }
+    else {
+        if (m_ControlPressed != nullptr) {
+            m_ControlPressed->OnMouseUp(0);
+            m_ControlPressed = nullptr;
+            m_DraggingWindow = nullptr; // Clear dragging window when mouse is released
+        }
+    }
+
+    if (m_ControlPressed != nullptr) {
+        m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
+
+    }
+    else if (m_ControlOver != nullptr) {
+
+        m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
+
+    }
+
+    m_RootControl->Update(delta);
+
+    if (GetDraggingWindow() != nullptr) {
+
+        auto beneath = GetBeneathWindow();
+        if (beneath != nullptr) {
+
+            IDocker* dock = dynamic_cast<IDocker*>(beneath);
+            if (dock != nullptr) {
+                dock->WindowOver(GetDraggingWindow(), mouse_pos);
+                m_DraggingDock = dock;
+                m_DockingWindow = GetDraggingWindow();
+            }
+        }
+
+    }
+    else {
+
+        if (m_DraggingDock != nullptr) {
+         
+
+            m_DraggingDock->DockWindow(m_DockingWindow, mouse_pos);
+            m_DraggingDock = nullptr;
+            //auto area = m_DraggingDock->GetDockAreaAtPosition(mouse_pos);
+
+            //if (area != AREA_NONE) {
+            //    m_DraggingDock->DockWindow(m_DockingWindow, area);
+                //m_DraggingDock->WindowCancel();
+
+            //}
+
+        }
+
+    }
+
+
 
 }
-
 void GameUI::RenderUI()
 {
 	m_RootControl->PreRender();
 
 	m_RootControl->Render();
+}
+
+
+IControl* GameUI::GetBeneathWindow()
+{
+    // If no window is being dragged, return nullptr
+    if (m_DraggingWindow == nullptr) {
+        return nullptr;
+    }
+
+    // Get current mouse position
+    auto mouse_pos = GameInput::MousePosition;
+
+    // Create a list of all controls to check against
+    std::vector<IControl*> list;
+    list = AddControls(list, m_RootControl);
+
+    // Reverse the list to check front-to-back (same order as in UpdateUI)
+    std::reverse(list.begin(), list.end());
+
+    // To find control beneath dragged window, we need to skip the dragged window
+    // and any of its children in the hit test
+    bool skipWindow = false;
+
+    for (auto control : list) {
+        // Skip the dragged window and its children
+        if (control == m_DraggingWindow) {
+            skipWindow = true;
+            continue;
+        }
+
+        // For child controls of the dragged window, continue skipping
+        if (skipWindow) {
+            IControl* parent = control->GetRoot();
+            bool isChild = false;
+
+            // Check if control is a child of the dragged window
+            while (parent != nullptr) {
+                if (parent == m_DraggingWindow) {
+                    isChild = true;
+                    break;
+                }
+                parent = parent->GetRoot();
+            }
+
+            if (isChild) {
+                continue;
+            }
+        }
+
+        // Check if control is under mouse position
+        if (control->InBounds(mouse_pos)) {
+            return control;
+        }
+    }
+
+    // No control found beneath the window
+    return nullptr;
 }
