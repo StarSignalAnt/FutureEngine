@@ -91,6 +91,10 @@ void IWindow::Render()
 
 void IWindow::OnMouseDown(int button)
 {
+
+	m_RootControl->RemoveChild(this);
+	m_RootControl->AddChild(this);
+
 	auto pos = GetRenderPosition();
 	std::vector<std::string> tabs;
 
@@ -462,6 +466,7 @@ void IWindow::AfterSet() {
 
 	AlignWindow();
 
+	m_ClientArea->ApplyDockChildren();
 }
 
 void IWindow::DockWindow(IWindow* window) {

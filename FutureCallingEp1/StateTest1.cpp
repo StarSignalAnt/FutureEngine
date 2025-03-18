@@ -123,10 +123,11 @@ void StateTest1::InitState()
 	IImage* img1 = new IImage(glm::vec2(0,0), glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight()));
 	img1->SetImage(m_Tex1);
 	m_UI->GetRoot()->AddChild(img1);
+	img1->SetDockType(DockType::m_Fill);
 
 
 	auto dock = new IDocker(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
-	m_UI->GetRoot()->AddChild(dock);
+	//m_UI->GetRoot()->AddChild(dock);
 
 
 	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
@@ -152,7 +153,7 @@ void StateTest1::InitState()
 
 
 	auto vid = new IVideoPlayer("test/testVideo2.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
-	
+	vid->SetDockType(DockType::m_Fill);
 	//win1->GetClientArea()->SetCullChildren(false);
 
 	auto fb = new IFrameBuffer(glm::vec2(20, 20), glm::vec2(512, 512));
@@ -166,7 +167,7 @@ void StateTest1::InitState()
 		});
 
 	//m_UI->GetRoot()->AddChild(vid);
-	win2->AddClientControl(vid);
+	win2->AddClientControl(dock);
 
 //	win1->AddClientControl(fb);
 

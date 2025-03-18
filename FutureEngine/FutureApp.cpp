@@ -5,12 +5,14 @@
 #include "GameInput.h"
 #include "RenderTarget2D.h"
 #include "UIHelp.h"
+#include "GameUI.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust the OpenGL viewport to match the new framebuffer size
     //glViewport(0, 0, width, height);
 
 	FutureApp::m_Inst->SetSize(width, height);
+    GameUI::m_Inst->SetUISize(width, height);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {

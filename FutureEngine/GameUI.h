@@ -3,6 +3,7 @@
 class IControl;
 class IWindow;
 class IDocker;
+class IMainMenu;
 
 class GameUI
 {
@@ -17,6 +18,10 @@ public:
 	IControl* GetBeneathWindow();
 	static GameUI* m_Inst;
 	void ResetMouse();
+	void SetUISize(int w, int h);
+	void GetMainMenu();
+	void SetMainMenu();
+
 private:
 	bool m_WindowDockingEnabled = true;
 	glm::vec2 m_LastWindowPosition;
@@ -32,5 +37,6 @@ private:
 	IWindow* m_DockingWindow = nullptr;
 	IWindow* m_TabWindow = nullptr;
 	IWindow* m_TabTarget = nullptr;
+	IMainMenu* m_ActiveMenu;
 };
 

@@ -3,7 +3,8 @@
 #include "IWindow.h"
 #include "UIHelp.h"
 #include "FutureApp.h"
-#include "FutureApp.h"
+#include "GameUI.h"
+#include "Texture2D.h"
 
 IDocker::IDocker(glm::vec2 position, glm::vec2 size) : IControl(position, size)
 {
@@ -22,8 +23,85 @@ IDocker::IDocker(glm::vec2 position, glm::vec2 size) : IControl(position, size)
     Size[0] = 0.25f;// glm::vec2(0.25f, 0.25f);
     Size[1] = 0.5f; //glm::vec2(0.25f, 0.5f);
     Size[2] = 0.25f;// glm::vec2(0.25f, 0.25f);
+    SetDockType(m_Fill);
 
+    m_OverDockImage = new Texture2D("engine/ui/overdock.png");
     CreateZones();
+}
+
+
+void IDocker::AfterSet() {
+
+    m_HoveringWindow = nullptr;
+    m_HoveringArea = DOCK_NONE;
+    m_HighlightAlpha = 0.0f;
+    m_Text = "Docking Area";
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 3; x++) {
+            Filled[x][y] = false;
+        }
+    }
+    //Filled[0][0] =true;
+   // Filled[0][2] =true;
+    Size[0] = 0.25f;// glm::vec2(0.25f, 0.25f);
+    Size[1] = 0.5f; //glm::vec2(0.25f, 0.5f);
+    Size[2] = 0.25f;// glm::vec2(0.25f, 0.25f);
+    //SetDockType(m_Fill);
+    //
+    // 
+    // CreateZones();
+   // Rebuild();
+
+    for (DockZone& area : m_DockZones) {
+
+        switch (area.area) {
+        case DockArea::DOCK_LEFT:
+
+            area.position = glm::vec2(0, m_Size.y * 0.25);
+            area.size = glm::vec2(m_Size.x * 0.25f, m_Size.y * 0.5);
+
+                break;
+        case DockArea::DOCK_RIGHT:
+
+            area.position = glm::vec2(m_Size.x - (m_Size.x * 0.25), m_Size.y * 0.25);
+            area.size = glm::vec2(m_Size.x * 0.25f, m_Size.y * 0.5);
+
+
+            break;
+        case DockArea::DOCK_TOP:
+
+            area.position = glm::vec2(m_Size.x * 0.25, 0);
+            area.size = glm::vec2(m_Size.x * 0.5f, m_Size.y * 0.25f);
+
+            break;
+
+        case DockArea::DOCK_BOTTOM:
+
+            area.position = glm::vec2(m_Size.x * 0.25, m_Size.y - (m_Size.y * 0.25f));
+            area.size = glm::vec2(m_Size.x * 0.5f, m_Size.y * 0.25f);
+
+            break;
+        case DockArea::DOCK_CENTER:
+
+            area.position = glm::vec2(m_Size.x * 0.25, m_Size.y * 0.25);
+            area.size = glm::vec2(m_Size.x * 0.5f, m_Size.y * 0.5f);
+
+            break;
+        }
+
+    }
+
+
+    Rebuild();
+
+    //m_DockZones.clear();
+   // ReCreateZones();
+    
+
+}
+
+void ReCreateZones() {
+
 }
 
 void IDocker::CreateZones() {
@@ -313,6 +391,8 @@ DockZone IDocker::GetRight() {
         }
     }
 
+
+
     DockZone area;
     area.area = DockArea::DOCK_RIGHT;
     area.startX = 0;
@@ -322,8 +402,8 @@ DockZone IDocker::GetRight() {
     area.size = glm::vec2(m_Size.x * 0.25f, m_Size.y * 0.5);
 
     area.Valid = true;
-    m_DockZones.push_back(area);
-
+ 
+        m_DockZones.push_back(area);
 
     return area;
 
@@ -378,8 +458,25 @@ DockZone IDocker::GetRight() {
 
 }
 
+
+DockZone IDocker::GetDockArea(DockArea area)
+{
+
+    for (auto check : m_DockZones)
+    {
+        if (check.area == area) {
+            return check;
+        }
+    }
+
+    return DockZone();
+
+}
+
 DockZone IDocker::GetLeft() {
 
+
+    //auto dleft = GetDockArea(DOCK_LEFT);
 
     int startY = -1;
     int endY = -1;
@@ -409,6 +506,10 @@ DockZone IDocker::GetLeft() {
     }
 
     
+
+    auto left = GetDockArea(DockArea::DOCK_LEFT);
+
+
 
     DockZone area;
     area.area = DockArea::DOCK_LEFT;
@@ -489,6 +590,7 @@ void IDocker::WindowCancel()
 
     // Reset animation state
     m_HighlightAlpha = 0.0f;
+    m_DockingStarted = false;
 }
 
 void IDocker::WindowOver(IWindow* window, glm::vec2 position)
@@ -502,14 +604,18 @@ void IDocker::WindowOver(IWindow* window, glm::vec2 position)
     else {
         m_OverZone.Valid = false;
     }
+    m_DockingStarted = true;
 }
 
 DockZone IDocker::GetZoneAt(glm::vec2 position) {
 
+    auto rp = GetRenderPosition();
+
+
     for (auto area : m_DockZones) {
 
 
-        if (position.x > area.position.x && position.y > area.position.y && position.x < (area.position.x + area.size.x) && position.y < (area.position.y + area.size.y)) {
+        if (position.x > rp.x+area.position.x && position.y > rp.y+area.position.y && position.x < (rp.x+area.position.x + area.size.x) && position.y < (rp.y+area.position.y + area.size.y)) {
             return area;
         }
 
@@ -576,13 +682,22 @@ void IDocker::Render()
         if (m_OverZone.Valid) {
             if (area.area == m_OverZone.area) {
 
-                col = col * 2.0f;
+                ///col = col * 2.0f;
+                col = glm::vec4(1, 1, 1, 1);
+
+                auto dim = GetAreaDimensions(area.area,false);
+
+                dim.x += GetRenderPosition().x;
+                dim.y += GetRenderPosition().y;
+
+                UIHelp::DrawImage(glm::vec2(dim.x,dim.y),glm::vec2(dim.z,dim.w), m_OverDockImage, glm::vec4(col));
 
             }
         }
 
-        UIHelp::DrawRect(area.position, area.size, glm::vec4(col));
-
+        if (m_DockingStarted) {
+            UIHelp::DrawImage(GetRenderPosition() + area.position, area.size, m_OverDockImage, glm::vec4(0, 1, 0, 1));
+        }
     }
     // Ensure zones are updated and accurate before rendering
     // This ensures the visualized zones match the actual dock areas
@@ -604,6 +719,7 @@ void IDocker::DockWindow(IWindow* window, glm::vec2 position) {
         m_DockOrder.push_back(zone);
         window->SetDock(this);
         window->SetDocked(true);
+        AddChild(window);
 
     }
 
@@ -629,6 +745,9 @@ void IDocker::Rebuild() {
 
         switch (dock.area) {
         case DOCK_LEFT:
+
+            dock.position = glm::vec2(0, m_Size.y * 0.25);
+            dock.size = glm::vec2(m_Size.x * 0.25f, m_Size.y * 0.5);
 
            dim = GetAreaDimensions(DockArea::DOCK_LEFT,true);
 
@@ -923,13 +1042,13 @@ glm::vec2 IDocker::GetLeftSize(int sy, int ey) {
     float height = 0;
 
     for (int y = sy; y <= ey; y++) {
-        height += Size[y] * FutureApp::m_Inst->GetHeight();
+        height += Size[y] * m_Size.y;// FutureApp::m_Inst->GetHeight();
     }
 
     int start = 0;
     for (int y = 0; y < sy; y++) {
 
-        start += Size[y] * FutureApp::m_Inst->GetHeight();
+        start += Size[y] * m_Size.y;// FutureApp::m_Inst->GetHeight();
     }
 
     return glm::vec2(start, height);
@@ -941,13 +1060,13 @@ glm::vec2 IDocker::GetBottomSize(int sx, int ex) {
     float width = 0;
 
     for (int x = sx; x <= ex; x++) {
-        width += Size[x] * FutureApp::m_Inst->GetWidth();
+        width += Size[x] * m_Size.x;// FutureApp::m_Inst->GetWidth();
     }
 
     int start = 0;
     for (int x = 0; x < sx; x++) {
 
-        start += Size[x] * FutureApp::m_Inst->GetWidth();
+        start += Size[x] * m_Size.x; FutureApp::m_Inst->GetWidth();
     }
 
     return glm::vec2(start, width);
@@ -968,8 +1087,10 @@ void IDocker::UndockWindow(IWindow* window) {
 
             // Remove element at index 2 (value 30)
             m_DockOrder.erase(m_DockOrder.begin() + idx);
+            RemoveChild(dock.Window);
+            GameUI::m_Inst->GetRoot()->AddChild(dock.Window);
+            dock.Window->Set(glm::vec2(GetRenderPosition().x, GetRenderPosition().y) + dock.Window->GetPosition());
 
-            
 
             int b = 5;
 

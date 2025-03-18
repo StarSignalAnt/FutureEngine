@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <random>
 class IWindow;
+class Texture2D;
 
 enum DockArea {
     DOCK_LEFT,
@@ -77,7 +78,7 @@ public:
 
     // Get available dock area at position
    
-
+    void RecreateZones();
     // Cancel any current dragging operation
     void WindowCancel();
     void Rebuild();
@@ -86,6 +87,8 @@ public:
     glm::vec2 GetLeftSize(int sy, int ey);
     glm::vec2 GetBottomSize(int sx, int ex);
     void UndockWindow(IWindow* window);
+    void AfterSet() override;
+    DockZone GetDockArea(DockArea area);
 
 private:
     std::vector<DockZone> m_DockZones;
@@ -95,6 +98,7 @@ private:
     // Tracking window currently being dragged over the docker
     IWindow* m_HoveringWindow;
     DockArea m_HoveringArea;
+    bool m_DockingStarted = false;
 
     // Visual cue properties
     float m_HighlightAlpha;    // For animation
@@ -105,5 +109,5 @@ private:
     bool Filled[3][3];
     float Size[3];
     DockZone m_OverZone;
-
+    Texture2D* m_OverDockImage;
 };

@@ -5,6 +5,7 @@
 #include "FutureApp.h"
 #include "IDocker.h"
 #include "IWindow.h"
+#include "IMainMenu.h"
 
 
 
@@ -27,9 +28,14 @@ GameUI::GameUI()
 {
     m_Inst = this;
     m_RootControl = new IControlGroup;
-	m_RootControl->Set(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight()));
+    m_RootControl->Set(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
+    m_ActiveMenu = new IMainMenu;
+
+
+
+}
     
-}void GameUI::UpdateUI(float delta)
+void GameUI::UpdateUI(float delta)
 {
     // Process any pending undock operations first
 
@@ -132,21 +138,25 @@ GameUI::GameUI()
                 dock->WindowOver(GetDraggingWindow(), mouse_pos);
                 m_DraggingDock = dock;
                 m_DockingWindow = GetDraggingWindow();
-                
-            }
-            if (beneath->IsWindow()) {
-                //exit(1);
-                m_TabWindow = beneath->GetWindow();
-                m_TabTarget = GetDraggingWindow();
-                m_DraggingDock = nullptr;
-                m_DockingWindow = nullptr;
+
             }
             else {
-                m_TabWindow = nullptr;
-                m_TabTarget = nullptr;
+                if (beneath->IsWindow()) {
+                    //exit(1);
+                    m_TabWindow = beneath->GetWindow();
+                    m_TabTarget = GetDraggingWindow();
+                    m_DraggingDock = nullptr;
+                    m_DockingWindow = nullptr;
+                }
+                else {
+                    m_TabWindow = nullptr;
+                    m_TabTarget = nullptr;
+                }
             }
-        }
 
+            
+        }
+    
     }
     else {
 
@@ -159,6 +169,7 @@ GameUI::GameUI()
          
 
             m_DraggingDock->DockWindow(m_DockingWindow, mouse_pos);
+            m_DraggingDock->WindowCancel();
             m_DraggingDock = nullptr;
             //auto area = m_DraggingDock->GetDockAreaAtPosition(mouse_pos);
 
@@ -246,5 +257,14 @@ void GameUI::ResetMouse() {
     m_ControlPressed = nullptr;
     m_TabWindow = nullptr;
     m_TabTarget = nullptr;
+
+}
+
+void GameUI::SetUISize(int width,int height) {
+
+
+    m_RootControl->Set(glm::vec2(0, 0), glm::vec2(width, height));
+
+    m_RootControl->ApplyDockChildren();
 
 }

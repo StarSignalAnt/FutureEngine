@@ -5,6 +5,13 @@
 #include <functional>
 class Texture2D;
 class IWindow;
+class IMainMenu;
+
+enum DockType {
+
+	m_Fill, m_Left, m_Right, m_Down, m_Up, m_Free
+
+};
 
 class IControl
 {
@@ -22,10 +29,11 @@ public:
 		}
 		m_Position = position;
 		AfterSet();
+		
 	}
 	void SetRoot(IControl* root) { m_RootControl = root; }
 	IControl* GetRoot() { return m_RootControl; }
-	void AddChild(IControl* child) { m_Children.push_back(child); child->SetRoot(this); }
+	void AddChild(IControl* child) { m_Children.push_back(child); child->SetRoot(this); ApplyDockChildren(); }
 	void RemoveChild(IControl* child) { m_Children.erase(std::remove(m_Children.begin(), m_Children.end(), child), m_Children.end()); }
 	void SetImage(Texture2D* image) { m_Image = image; }
 
@@ -129,6 +137,26 @@ public:
 	virtual void AfterSet() {};
 	bool IsWindow();
 	IWindow* GetWindow();
+	void SetDockType(DockType type) {
+		m_DockType = type;
+	}
+	DockType GetDockType() {
+		return m_DockType;
+	}
+	void ApplyDockChildren() {
+
+
+		for (auto child : m_Children) {
+			switch (child->GetDockType()) {
+			case DockType::m_Fill:
+
+				child->Set(glm::vec2(0, 0), m_Size-glm::vec2(2,4));
+
+				break;
+			}
+			child->ApplyDockChildren();
+		}
+	}
 
 protected:
 
@@ -145,7 +173,7 @@ protected:
 	std::function<void()> OnPreRender = nullptr;
 	std::function<void(glm::vec2 delta)> OnMove = nullptr;
 	bool m_CullChildren = false;
-
-
+	DockType m_DockType = DockType::m_Free;
+	IMainMenu* m_ActiveMenu = nullptr;
 };
 
