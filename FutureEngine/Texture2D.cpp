@@ -4,6 +4,9 @@
 #include <iostream>
 #include <glad/glad.h>
 
+std::vector<Texture2D*> Texture2D::m_Cache;
+
+
 Texture2D::Texture2D(int width, int height, unsigned char* data, int channels) {
     GLuint textureID;
     glGenTextures(1, &textureID);
@@ -53,6 +56,22 @@ Texture2D::Texture2D(int width, int height, unsigned char* data, int channels) {
 
 Texture2D::Texture2D(std::string path) {
 
+
+    for (auto tex : m_Cache) {
+
+        if (tex->GetPath() == path) {
+            //Texture2D* new_tex = new Texture2D(tex->GetID(), tex->GetWidth(), tex->GetHeight());
+            //return 
+            m_Handle = tex->GetID();
+            m_Width = tex->GetWidth();
+            m_Height = tex->GetHeight();
+            return;
+                
+
+        }
+
+    }
+
     int width, height, channels;
 
     // Load image using stb_image
@@ -91,6 +110,9 @@ Texture2D::Texture2D(std::string path) {
     m_Width = width;
     m_Height = height;
     m_Channels = 4;
+    m_Path = path;
+
+    m_Cache.push_back(this);
 
 }
 

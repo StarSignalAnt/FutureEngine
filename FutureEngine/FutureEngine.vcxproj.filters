@@ -153,6 +153,9 @@
     <ClInclude Include="IMainMenu.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IVerticalMenu.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -258,6 +261,9 @@
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
     <ClCompile Include="IMainMenu.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IVerticalMenu.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

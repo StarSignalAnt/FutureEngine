@@ -19,15 +19,24 @@ public:
 
 	IControl() : m_Position(0, 0), m_Size(0, 0),m_Color(glm::vec4(1,1,1,1)) {}
 	IControl(glm::vec2 position, glm::vec2 size) : m_Position(position), m_Size(size),m_Color(glm::vec4(1,1,1,1)) {}
-	void Set(glm::vec2 position, glm::vec2 size = glm::vec2(-1, -1))
+	void Set(glm::vec2 position, glm::vec2 size = glm::vec2(-1, -1),bool transist = false)
 	{
 		if (size.x < 0) {
-			
+			size = m_Size;
 		}
 		else {
-			m_Size = size;
+		
 		}
+		if (transist) {
+			m_Transist = true;
+			m_TargetPosition = position;
+			m_TargetSize = size;
+			return;
+		}
+		
 		m_Position = position;
+		m_Size = size;
+
 		AfterSet();
 		
 	}
@@ -66,17 +75,23 @@ public:
 	{
 		glm::vec2 root = GetRenderPosition();
 		
-		if (m_RootControl != nullptr) {
-			if (position.x < m_RootControl->GetRenderPosition().x || position.y < m_RootControl->GetRenderPosition().y)
-			{
-				return false;
 
+		if (GetRoot()) {
+			if (GetRoot()->GetCullChildren()) {
+				if (m_RootControl != nullptr) {
+					if (position.x < m_RootControl->GetRenderPosition().x || position.y < m_RootControl->GetRenderPosition().y)
+					{
+						return false;
+
+					}
+					if (position.x > m_RootControl->GetRenderPosition().x + m_RootControl->GetSize().x || position.y > m_RootControl->GetRenderPosition().y + m_RootControl->GetSize().y) {
+						return false;
+					}
+				}
 			}
-			if (position.x > m_RootControl->GetRenderPosition().x + m_RootControl->GetSize().x || position.y > m_RootControl->GetRenderPosition().y + m_RootControl->GetSize().y) {
-				return false;
-			}
+
 		}
-		
+
 		if (position.x > root.x && position.x < root.x + m_Size.x &&
 			position.y > root.y && position.y < root.y + m_Size.y)
 		{
@@ -157,6 +172,21 @@ public:
 			child->ApplyDockChildren();
 		}
 	}
+	bool GetTransist() {
+		return m_Transist;
+	}
+	void SetTransist(bool transist) {
+		m_Transist = transist;
+	}
+	glm::vec2 GetTargetPosition() {
+		return m_TargetPosition;
+	}
+	glm::vec2 GetTargetSize() {
+		return m_TargetSize;
+	}
+	bool GetCullChildren() {
+		return m_CullChildren;
+	}
 
 protected:
 
@@ -174,6 +204,9 @@ protected:
 	std::function<void(glm::vec2 delta)> OnMove = nullptr;
 	bool m_CullChildren = false;
 	DockType m_DockType = DockType::m_Free;
+	bool m_Transist = false;
+	glm::vec2 m_TargetPosition;
+	glm::vec2 m_TargetSize;
 	IMainMenu* m_ActiveMenu = nullptr;
 };
 

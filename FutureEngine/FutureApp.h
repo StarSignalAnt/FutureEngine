@@ -31,7 +31,7 @@ private:
 	std::string m_App;
 	std::stack<FutureState*> m_States;
 	GLFWwindow* window;
-
+	int UpdateInerval;
 	//fps
 	int frames = 0;
 	int fps = 0;

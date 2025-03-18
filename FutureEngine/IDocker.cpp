@@ -719,7 +719,12 @@ void IDocker::DockWindow(IWindow* window, glm::vec2 position) {
         m_DockOrder.push_back(zone);
         window->SetDock(this);
         window->SetDocked(true);
+        window->GetRoot()->RemoveChild(window);
         AddChild(window);
+        window->Set(window->GetPosition() - this->GetRenderPosition(), window->GetSize());
+    //    window->set
+
+
 
     }
 
@@ -817,7 +822,16 @@ void IDocker::Rebuild() {
             break;
         }
 
-        dock.Window->Set(glm::vec2(dim.x, dim.y), glm::vec2(dim.z, dim.w));
+        //dim.x = GetRenderPosition().x - dim.x;
+        //dim.y = GetRenderPosition().y - dim.y;
+
+        glm::vec2 dpos = glm::vec2(dim.x, dim.y);
+        dpos = dpos - GetRenderPosition();
+
+        //dock.Window->Set(dpos, dock.Window->GetSize(), false);
+        
+
+        dock.Window->Set(glm::vec2(dim.x, dim.y), glm::vec2(dim.z, dim.w),true);
 
 
     }

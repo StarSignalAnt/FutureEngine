@@ -58,8 +58,10 @@ void IControl::RenderChildren() {
 			}
 	//	}
 	//	else {
-			setScissor(rpos.x, rpos.y, gsize.x, gsize.y, sh);
-			glEnable(GL_SCISSOR_TEST);
+			if (m_CullChildren) {
+				setScissor(rpos.x, rpos.y, gsize.x, gsize.y, sh);
+				glEnable(GL_SCISSOR_TEST);
+			}
 			child->Render();
 	//	}
 			glDisable(GL_SCISSOR_TEST);

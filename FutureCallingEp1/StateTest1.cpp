@@ -20,6 +20,7 @@
 #include "IFrameBuffer.h"
 #include "UIHelp.h"
 #include "IDocker.h"
+#include "IMainMenu.h"
 
 // Adding a 
 // context menu option to undock windows:
@@ -127,7 +128,7 @@ void StateTest1::InitState()
 
 
 	auto dock = new IDocker(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
-	//m_UI->GetRoot()->AddChild(dock);
+	m_UI->GetRoot()->AddChild(dock);
 
 
 	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
@@ -151,6 +152,47 @@ void StateTest1::InitState()
 	win1->AddClientControl(wb1);
 	win1->AddClientControl(wb2);
 
+	auto menu = new IMainMenu;
+	win1->SetMenu(menu);
+
+	MenuItem* file = new MenuItem("File");
+	MenuItem* edit = new MenuItem("Edit");
+	MenuItem* options = new MenuItem("Options");
+
+	menu->AddItem(file);
+	menu->AddItem(edit);
+	menu->AddItem(options);
+
+	MenuItem* new_project = new MenuItem("New File");
+	MenuItem* save_project = new MenuItem("Save File");
+	MenuItem* load_project = new MenuItem("Load Project");
+
+	MenuItem* edit_cut = new MenuItem("Cut");
+	MenuItem* edit_paste = new MenuItem("Paste");
+	MenuItem* edit_copy = new MenuItem("Copy");
+
+	MenuItem* cut_Test = new MenuItem("Test 1");
+	MenuItem* cut_test2 = new MenuItem("This is another test");
+	MenuItem* cut_test3 = new MenuItem("And so is this");
+
+	edit_cut->AddItem(cut_Test);
+	edit_cut->AddItem(cut_test2);
+	edit_cut->AddItem(cut_test3);
+
+	file->AddItem(new_project);
+	file->AddItem(save_project);
+	file->AddItem(load_project);
+
+	edit->AddItem(edit_cut);
+	edit->AddItem(edit_paste);
+	edit->AddItem(edit_copy);
+
+	cut_Test->OnClick = [&]() {
+
+		exit(5);
+
+		};
+
 
 	auto vid = new IVideoPlayer("test/testVideo2.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
 	vid->SetDockType(DockType::m_Fill);
@@ -166,8 +208,10 @@ void StateTest1::InitState()
 
 		});
 
-	//m_UI->GetRoot()->AddChild(vid);
-	win2->AddClientControl(dock);
+	//win1->GetRoot()->AddChild(vid);
+	//win2->AddClientControl(dock);
+
+
 
 //	win1->AddClientControl(fb);
 
@@ -244,14 +288,14 @@ void StateTest1::RenderState()
 	m_UI->RenderUI();
 	if (m_UI->GetDraggingWindow() != nullptr) {
 
-		UIHelp::DrawText(glm::vec2(5, 5), "Dragging window:" + m_UI->GetDraggingWindow()->GetText(), glm::vec4(0, 1, 0, 1));
+		//UIHelp::DrawText(glm::vec2(5, 5), "Dragging window:" + m_UI->GetDraggingWindow()->GetText(), glm::vec4(0, 1, 0, 1));
 		if (m_UI->GetBeneathWindow() != nullptr) {
-			UIHelp::DrawText(glm::vec2(5, 35), "Beneath:" + m_UI->GetBeneathWindow()->GetText(), glm::vec4(0, 1, 0, 1));
+	//		UIHelp::DrawText(glm::vec2(5, 35), "Beneath:" + m_UI->GetBeneathWindow()->GetText(), glm::vec4(0, 1, 0, 1));
 		}
 
 	}
 	else {
-		UIHelp::DrawText(glm::vec2(5, 5), "Not dragging a window.", glm::vec4(1, 0, 0, 1));
+//		UIHelp::DrawText(glm::vec2(5, 5), "Not dragging a window.", glm::vec4(1, 0, 0, 1));
 	}
 
 	return;

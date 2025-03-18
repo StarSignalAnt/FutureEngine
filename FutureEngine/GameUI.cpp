@@ -7,7 +7,7 @@
 #include "IWindow.h"
 #include "IMainMenu.h"
 
-
+#include <iostream>
 
 GameUI* GameUI::m_Inst = nullptr;
 
@@ -28,8 +28,8 @@ GameUI::GameUI()
 {
     m_Inst = this;
     m_RootControl = new IControlGroup;
-    m_RootControl->Set(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
-    m_ActiveMenu = new IMainMenu;
+    m_RootControl->Set(glm::vec2(0, 20), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()-20));
+   // m_ActiveMenu = new IMainMenu;
 
 
 
@@ -44,10 +44,57 @@ void GameUI::UpdateUI(float delta)
 
     list = AddControls(list, m_RootControl);
 
+    if (m_ActiveMenu) {
+        list = AddControls(list, m_ActiveMenu);
+    }
+
     std::reverse(list.begin(), list.end()); // Reverse the vector in-place
 
     auto mouse_pos = GameInput::MousePosition;
 
+ //   std::cout << " UIDelta:" << delta << std::endl;
+
+
+
+    for (auto control : list) {
+
+        
+        if (control->GetTransist())
+        {
+            
+            auto position = control->GetPosition();
+            auto size = control->GetSize();
+            if (delta > 1) {
+                int aa = 5;
+            }
+            position += (control->GetTargetPosition() - control->GetPosition()) *0.4f * (delta*22);
+            size += (control->GetTargetSize() - control->GetSize()) * 0.4f * (delta*22);
+
+            control->Set(position, size);
+
+            glm::vec2 dif = control->GetPosition() - control->GetTargetPosition();
+            
+            
+            float xd = control->GetTargetPosition().x - control->GetPosition().x;
+            float yd = control->GetTargetPosition().y - control->GetPosition().y;
+
+            float dis = sqrt(xd * xd + yd * yd);
+
+            float sxd = control->GetTargetSize().x - control->GetSize().x;
+            float syd = control->GetTargetSize().y - control->GetSize().y;
+
+            float sdis = sqrt(sxd * sxd + syd * syd);
+            
+            //float dv = dif.length();
+
+            if (dis < 3 && sdis <3)
+            {
+                control->SetTransist(false);
+            }
+
+        }
+
+    }
 
     if (m_ControlPressed == nullptr) {
         for (auto control : list) {
@@ -138,6 +185,8 @@ void GameUI::UpdateUI(float delta)
                 dock->WindowOver(GetDraggingWindow(), mouse_pos);
                 m_DraggingDock = dock;
                 m_DockingWindow = GetDraggingWindow();
+                m_TabWindow = nullptr;
+                m_TabTarget = nullptr;
 
             }
             else {
@@ -191,6 +240,14 @@ void GameUI::RenderUI()
 	m_RootControl->PreRender();
 
 	m_RootControl->Render();
+    
+    if (m_ActiveMenu)
+    {
+
+        m_ActiveMenu->Render();
+
+    }
+
 }
 
 

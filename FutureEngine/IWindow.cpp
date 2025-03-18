@@ -25,7 +25,7 @@ void IWindow::Render()
 
 
 
-	//UIHelp::DrawRect(pos-glm::vec2(1,1), m_Size+glm::vec2(2,2), glm::vec4(1.0f, 1, 1, 1.0f));
+	UIHelp::DrawRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(2,-18), glm::vec4(1, 1, 1, 1.0f));
 	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 
 	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.3, 0.847 * 0.3, 0.902 * 0.3, 0.8f));
@@ -94,6 +94,8 @@ void IWindow::OnMouseDown(int button)
 
 	m_RootControl->RemoveChild(this);
 	m_RootControl->AddChild(this);
+
+	GameUI::m_Inst->SetMainMenu(m_ActiveMenu);
 
 	auto pos = GetRenderPosition();
 	std::vector<std::string> tabs;

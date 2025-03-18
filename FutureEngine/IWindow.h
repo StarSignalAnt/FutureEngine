@@ -48,7 +48,8 @@ public:
         m_Dock = dock;
     }
     void DockWindow(IWindow* window);
-
+    void SetMenu(IMainMenu* menu) { m_ActiveMenu = menu; }
+    IMainMenu* GetMenu() { return m_ActiveMenu; }
 private:
 
 
@@ -72,4 +73,5 @@ private:
     int m_CurrentTab = 0;
     glm::vec2 m_MousePos;
     IControlGroup* m_BaseArea = nullptr;
+    IMainMenu* m_ActiveMenu = nullptr;
 };

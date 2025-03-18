@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 class Texture2D
 {
 public:
@@ -21,10 +22,19 @@ public:
 		return m_Handle;
 	}
 	void Free();
+	std::string GetPath() {
+		return m_Path;
+	}
+	int GetWidth() { return m_Width; }
+	int GetHeight() { return m_Height; }
+
+	static std::vector<Texture2D*> m_Cache;
+
 private:
 
 	int m_Handle;
 	int m_Width, m_Height, m_Channels;
+	std::string m_Path;
 
 };
 

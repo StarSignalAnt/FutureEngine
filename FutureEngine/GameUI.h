@@ -19,8 +19,8 @@ public:
 	static GameUI* m_Inst;
 	void ResetMouse();
 	void SetUISize(int w, int h);
-	void GetMainMenu();
-	void SetMainMenu();
+	IMainMenu* GetMainMenu() { return m_ActiveMenu; };
+	void SetMainMenu(IMainMenu* menu) { m_ActiveMenu = menu; };
 
 private:
 	bool m_WindowDockingEnabled = true;
