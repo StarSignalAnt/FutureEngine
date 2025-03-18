@@ -35,7 +35,7 @@ void IDocker::CreateZones() {
     auto bottom = GetBottom();
     auto top = GetTop();
    // 
-    //auto centre = GetCentre();
+    auto centre = GetCentre();
 }
 
 DockZone IDocker::GetCentre() {
@@ -67,6 +67,20 @@ DockZone IDocker::GetCentre() {
 
     int px = startX * (m_Size.x * 0.3333);
     int py = startY * (m_Size.y * 0.3333);
+
+    DockZone area;
+    area.area = DockArea::DOCK_CENTER;
+    area.startX = startX;
+    area.endX = endX;
+    area.startY = startY;
+    area.endY = endY;
+
+    area.position = glm::vec2(m_Size.x * 0.25, m_Size.y * 0.25);
+    area.size = glm::vec2(m_Size.x * 0.5f, m_Size.y * 0.5f);
+    area.Valid = true;
+    m_DockZones.push_back(area);
+    return area;
+
 
     int a = 5;
 
@@ -115,8 +129,8 @@ DockZone IDocker::GetBottom() {
     area.startY = 2;
     area.endY = 2;
   
-    area.position = glm::vec2(m_Size.x*0.3333, m_Size.y - (m_Size.y*0.25f));
-    area.size = glm::vec2(m_Size.x *0.3333f ,m_Size.y*0.25f);
+    area.position = glm::vec2(m_Size.x*0.25, m_Size.y - (m_Size.y*0.25f));
+    area.size = glm::vec2(m_Size.x *0.5f ,m_Size.y*0.25f);
     area.Valid = true;
     m_DockZones.push_back(area);
 
@@ -212,8 +226,8 @@ DockZone IDocker::GetTop() {
     area.startY = 0;
     area.endY = 0;
 
-    area.position = glm::vec2(m_Size.x * 0.3333,0);
-    area.size = glm::vec2(m_Size.x * 0.3333f, m_Size.y * 0.25f);
+    area.position = glm::vec2(m_Size.x * 0.25,0);
+    area.size = glm::vec2(m_Size.x * 0.5f, m_Size.y * 0.25f);
     area.Valid = true;
     m_DockZones.push_back(area);
     return area;
@@ -548,6 +562,11 @@ void IDocker::Render()
         case DOCK_TOP:
             col = glm::vec4(1, 1, 0, 0.35f);
             break;
+        case DOCK_CENTER:
+
+            col = glm::vec4(1, 0, 1, 0.35f);
+
+            break;
         default:
             col = glm::vec4(0, 0, 0, 0);
             break;
@@ -632,6 +651,51 @@ void IDocker::Rebuild() {
             dim = GetAreaDimensions(DockArea::DOCK_TOP, true);
 
             break;
+        case DOCK_CENTER:
+
+            int startX = dock.startX;
+            int startY = dock.startY;
+            int endX = dock.endX;
+            int endY = dock.endY;
+
+            startX = -1;
+            startY = -1;
+
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++) {
+
+                    if (!Filled[x][y]) {
+
+                        if (startX == -1) {
+                            startX = x;
+                            startY = y;
+                        }
+                        else {
+                            endX = x;
+                            endY = y;
+                        }
+
+                    }
+
+                }
+            }
+
+
+            auto ls = GetLeftSize(startY, endY);
+            auto ts = GetBottomSize(startX, endX);
+
+
+            dim.x = ts.x;
+            dim.y = ls.x;
+            dim.z = ts.y;
+            dim.w = ls.y;
+
+            int b = 5;
+
+            //dim = GetAreaDimensions(DockArea::DOCK_CENTER, true);
+
+            break;
         }
 
         dock.Window->Set(glm::vec2(dim.x, dim.y), glm::vec2(dim.z, dim.w));
@@ -643,6 +707,14 @@ void IDocker::Rebuild() {
 
 glm::vec4 IDocker::GetAreaDimensions(DockArea area,bool fill) {
 
+
+    if (area == DOCK_CENTER) {
+
+
+        
+
+
+    }else 
     if (area == DOCK_LEFT) {
 
         int startY = -1;
@@ -795,7 +867,7 @@ glm::vec4 IDocker::GetAreaDimensions(DockArea area,bool fill) {
 
         auto ls = GetBottomSize(startX, endX);
 
-        return glm::vec4(ls.x,m_Size.y-(m_Size.y*0.25), ls.y, m_Size.x * 0.25f);
+        return glm::vec4(ls.x,m_Size.y-(m_Size.y*0.25), ls.y, m_Size.y * 0.25f);
 
         return glm::vec4(x+1, m_Size.y-(m_Size.y*0.25f)+1, dw-2, height-2);
 

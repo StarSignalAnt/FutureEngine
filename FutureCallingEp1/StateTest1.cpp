@@ -140,7 +140,7 @@ void StateTest1::InitState()
 		});
 
 	auto win1 = new IWindow("Test Window", glm::vec2(100, 100), glm::vec2(300, 300));
-	auto win2 = new IWindow("Other Window", glm::vec2(250, 200), glm::vec2(300, 300));
+	auto win2 = new IWindow("Other Window", glm::vec2(250, 100), glm::vec2(300, 300));
 	m_UI->GetRoot()->AddChild(win1);
 	m_UI->GetRoot()->AddChild(win2);
 	auto wb1 = new IButton("Load Game", glm::vec2(20, 60), glm::vec2(130, 30));
@@ -151,7 +151,7 @@ void StateTest1::InitState()
 	win1->AddClientControl(wb2);
 
 
-	auto vid = new IVideoPlayer("test/fcintro.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
+	auto vid = new IVideoPlayer("test/testVideo2.mp4", glm::vec2(20, 20), glm::vec2(512, 512));
 	
 	//win1->GetClientArea()->SetCullChildren(false);
 
@@ -166,6 +166,8 @@ void StateTest1::InitState()
 		});
 
 	//m_UI->GetRoot()->AddChild(vid);
+	win2->AddClientControl(vid);
+
 //	win1->AddClientControl(fb);
 
 	vid->Play();

@@ -15,6 +15,8 @@ public:
 	void RenderUI();
 	IWindow* GetDraggingWindow() { return m_DraggingWindow; }
 	IControl* GetBeneathWindow();
+	static GameUI* m_Inst;
+	void ResetMouse();
 private:
 	bool m_WindowDockingEnabled = true;
 	glm::vec2 m_LastWindowPosition;
@@ -28,5 +30,7 @@ private:
 	IDocker* m_DraggingDock = nullptr;
 //	IWindow* m_DraggingWindow = nullptr;
 	IWindow* m_DockingWindow = nullptr;
+	IWindow* m_TabWindow = nullptr;
+	IWindow* m_TabTarget = nullptr;
 };
 

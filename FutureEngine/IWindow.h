@@ -47,6 +47,7 @@ public:
     void SetDock(IDocker* dock) {
         m_Dock = dock;
     }
+    void DockWindow(IWindow* window);
 
 private:
 
@@ -65,7 +66,10 @@ private:
     //IButton* m_Resizer;
     Texture2D* m_TitleBG;
     Texture2D* m_ClientBG;
-
+    std::vector<IWindow*> m_DockedWindows;
     glm::vec2 m_OriginalSize;
     glm::vec2 m_OriginalPosition;
+    int m_CurrentTab = 0;
+    glm::vec2 m_MousePos;
+    IControlGroup* m_BaseArea = nullptr;
 };

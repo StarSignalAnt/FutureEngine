@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 class Texture2D;
+class IWindow;
 
 class IControl
 {
@@ -126,7 +127,8 @@ public:
 	void SetOffset(glm::vec2 offset) { m_Offset = offset; };
 	void SetCullChildren(bool cull) { m_CullChildren = cull; }
 	virtual void AfterSet() {};
-
+	bool IsWindow();
+	IWindow* GetWindow();
 
 protected:
 

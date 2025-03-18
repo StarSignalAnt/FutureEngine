@@ -8,6 +8,10 @@
 
 
 
+GameUI* GameUI::m_Inst = nullptr;
+
+
+
 std::vector<IControl*> AddControls(std::vector<IControl*> list, IControl* control) {
 
 	list.push_back(control);
@@ -21,10 +25,10 @@ std::vector<IControl*> AddControls(std::vector<IControl*> list, IControl* contro
 
 GameUI::GameUI()
 {
-	m_RootControl = new IControlGroup;
+    m_Inst = this;
+    m_RootControl = new IControlGroup;
 	m_RootControl->Set(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(),FutureApp::m_Inst->GetHeight()));
-	
-
+    
 }void GameUI::UpdateUI(float delta)
 {
     // Process any pending undock operations first
@@ -128,12 +132,29 @@ GameUI::GameUI()
                 dock->WindowOver(GetDraggingWindow(), mouse_pos);
                 m_DraggingDock = dock;
                 m_DockingWindow = GetDraggingWindow();
+                
+            }
+            if (beneath->IsWindow()) {
+                //exit(1);
+                m_TabWindow = beneath->GetWindow();
+                m_TabTarget = GetDraggingWindow();
+                m_DraggingDock = nullptr;
+                m_DockingWindow = nullptr;
+            }
+            else {
+                m_TabWindow = nullptr;
+                m_TabTarget = nullptr;
             }
         }
 
     }
     else {
 
+        if (m_TabWindow != nullptr) {
+            //exit(1);
+            m_TabWindow->DockWindow(m_TabTarget);
+            m_TabWindow = nullptr;
+        }
         if (m_DraggingDock != nullptr) {
          
 
@@ -217,4 +238,13 @@ IControl* GameUI::GetBeneathWindow()
 
     // No control found beneath the window
     return nullptr;
+}
+
+void GameUI::ResetMouse() {
+
+    m_ControlOver = nullptr;
+    m_ControlPressed = nullptr;
+    m_TabWindow = nullptr;
+    m_TabTarget = nullptr;
+
 }

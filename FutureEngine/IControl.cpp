@@ -1,6 +1,7 @@
 #include "IControl.h"
 #include <glad/glad.h>
 #include "FutureApp.h"
+#include "IWindow.h"
 
 glm::vec2 IControl::GetRenderPosition() {
 
@@ -116,4 +117,38 @@ void IControl::setScissor(int x, int y, int width, int height, int windowHeight)
 	// Set the scissor test
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(x, openglY, width, height);
+}
+
+bool IControl::IsWindow() {
+
+	auto current = this;
+
+	while (current != nullptr) {
+
+		auto window = dynamic_cast<IWindow*>(current);
+		if (window != nullptr) return true;
+
+		current = current->GetRoot();
+
+	}
+
+	return false;
+
+}
+
+IWindow* IControl::GetWindow() {
+
+	auto current = this;
+
+	while (current != nullptr) {
+
+		auto window = dynamic_cast<IWindow*>(current);
+		if (window != nullptr) return window;
+
+		current = current->GetRoot();
+
+	}
+
+	return nullptr;
+
 }

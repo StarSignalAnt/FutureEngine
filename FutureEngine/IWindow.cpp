@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Texture2D.h"
 #include "IDocker.h"
+#include "GameUI.h"
 
 void IWindow::Update(float delta)
 {
@@ -24,7 +25,7 @@ void IWindow::Render()
 
 
 
-//	UIHelp::DrawRect(pos-glm::vec2(1,1), m_Size+glm::vec2(2,2), glm::vec4(1.0f, 1, 1, 1.0f));
+	//UIHelp::DrawRect(pos-glm::vec2(1,1), m_Size+glm::vec2(2,2), glm::vec4(1.0f, 1, 1, 1.0f));
 	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 
 	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.3, 0.847 * 0.3, 0.902 * 0.3, 0.8f));
@@ -32,27 +33,148 @@ void IWindow::Render()
 // 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
 	
-	
-	UIHelp::DrawImageBlur(pos + glm::vec2(0, 20), glm::vec2(m_Size.x, -20), m_TitleBG, glm::vec4(1,1,1,1),1.3);
+	std::vector<std::string> tabs;
 
-	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(0.678*0.8, 0.847*0.8 , 0.902*0.8, 0.45f));
-	
+	tabs.push_back(m_Text);
+	for (auto docked : m_DockedWindows) {
 
-	auto tpos = pos;
-	pos.x += m_Size.x / 2;
-	pos.y += 20 / 2;
-	pos.x -= UIHelp::StrWidth(m_Text) / 2;
-	pos.y -= UIHelp::StrHeight(m_Text) / 2;
-	UIHelp::DrawText(pos+glm::vec2(3,3), m_Text, glm::vec4(0,0,0, 1));
-	UIHelp::DrawText(pos, m_Text, glm::vec4(1,1,1, 1));
+		tabs.push_back(docked->GetText());
+
+	}
+
+
+	int sx = 0;
+
+	int idx = 0;
+
+	for (auto title : tabs) {
+
+
+
+		int tab_width = UIHelp::StrWidth(title);
+
+	//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
+
+		if (idx == m_CurrentTab) {
+			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
+
+			UIHelp::DrawText(pos + glm::vec2(sx + 5, 10 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
+		}
+		else {
+			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 16), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
+
+			UIHelp::DrawText(pos + glm::vec2(sx + 5, 12 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
+		}
+
+
+		//UIHelp::DrawText(pos + glm::vec2(sx + 5,10- UIHelp::StrHeight(title) / 2) , title, glm::vec4(1, 1, 1, 1));
+
+		auto tpos = pos;
+		//pos.x = tpos.x + 5;
+		//pos.y += 20 / 2;
+		//	pos.x -= UIHelp::StrWidth(m_Text) / 2;
+		//pos.y -= UIHelp::StrHeight(m_Text) / 2;
+
+		//UIHelp::DrawText(pos + glm::vec2(3, 3), m_Text, glm::vec4(0, 0, 0, 1));
+		//UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));
+		sx = sx + tab_width + 10;
+		idx++;
+
+	}
+
 	//UIHelp::DrawText(pos + glm::vec2(m_Size.x - 15, m_Size.y - 15),"X", glm::vec4(1, 1, 1, 1));
 //	UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));
+
 
 	RenderChildren();
 }
 
 void IWindow::OnMouseDown(int button)
 {
+	auto pos = GetRenderPosition();
+	std::vector<std::string> tabs;
+
+	tabs.push_back(m_Text);
+	for (auto docked : m_DockedWindows) {
+
+		tabs.push_back(docked->GetText());
+
+	}
+
+	m_MousePos = pos + m_MousePos;
+
+	int sx = 0;
+
+	int idx = 0;
+
+	for (auto title : tabs) {
+
+
+
+		int tab_width = UIHelp::StrWidth(title);
+
+		//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
+
+		if (idx == m_CurrentTab) {
+			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
+		}
+		else {
+			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
+		}
+		int tx = pos.x + sx;
+		int ex = pos.x + sx + tab_width + 1;
+
+
+		int ay = 0;
+
+		if (idx == m_CurrentTab) {
+
+			ay = 0;
+
+		}
+		else {
+			ay = 4;
+		}
+
+		if (m_MousePos.x >= tx && m_MousePos.x <ex)
+		{
+			if (m_MousePos.y >= pos.y+ay && m_MousePos.y <= pos.y + (20-ay))
+			{
+				if (idx != m_CurrentTab) {
+					if (idx > 0) {
+						RemoveChild(m_ClientArea);
+						AddChild(m_DockedWindows[idx-1]->GetClientArea());
+						m_ClientArea = m_DockedWindows[idx - 1]->GetClientArea();
+						AlignWindow();
+					}
+					else {
+						RemoveChild(m_ClientArea);
+						AddChild(m_BaseArea);
+						m_ClientArea = m_BaseArea;
+						AlignWindow();
+					}
+					m_CurrentTab = idx;
+				}
+
+			}
+		}
+
+
+		//UIHelp::DrawText(pos + glm::vec2(sx + 5, 10 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
+
+		auto tpos = pos;
+		//pos.x = tpos.x + 5;
+		//pos.y += 20 / 2;
+		//	pos.x -= UIHelp::StrWidth(m_Text) / 2;
+		//pos.y -= UIHelp::StrHeight(m_Text) / 2;
+
+		//UIHelp::DrawText(pos + glm::vec2(3, 3), m_Text, glm::vec4(0, 0, 0, 1));
+		//UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));
+		sx = sx + tab_width + 10;
+		idx++;
+
+	}
+
 	m_Dragging = true;
 	GameInput::m_Dragging = this;
 
@@ -79,16 +201,42 @@ void IWindow::OnMouseDoubleClick()
 
 void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 {
+	m_MousePos = position;
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Dragging) {
 			m_Position += delta;
 			if (delta.x < 0 || delta.x>0 || delta.y < 0 || delta.y>0)
 			{
-				if (m_Docked) {
-					if (m_Dock != nullptr) {
-						m_Dock->UndockWindow(this);
-						m_Dock = nullptr;
-						m_Docked = false;
+
+				if (m_CurrentTab != 0) {
+
+
+
+					
+					RemoveChild(m_ClientArea);
+					m_ClientArea->SetRoot(m_DockedWindows[m_CurrentTab - 1]);
+					AddChild(m_BaseArea);
+					m_ClientArea = m_BaseArea;
+					AlignWindow();
+					this->GetRoot()->AddChild(m_DockedWindows[m_CurrentTab-1]);
+					auto win = m_DockedWindows[m_CurrentTab - 1];
+					m_DockedWindows[m_CurrentTab - 1]->AlignWindow();
+					m_DockedWindows.erase(m_DockedWindows.begin() + m_CurrentTab-1);
+					m_CurrentTab = 0;
+					
+					auto rp = GetRenderPosition();
+					win->Set(rp+glm::vec2(m_MousePos.x - 10, m_MousePos.y - 5));
+					GameUI::m_Inst->ResetMouse();
+					m_Dragging = false;
+
+				}
+				else {
+					if (m_Docked) {
+						if (m_Dock != nullptr) {
+							m_Dock->UndockWindow(this);
+							m_Dock = nullptr;
+							m_Docked = false;
+						}
 					}
 				}
 			}
@@ -137,11 +285,13 @@ void IWindow::InitWindow() {
 	m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 20, 0), glm::vec2(20, 24));
 	m_MaximizeButton = new IButton("[]", glm::vec2(m_Size.x - 40, 0), glm::vec2(20, 24));
 	m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 60, 0), glm::vec2(20, 24));
-	m_ClientArea = new IControlGroup(glm::vec2(1, 21), glm::vec2(m_Size.x - 1, m_Size.y - 1));
+	m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 31));
 	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 10), glm::vec2(m_Size.x - 13, 10));
 	m_Resizer = new IButton(".", glm::vec2(m_Size.x-10,m_Size.y-10),glm::vec2(10,10));
 	m_CloseButton->SetRenderBody(false);
+
+	m_BaseArea = m_ClientArea;
 
 	m_TitleBG = new Texture2D(m_Size.x, 20);
 	m_ClientBG = new Texture2D(m_Size.x, m_Size.y - 20);
@@ -311,5 +461,13 @@ void IWindow::AddClientControl(IControl* control) {
 void IWindow::AfterSet() {
 
 	AlignWindow();
+
+}
+
+void IWindow::DockWindow(IWindow* window) {
+
+	m_DockedWindows.push_back(window);
+	window->GetRoot()->RemoveChild(window);
+//	exit(2);
 
 }
