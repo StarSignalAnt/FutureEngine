@@ -103,7 +103,7 @@ void IVerticalMenu::Render() {
 	UIHelp::DrawImageWithBG(GetRenderPosition()+glm::vec2(2,2), GetSize()+glm::vec2(-3,-3), glm::vec4(1.5,1.5,1.5, 0.88));
 	UIHelp::DrawOutlineRect(GetRenderPosition(), GetSize(), glm::vec4(1, 1, 1, 0.85));
 	
-	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2), glm::vec4(0.2, 0.2, 0.2, 0.25f));
+	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2), glm::vec4(0.2, 0.2, 0.2, 0.65f));
 
 	int dy = 10;
 	int dx = 25;

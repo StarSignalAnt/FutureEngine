@@ -53,3 +53,15 @@ void IVideoPlayer::LoadSubtitles(std::string srtPath)
 	m_Video->LoadSubtitles(srtPath);
 
 }
+
+float IVideoPlayer::Position() {
+
+	return m_Video->GetPosition();
+
+}
+
+bool IVideoPlayer::Finished() {
+
+	return m_Video->IsFinished();
+
+}

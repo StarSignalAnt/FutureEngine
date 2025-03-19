@@ -67,8 +67,8 @@ void GameUI::UpdateUI(float delta)
             if (delta > 1) {
                 int aa = 5;
             }
-            position += (control->GetTargetPosition() - control->GetPosition()) *0.4f * (delta*22);
-            size += (control->GetTargetSize() - control->GetSize()) * 0.4f * (delta*22);
+            position += (control->GetTargetPosition() - control->GetPosition()) *0.8f * (delta*22);
+            size += (control->GetTargetSize() - control->GetSize()) * 0.8f * (delta*22);
 
             control->Set(position, size);
 

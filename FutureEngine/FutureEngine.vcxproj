@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="DrawInfo.h" />
     <ClInclude Include="DrawList.h" />
+    <ClInclude Include="FileRequester.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FutureApp.h" />
     <ClInclude Include="FutureState.h" />
@@ -199,6 +200,7 @@
   <ItemGroup>
     <ClCompile Include="DrawInfo.cpp" />
     <ClCompile Include="DrawList.cpp" />
+    <ClCompile Include="FileRequester.cpp" />
     <ClCompile Include="FutureApp.cpp" />
     <ClCompile Include="FutureEngine.cpp" />
     <ClCompile Include="FutureState.cpp" />

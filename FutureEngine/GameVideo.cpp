@@ -33,6 +33,25 @@ GameVideo::GameVideo(std::string path)
         return;
     }
 
+    if (formatCtx->duration != AV_NOPTS_VALUE) {
+        m_TotalDuration = formatCtx->duration / (double)AV_TIME_BASE;
+        std::cout << "Video duration: " << m_TotalDuration << " seconds" << std::endl;
+    }
+    else {
+        // If the container doesn't have the duration, try to get it from the video stream
+        if (videoStreamIndex >= 0) {
+            AVStream* videoStream = formatCtx->streams[videoStreamIndex];
+            if (videoStream->duration != AV_NOPTS_VALUE) {
+                m_TotalDuration = videoStream->duration * av_q2d(videoStream->time_base);
+                std::cout << "Video duration (from stream): " << m_TotalDuration << " seconds" << std::endl;
+            }
+            else {
+                std::cerr << "Could not determine video duration!" << std::endl;
+                m_TotalDuration = 0.0;
+            }
+        }
+    }
+
     // Print video file info
     std::cout << "Opened video: " << path << std::endl;
     av_dump_format(formatCtx, 0, path.c_str(), 0);
@@ -468,3 +487,46 @@ double GameVideo::parseTime(const std::string& timeStr) {
     // If parsing fails, return a negative value to indicate error
     return -1.0;
 }
+
+float GameVideo::GetPosition()  {
+    if (m_TotalDuration <= 0.0) {
+        return 0.0f;  // Avoid division by zero
+    }
+
+    // Get the current playback time
+    float currentTime = getSourceTime(source);
+
+    // Calculate normalized position (0.0 to 1.0)
+    float normalizedPosition = static_cast<float>(currentTime / m_TotalDuration);
+
+    // Clamp between 0.0 and 1.0
+    if (normalizedPosition < 0.0f) return 0.0f;
+    if (normalizedPosition > 1.0f) return 1.0f;
+
+    return normalizedPosition;
+}
+
+
+bool GameVideo::IsFinished() {
+    // If the video isn't playing, we shouldn't consider it as finished
+    if (!isPlaying) {
+        return false;
+    }
+
+    // Get current playback position
+    float currentTime = getSourceTime(source);
+
+    // Check if we're at or past the end of the video
+    // Using a small threshold to account for floating-point precision
+    const double END_THRESHOLD = 0.1; // 100ms threshold
+
+    return (currentTime >= (m_TotalDuration - END_THRESHOLD));
+
+    // Alternative approach: check if normalized position is very close to 1.0
+    // return (GetNormalizedPosition() > 0.99f);
+}
+
+float GameVideo::GetLength() {
+
+    return (float)m_TotalDuration;
+};

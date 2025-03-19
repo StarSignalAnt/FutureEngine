@@ -46,10 +46,14 @@ public:
     double GetCurrentFrameTimestamp() const;
     void Pause();
     void Resume();
+    float GetPosition();
+    float GetLength();
+    bool IsFinished();
+    // Add this private member variable to GameVideo.h in the private section
 
 private:
     double parseTime(const std::string& timeStr);
-
+    double m_TotalDuration = 0.0;
 	std::string m_Path;
     std::vector<Subtitle> m_Subtitles;
     AVFormatContext* formatCtx = nullptr;

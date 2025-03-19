@@ -18,7 +18,8 @@ public:
     void Update(float delta) override;
     void Render() override;
     void LoadSubtitles(std::string srtPath = "");
-
+    float Position();
+    bool Finished();
 private:
 
     GameVideo* m_Video;

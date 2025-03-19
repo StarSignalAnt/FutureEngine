@@ -23,7 +23,7 @@ void UIHelp::InitHelp() {
 	m_BlurDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawBlurFS.glsl"));
 	m_FontDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawFont.glsl"));
 	m_RectTex = new Texture2D("engine/ui/rect.png");
-	m_ColorBG = new Texture2D("engine/ui/colorBG2.jpg");
+	m_ColorBG = new Texture2D("engine/ui/colorBG6.jpg");
 
 }
 
@@ -126,11 +126,30 @@ void UIHelp::DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 	float xHigh = xPos+size.x / (float)FutureApp::m_Inst->GetWidth();
 
 	glEnable(GL_BLEND);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_BlurDraw->Begin();
+
+	m_BlurDraw->GetShaderModule()->Bind();
+	m_BlurDraw->GetShaderModule()->SetFloat("blurAmount", 0.4 * 500);
+	auto info = m_BlurDraw->DrawDirect(pos, size, color,m_ColorBG);
+
+	info->SetTexCoord(0, xPos, yPos);
+	info->SetTexCoord(1, xHigh, yPos);
+	info->SetTexCoord(2, xHigh, yHigh);
+	info->SetTexCoord(3, xPos, yHigh);
+	m_BlurDraw->End();
+
+
+
+	return;
+
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glDisable(GL_DEPTH_TEST);
 	m_Draw->Begin();
-	auto info = m_Draw->DrawDirect(pos, size, color, m_ColorBG);
+//	auto info = m_Draw->DrawDirect(pos, size, color, m_ColorBG);
 	info->SetTexCoord(0,xPos, yPos);
 	info->SetTexCoord(1, xHigh, yPos);
 	info->SetTexCoord(2, xHigh, yHigh);

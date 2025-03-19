@@ -97,7 +97,8 @@ void IMainMenu::Render() {
 
 	//UIHelp::DrawRect(m_Position, m_Size, glm::vec4(0.45, 0.45, 0.45, 0.65f));
 //UIHelp::DrawImage(m_Position,m_Size)
-	UIHelp::DrawImageWithBG(m_Position, m_Size, glm::vec4(1, 1, 1, 0.85f));
+	UIHelp::DrawOutlineRect(m_Position, m_Size, glm::vec4(1, 1, 1, 0.85f));
+	UIHelp::DrawImageWithBG(m_Position, m_Size, glm::vec4(1, 1, 1, 0.95f));
 
 	UIHelp::DrawText(glm::vec2(m_Position.x + 8, m_Position.y + 9), m_AppTitle,glm::vec4(1,0.7,0,1), 0.85f);
 

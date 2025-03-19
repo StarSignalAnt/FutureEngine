@@ -156,6 +156,9 @@
     <ClInclude Include="IVerticalMenu.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="FileRequester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="IVerticalMenu.cpp">
       <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FileRequester.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
