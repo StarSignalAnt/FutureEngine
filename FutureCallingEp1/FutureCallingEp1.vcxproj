@@ -144,10 +144,14 @@
   <ItemGroup>
     <ClCompile Include="FCEp1.cpp" />
     <ClCompile Include="FutureCallingEp1.cpp" />
+    <ClCompile Include="StateGameIntro.cpp" />
+    <ClCompile Include="StateLogoScreen.cpp" />
     <ClCompile Include="StateTest1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FCEp1.h" />
+    <ClInclude Include="StateGameIntro.h" />
+    <ClInclude Include="StateLogoScreen.h" />
     <ClInclude Include="StateTest1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

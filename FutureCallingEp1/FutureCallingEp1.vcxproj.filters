@@ -24,12 +24,24 @@
     <ClCompile Include="StateTest1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StateLogoScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateGameIntro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FCEp1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StateTest1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateLogoScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateGameIntro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

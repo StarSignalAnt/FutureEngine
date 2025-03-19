@@ -21,13 +21,14 @@
 #include "UIHelp.h"
 #include "IDocker.h"
 #include "IMainMenu.h"
-
+#include "FileRequester.h";
+#include "ITextEdit.h"
 // Adding a 
 // context menu option to undock windows:
 
 void StateTest1::InitState()
 {
-	m_Tex1 = new Texture2D("test/bg1.png");
+	m_Tex1 = new Texture2D("engine/ui/colorBG5.jpg");
 	m_Tex2 = new Texture2D("test/test2.png");
 	m_UI = new GameUI;
 	
@@ -149,6 +150,23 @@ void StateTest1::InitState()
 	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
 
 
+	wb1->SetOnClick([&]() {
+
+		std::vector<FileRequester::FileFilter> videoFilters = {
+	 {"Video Files", "*.mp4;*.avi;*.mkv"},
+	 {"MP4 Files", "*.mp4"},
+	 {"AVI Files", "*.avi"}
+		};
+
+		// Open file dialog with filters
+		std::string filePath = FileRequester::OpenFile("Open Video", videoFilters);
+
+		if (!filePath.empty()) {
+			std::cout << "Selected file: " << filePath << std::endl;
+			// Open the file...
+		}
+
+		});
 	win1->AddClientControl(wb1);
 	win1->AddClientControl(wb2);
 
@@ -217,9 +235,15 @@ void StateTest1::InitState()
 
 	//win1->GetRoot()->AddChild(vid);
 	//win2->AddClientControl(dock);
+	ITextEdit* m_NameInput;
 
+	m_NameInput = new ITextEdit();
+	m_NameInput->Set(glm::vec2(20, 40), glm::vec2(360, 30));
+	m_NameInput->SetText("John Doe");
+	//panel->AddChild(m_NameInput);
+	m_UI->GetRoot()->AddChild(m_NameInput);
 
-
+	vp = vid;
 //	win1->AddClientControl(fb);
 
 	vid->Play();
@@ -305,6 +329,8 @@ void StateTest1::RenderState()
 	else {
 //		UIHelp::DrawText(glm::vec2(5, 5), "Not dragging a window.", glm::vec4(1, 0, 0, 1));
 	}
+	//uto pos = vp->Position();
+	//UIHelp::DrawText(glm::vec2(64, 64), std::to_string(pos), glm::vec4(1, 1, 1, 1), 3);
 
 	return;
 	ax = ax + 1;
@@ -320,6 +346,7 @@ void StateTest1::RenderState()
 
 
 
+	
 	return;
 	m_Draw->Begin();
 	m_Draw->DrawDirect(glm::vec2(0,FutureApp::m_Inst->GetHeight()), glm::vec2(FutureApp::m_Inst->GetWidth(),-FutureApp::m_Inst->GetHeight()), glm::vec4(1, 1, 1, 1), m_RT1->GetTexture());

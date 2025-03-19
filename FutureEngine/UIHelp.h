@@ -7,7 +7,8 @@ class Texture2D;
 class UIHelp
 {
 public:
-
+	static void setScissor(int x, int y, int width, int height, int windowHeight);
+	static void RemoveScissor();
 	static void InitHelp();
 	static void DrawImageBlur(glm::vec2 pos, glm::vec2 size, Texture2D* image, glm::vec4 color, float blur = 0.1);
 	static void DrawImage(glm::vec2 pos, glm::vec2 size, Texture2D* image,glm::vec4 color);

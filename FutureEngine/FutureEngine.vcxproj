@@ -185,6 +185,7 @@
     <ClInclude Include="IHorizontalScroller.h" />
     <ClInclude Include="IImage.h" />
     <ClInclude Include="IMainMenu.h" />
+    <ClInclude Include="ITextEdit.h" />
     <ClInclude Include="IVerticalMenu.h" />
     <ClInclude Include="IVerticalScroller.h" />
     <ClInclude Include="IVideoPlayer.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="IHorizontalScroller.cpp" />
     <ClCompile Include="IImage.cpp" />
     <ClCompile Include="IMainMenu.cpp" />
+    <ClCompile Include="ITextEdit.cpp" />
     <ClCompile Include="IVerticalMenu.cpp" />
     <ClCompile Include="IVerticalScroller.cpp" />
     <ClCompile Include="IVideoPlayer.cpp" />

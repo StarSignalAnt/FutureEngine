@@ -6,6 +6,17 @@
 #include "RenderTarget2D.h"
 #include "UIHelp.h"
 #include "GameUI.h"
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key >= 0 && key < 512) {
+        if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+            // For repeatable keys (like letter keys), handle as normal
+            GameInput::Keys[key] = true;
+        }
+        else if (action == GLFW_RELEASE) {
+            GameInput::Keys[key] = false;
+        }
+    }
+}
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // Adjust the OpenGL viewport to match the new framebuffer size
@@ -81,6 +92,7 @@ void FutureApp::SetApp(int width, int height, std::string app)
      glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
      glfwSetMouseButtonCallback(window, mouse_button_callback);
      glfwSetScrollCallback(window, scroll_callback);
+     glfwSetKeyCallback(window, key_callback);
     InitGL();
 
 }

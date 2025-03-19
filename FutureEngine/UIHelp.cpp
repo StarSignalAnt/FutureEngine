@@ -160,3 +160,21 @@ void UIHelp::DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 	glEnable(GL_DEPTH_TEST);
 
 }
+
+// Add this function implementation to UIHelp.cpp:
+
+void UIHelp::setScissor(int x, int y, int width, int height, int windowHeight) {
+	// Convert from left-top (0,0) to OpenGL's left-bottom (0,0)
+	// by flipping the Y coordinate
+	int openglY = windowHeight - (y + height);
+
+	// Set the scissor test
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(x, openglY, width, height);
+}
+
+void UIHelp::RemoveScissor() {
+
+	glDisable(GL_SCISSOR_TEST);
+
+}

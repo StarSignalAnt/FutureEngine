@@ -16,7 +16,7 @@ public:
 	static glm::vec2 MousePosition;
 	static glm::vec3 MouseDelta;
 	static bool Buttons[16];
-	static bool Keys[256];
+	static bool Keys[512];
 	static IWindow* m_Dragging;;
 
 
