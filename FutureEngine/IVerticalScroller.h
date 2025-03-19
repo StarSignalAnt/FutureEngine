@@ -93,7 +93,7 @@ public:
         // Only draw the scroll button if content requires scrolling
         if (m_ContentHeight > m_Size.y)
         {
-            UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollButtonWidth, m_Size.y), m_ScrollTrackColor);
+            UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollButtonWidth-7, m_Size.y), m_ScrollTrackColor);
             // Calculate the position of the scroll button
             float buttonTop = renderPos.y + m_ScrollPosition * (m_Size.y - m_ScrollButtonSize);
             glm::vec2 buttonPos = glm::vec2(renderPos.x, buttonTop);

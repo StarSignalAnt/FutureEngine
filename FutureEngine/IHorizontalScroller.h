@@ -90,7 +90,7 @@ public:
             float buttonLeft = renderPos.x + m_ScrollPosition * (m_Size.x - m_ScrollButtonSize);
             glm::vec2 buttonPos = glm::vec2(buttonLeft, renderPos.y);
 //            UIHelp::DrawImage(buttUIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight), m_ScrollTrackColor);onPos + glm::vec2(1, 1), glm::vec2(m_ScrollButtonWidth - 7, m_ScrollButtonSize - 2), m_ScrollImage, glm::vec4(0.1, 1, 1, 1));
-            UIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight), m_ScrollTrackColor);
+            UIHelp::DrawRect(renderPos, glm::vec2(m_Size.x, m_ScrollButtonHeight-7), m_ScrollTrackColor);
             UIHelp::DrawImage(buttonPos + glm::vec2(1,1), glm::vec2(m_ScrollButtonSize-2, m_ScrollButtonHeight-7), m_ScrollImage, glm::vec4(0.678 * 1.8, 0.847 * 1.8, 0.902 * 1.8, 1));
             // Draw the scroll button (thumb)
 

@@ -19,10 +19,18 @@ class Texture2D;
 
 struct Frame {
 
-    Texture2D* Image;
+    Texture2D* Image = nullptr;
 	double TimeStamp;
+    std::string Subtitle = "";
 
 
+};
+
+
+struct Subtitle {
+    double startTime;
+    double endTime;
+    std::string text;
 };
 
 class GameVideo
@@ -30,17 +38,20 @@ class GameVideo
 public:
 
 	GameVideo(std::string path);
+    void LoadSubtitles(std::string srtPath = "");
 	~GameVideo();
     void Play();
     void Update();
-    Texture2D* GetFrame();
+    Frame GetFrame();
     double GetCurrentFrameTimestamp() const;
     void Pause();
     void Resume();
 
 private:
+    double parseTime(const std::string& timeStr);
 
 	std::string m_Path;
+    std::vector<Subtitle> m_Subtitles;
     AVFormatContext* formatCtx = nullptr;
     AVCodecContext* videoCodecCtx = nullptr;
     AVCodecContext* audioCodecCtx = nullptr;

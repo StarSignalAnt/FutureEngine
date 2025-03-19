@@ -9,6 +9,7 @@
 #include "Texture2D.h"
 #include "IDocker.h"
 #include "GameUI.h"
+#include "IMainMenu.h"
 
 void IWindow::Update(float delta)
 {
@@ -25,10 +26,10 @@ void IWindow::Render()
 
 
 
-	UIHelp::DrawRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(2,-18), glm::vec4(1, 1, 1, 1.0f));
+	UIHelp::DrawOutlineRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(1,-19), glm::vec4(1, 1, 1, 1.0f));
 	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 
-	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.3, 0.847 * 0.3, 0.902 * 0.3, 0.8f));
+	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.05, 0.847 * 0.05, 0.902 * 0.05, 0.55f));
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
 // 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
@@ -56,12 +57,20 @@ void IWindow::Render()
 	//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
 
 		if (idx == m_CurrentTab) {
-			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
+
+			UIHelp::DrawImageWithBG(pos + glm::vec2(sx+1, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.6, 0.847 * 0.6, 0.902 * 0.6, 0.8f));
+			UIHelp::DrawOutlineRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
+			UIHelp::DrawRect(pos + glm::vec2(sx+1, 1), glm::vec2(tab_width + 10-2, 20-2), glm::vec4(0.678 * 0.25, 0.847 * 0.25, 0.902 * 0.25, 0.5f));
+
+
 
 			UIHelp::DrawText(pos + glm::vec2(sx + 5, 10 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
 		}
 		else {
-			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 16), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
+//			UIHelp::DrawImageWithBG(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
+			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
+
+			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
 
 			UIHelp::DrawText(pos + glm::vec2(sx + 5, 12 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
 		}
@@ -95,6 +104,9 @@ void IWindow::OnMouseDown(int button)
 	m_RootControl->RemoveChild(this);
 	m_RootControl->AddChild(this);
 
+	if (m_ActiveMenu != nullptr) {
+		m_ActiveMenu->SetAppTitle(m_AppTitle);
+	}
 	GameUI::m_Inst->SetMainMenu(m_ActiveMenu);
 
 	auto pos = GetRenderPosition();
@@ -211,14 +223,14 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Dragging) {
 			m_Position += delta;
-			if (delta.x < 0 || delta.x>0 || delta.y < 0 || delta.y>0)
+			if (delta.x < -5 || delta.x>5 || delta.y < -5 || delta.y>5)
 			{
 
 				if (m_CurrentTab != 0) {
 
 
 
-					
+				//	m_MousePos -= delta;
 					RemoveChild(m_ClientArea);
 					m_ClientArea->SetRoot(m_DockedWindows[m_CurrentTab - 1]);
 					AddChild(m_BaseArea);
@@ -288,22 +300,22 @@ bool IWindow::InBounds(glm::vec2 position)
 
 void IWindow::InitWindow() {
 
-	m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 20, 0), glm::vec2(20, 24));
-	m_MaximizeButton = new IButton("[]", glm::vec2(m_Size.x - 40, 0), glm::vec2(20, 24));
-	m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 60, 0), glm::vec2(20, 24));
+	m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 16, 2), glm::vec2(16,16));
+	m_MaximizeButton = new IButton("[]", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
+	m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 48, 2), glm::vec2(16,16));
 	m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
-	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 31));
+	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 36));
 	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 10), glm::vec2(m_Size.x - 13, 10));
 	m_Resizer = new IButton(".", glm::vec2(m_Size.x-10,m_Size.y-10),glm::vec2(10,10));
-	m_CloseButton->SetRenderBody(false);
+	//m_CloseButton->SetRenderBody(false);
 
 	m_BaseArea = m_ClientArea;
 
 	m_TitleBG = new Texture2D(m_Size.x, 20);
 	m_ClientBG = new Texture2D(m_Size.x, m_Size.y - 20);
 
-	m_MaximizeButton->SetRenderBody(false);
-	m_MinimizeButton->SetRenderBody(false);
+//	m_MaximizeButton->SetRenderBody(false);
+//	m_MinimizeButton->SetRenderBody(false);
 	AddChild(m_CloseButton);
 	AddChild(m_MaximizeButton);
 	AddChild(m_MinimizeButton);
@@ -390,9 +402,9 @@ void IWindow::InitWindow() {
 
 void IWindow::AlignWindow() {
 
-	m_CloseButton->Set(glm::vec2(m_Size.x - 20, 0));
-	m_MaximizeButton->Set(glm::vec2(m_Size.x - 40, 0));
-	m_MinimizeButton->Set(glm::vec2(m_Size.x - 60, 0));
+	m_CloseButton->Set(glm::vec2(m_Size.x - 16, 2));
+	m_MaximizeButton->Set(glm::vec2(m_Size.x - 32, 2));
+	m_MinimizeButton->Set(glm::vec2(m_Size.x - 48, 2));
 
 	m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	RemoveChild(m_YScroller);

@@ -153,7 +153,9 @@ void StateTest1::InitState()
 	win1->AddClientControl(wb2);
 
 	auto menu = new IMainMenu;
+	win1->SetAppTitle("Future Editor");
 	win1->SetMenu(menu);
+
 
 	MenuItem* file = new MenuItem("File");
 	MenuItem* edit = new MenuItem("Edit");
@@ -179,6 +181,9 @@ void StateTest1::InitState()
 	edit_cut->AddItem(cut_test2);
 	edit_cut->AddItem(cut_test3);
 
+	cut_test2->AddItem(new MenuItem("Other one"));
+	cut_test2->AddItem(new MenuItem("Another test"));
+
 	file->AddItem(new_project);
 	file->AddItem(save_project);
 	file->AddItem(load_project);
@@ -186,6 +191,8 @@ void StateTest1::InitState()
 	edit->AddItem(edit_cut);
 	edit->AddItem(edit_paste);
 	edit->AddItem(edit_copy);
+
+
 
 	cut_Test->OnClick = [&]() {
 
@@ -216,6 +223,7 @@ void StateTest1::InitState()
 //	win1->AddClientControl(fb);
 
 	vid->Play();
+
 
 
 //	m_Vid1 = new GameVideo("test/fcintro.mp4");

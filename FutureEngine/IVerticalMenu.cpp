@@ -58,12 +58,13 @@ void IVerticalMenu::OnMouseDown(int button) {
 					int string_w = UIHelp::StrWidth(item->m_Name);
 					if (string_w > big_width) big_width = string_w;
 					new_menu->AddItem(item);
-
+					item->m_Open = false;
+					item->m_ActiveControl = nullptr;
 				}
 
 
 
-				new_menu->Set(glm::vec2(m_Size.x + 5, m_OverItem->m_DrawY), glm::vec2(big_width + 60, height + 5));
+				new_menu->Set(glm::vec2(m_Size.x +1, m_OverItem->m_DrawY-10), glm::vec2(big_width + 60, height + 5));
 
 				AddChild(new_menu);
 
@@ -98,7 +99,11 @@ void IVerticalMenu::Update(float delta) {
 
 void IVerticalMenu::Render() {
 
-	UIHelp::DrawRect(GetRenderPosition(), GetSize(), glm::vec4(0.15, 0.15, 0.15, 0.75));
+
+	UIHelp::DrawImageWithBG(GetRenderPosition()+glm::vec2(2,2), GetSize()+glm::vec2(-3,-3), glm::vec4(1.5,1.5,1.5, 0.88));
+	UIHelp::DrawOutlineRect(GetRenderPosition(), GetSize(), glm::vec4(1, 1, 1, 0.85));
+	
+	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2), glm::vec4(0.2, 0.2, 0.2, 0.25f));
 
 	int dy = 10;
 	int dx = 25;
@@ -106,7 +111,10 @@ void IVerticalMenu::Render() {
 
 
 		if (item == m_OverItem) {
-			UIHelp::DrawRect(GetRenderPosition() + glm::vec2(0, dy-5), glm::vec2(GetSize().x, 20), glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+			UIHelp::DrawOutlineRect(GetRenderPosition() + glm::vec2(2, dy - 6), glm::vec2(GetSize().x-4, 22), glm::vec4(0.8f, 0.8f, 0.8f, 0.5f));
+			UIHelp::DrawImageWithBG(GetRenderPosition() + glm::vec2(3, dy - 5), glm::vec2(GetSize().x - 6, 22 - 2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
+			UIHelp::DrawRect(GetRenderPosition() + glm::vec2(3, dy-5), glm::vec2(GetSize().x-6, 22-2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
+		//	UIHelp::DrawImageWithBG(GetRenderPosition() + glm::vec2(3, dy - 5), glm::vec2(GetSize().x - 6, 22 - 2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
 		}
 
 		UIHelp::DrawText(GetRenderPosition()+glm::vec2(dx, dy), item->m_Name, glm::vec4(1, 1, 1, 1));

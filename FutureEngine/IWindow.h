@@ -50,6 +50,10 @@ public:
     void DockWindow(IWindow* window);
     void SetMenu(IMainMenu* menu) { m_ActiveMenu = menu; }
     IMainMenu* GetMenu() { return m_ActiveMenu; }
+    void SetAppTitle(std::string title) { m_AppTitle = title; }
+    std::string GetAppTitle() {
+        return m_AppTitle;
+    }
 private:
 
 
@@ -74,4 +78,5 @@ private:
     glm::vec2 m_MousePos;
     IControlGroup* m_BaseArea = nullptr;
     IMainMenu* m_ActiveMenu = nullptr;
+    std::string m_AppTitle = "";
 };

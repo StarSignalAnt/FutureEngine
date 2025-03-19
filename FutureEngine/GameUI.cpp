@@ -138,7 +138,7 @@ void GameUI::UpdateUI(float delta)
 
                 int ctime = clock();
                 //prev_Click = clock();
-                if (ctime < (prev_Click + 350) && m_FirstClick == m_ControlPressed) {
+                if (ctime < (prev_Click + 200) && m_FirstClick == m_ControlPressed) {
                     m_ControlPressed->OnMouseDoubleClick();
                     m_FirstClick = nullptr;
                 }

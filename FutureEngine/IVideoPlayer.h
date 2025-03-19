@@ -1,5 +1,6 @@
 #pragma once
 #include "IControl.h"
+#include <string>
 
 class GameVideo;
 
@@ -16,7 +17,7 @@ public:
     void Resume();
     void Update(float delta) override;
     void Render() override;
-
+    void LoadSubtitles(std::string srtPath = "");
 
 private:
 

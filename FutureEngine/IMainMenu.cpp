@@ -14,8 +14,7 @@ void IMainMenu::Update(float delta) {
 }
 
 void IMainMenu::OnMouseMove(glm::vec2 position, glm::vec2 delta) {
-
-	int dx = 15;
+	int dx = UIHelp::StrWidth(m_AppTitle) + 15;
 
 	m_OverItem = nullptr;
 	for (auto item : m_Items) {
@@ -38,6 +37,7 @@ void IMainMenu::OnMouseDown(int button) {
 		if (m_OverItem->m_Open == false)
 		{
 
+		
 			if (m_OpenItem != nullptr) {
 
 				RemoveChild(m_OpenItem->m_ActiveControl);
@@ -45,6 +45,7 @@ void IMainMenu::OnMouseDown(int button) {
 				m_OpenItem->m_Open = false;
 
 			}
+			if (m_OverItem->m_Items.size() == 0) return;
 
 			IVerticalMenu* new_menu = new IVerticalMenu;
 
@@ -58,12 +59,14 @@ void IMainMenu::OnMouseDown(int button) {
 				int string_w = UIHelp::StrWidth(item->m_Name);
 				if (string_w > big_width) big_width = string_w;
 				new_menu->AddItem(item);
+				item->m_Open = false;
+				item->m_ActiveControl = nullptr;
 
 			}
 
 
 
-			new_menu->Set(glm::vec2(m_OverItem->m_DrawX+5, 30), glm::vec2(big_width + 60, height + 5));
+			new_menu->Set(glm::vec2(m_OverItem->m_DrawX+2, 25), glm::vec2(big_width + 60, height + 5));
 
 			AddChild(new_menu);
 
@@ -81,6 +84,7 @@ void IMainMenu::OnMouseDown(int button) {
 			if (m_OpenItem == m_OverItem) {
 				m_OpenItem = nullptr;
 			}
+			
 
 
 		}
@@ -91,16 +95,23 @@ void IMainMenu::OnMouseDown(int button) {
 
 void IMainMenu::Render() {
 
-	UIHelp::DrawRect(m_Position, m_Size, glm::vec4(0.15, 0.15, 0.15, 0.85f));
+	//UIHelp::DrawRect(m_Position, m_Size, glm::vec4(0.45, 0.45, 0.45, 0.65f));
+//UIHelp::DrawImage(m_Position,m_Size)
+	UIHelp::DrawImageWithBG(m_Position, m_Size, glm::vec4(1, 1, 1, 0.85f));
 
-	int dx = 15;
+	UIHelp::DrawText(glm::vec2(m_Position.x + 8, m_Position.y + 9), m_AppTitle,glm::vec4(1,0.7,0,1), 0.85f);
+
+	int dx = UIHelp::StrWidth(m_AppTitle) + 15;
+
 	glm::vec2 pos = GetRenderPosition();
 
 	for (auto item : m_Items) {
 
 		if (item == m_OverItem) {
 
-			UIHelp::DrawRect(pos + glm::vec2(dx-15, 2), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35, 20), glm::vec4(0.4f, 0.4f, 0.4f, 0.8f));
+			UIHelp::DrawOutlineRect(pos + glm::vec2(dx - 15, 2), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35, 22), glm::vec4(0.75f, 0.75f, 0.75f, 0.6f));
+
+			UIHelp::DrawRect(pos + glm::vec2(dx-14, 3), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35-2, 22-2), glm::vec4(0.45f, 0.45f, 0.45f, 0.4f));
 
 		}
 

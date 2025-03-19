@@ -1,6 +1,8 @@
 #include "GameVideo.h"
 #include <iostream>
 #include "Texture2D.h"
+#include <fstream>
+#include <sstream>
 
 GameVideo::GameVideo(std::string path)
 {
@@ -172,7 +174,12 @@ void GameVideo::Update() {
                 frame->Image = img;
                 frame->TimeStamp = GetCurrentFrameTimestamp();
 
-               
+                for (auto sub : m_Subtitles) {
+
+
+                    int b = 5;
+               }
+
 				m_Frames.push_back(frame);
 
 
@@ -262,43 +269,39 @@ void GameVideo::Update() {
     // Unreference the packet after processing it (important to avoid memory leaks)
     av_packet_unref(&packet);
 }
+Frame GameVideo::GetFrame() {
+    if (!isPlaying || m_Frames.empty()) return Frame();
 
-Texture2D* GameVideo::GetFrame() {
-//	return nullptr;
-   // return m_CurrentFrame;
-    int time = clock();
-    int len = time - StartClock;
+    // Get the current playback time
+    double currentTime = getSourceTime(source);
 
-	double ftime = ((double)len) / 1000.0;
-
-    //std::cout << "Time:" << ftime << std::endl;
-
-
-    ftime = getSourceTime(source);
-
-    if (m_Frames.size() > 0) {
-
-        for (auto frame : m_Frames) {
-			if (frame->TimeStamp > ftime) {
-				return frame->Image;
-            }
-            else {
-                
-                frame->Image->Free();
-
-                
-                m_Frames.erase(std::remove(m_Frames.begin(), m_Frames.end(), frame), m_Frames.end());
-
-
-            }
+    // Find the appropriate subtitle for the current time
+    std::string currentSubtitle;
+    for (const auto& subtitle : m_Subtitles) {
+        if (currentTime >= subtitle.startTime && currentTime <= subtitle.endTime) {
+            currentSubtitle = subtitle.text;
+            break;
         }
-//        Frame* frame = m_Frames[0];
-
-  //      return frame->Image;
     }
 
-}
+    // Find the appropriate frame for the current time
+    for (auto it = m_Frames.begin(); it != m_Frames.end(); ) {
+        Frame* frame = *it;
 
+        if (frame->TimeStamp > currentTime) {
+            // This frame is for the future, so use it
+            frame->Subtitle = currentSubtitle;  // Update the subtitle text
+            return *frame;
+        }
+        else {
+            // This frame is in the past, we can remove it after using
+            frame->Image->Free();
+            it = m_Frames.erase(it);
+        }
+    }
+
+    return Frame();  // No suitable frame found
+}
 double GameVideo::GetCurrentFrameTimestamp() const {
     return m_CurrentFrameTimestamp;
 }
@@ -321,4 +324,147 @@ void GameVideo::Pause() {
 void GameVideo::Resume() {
     isPlaying = true;
 	alSourcePlay(source);
+}
+
+void GameVideo::LoadSubtitles(std::string srtPath) {
+    std::ifstream file(srtPath);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open subtitle file: " << srtPath << std::endl;
+        return;
+    }
+
+    std::string line;
+    int subtitleNumber = 0;
+    double startTime = -1.0, endTime = -1.0;
+    std::string subtitleText;
+
+    enum ParseState { NUMBER, TIMING, TEXT, BLANK };
+    ParseState state = NUMBER;
+
+    while (std::getline(file, line)) {
+        // Remove BOM if present at the beginning of the file
+        if (line.length() >= 3 &&
+            static_cast<unsigned char>(line[0]) == 0xEF &&
+            static_cast<unsigned char>(line[1]) == 0xBB &&
+            static_cast<unsigned char>(line[2]) == 0xBF) {
+            line = line.substr(3);
+        }
+
+        // Remove carriage returns that might be present in Windows files
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+
+        switch (state) {
+        case NUMBER:
+            // Try to parse as a subtitle number
+            try {
+                subtitleNumber = std::stoi(line);
+                state = TIMING;
+            }
+            catch (const std::exception&) {
+                // If it's not a number, skip this line
+                std::cerr << "Unexpected line (expected subtitle number): " << line << std::endl;
+            }
+            break;
+
+        case TIMING:
+            // Parse timing line
+            if (line.find("-->") != std::string::npos) {
+                size_t arrowPos = line.find("-->");
+                std::string startStr = line.substr(0, arrowPos);
+                std::string endStr = line.substr(arrowPos + 3);
+
+                // Trim whitespace
+                startStr.erase(0, startStr.find_first_not_of(" \t"));
+                startStr.erase(startStr.find_last_not_of(" \t") + 1);
+                endStr.erase(0, endStr.find_first_not_of(" \t"));
+                endStr.erase(endStr.find_last_not_of(" \t") + 1);
+
+                startTime = parseTime(startStr);
+                endTime = parseTime(endStr);
+
+                if (startTime < 0 || endTime < 0) {
+                    std::cerr << "Failed to parse timing: " << line << std::endl;
+                    state = NUMBER; // Reset to looking for a new subtitle
+                }
+                else {
+                    state = TEXT;
+                    subtitleText.clear(); // Clear text buffer for this subtitle
+                }
+            }
+            else {
+                std::cerr << "Unexpected line (expected timing): " << line << std::endl;
+                state = NUMBER; // Reset to looking for a new subtitle
+            }
+            break;
+
+        case TEXT:
+            if (line.empty()) {
+                // Empty line means end of this subtitle
+                if (!subtitleText.empty()) {
+                    // Add the subtitle to our collection
+                    Subtitle subtitle = { startTime, endTime, subtitleText };
+                    m_Subtitles.push_back(subtitle);
+
+                    // Reset for the next subtitle
+                    subtitleText.clear();
+                    startTime = -1.0;
+                    endTime = -1.0;
+                }
+                state = NUMBER;
+            }
+            else {
+                // Append this line to the subtitle text
+                if (!subtitleText.empty()) {
+                    subtitleText += "\n";
+                }
+                subtitleText += line;
+            }
+            break;
+
+        case BLANK:
+            if (!line.empty()) {
+                state = NUMBER;
+                // Process this non-blank line
+                try {
+                    subtitleNumber = std::stoi(line);
+                    state = TIMING;
+                }
+                catch (const std::exception&) {
+                    std::cerr << "Unexpected line after blank: " << line << std::endl;
+                }
+            }
+            break;
+        }
+    }
+
+    // Don't forget the last subtitle if we're still processing it
+    if (startTime >= 0 && endTime >= 0 && !subtitleText.empty()) {
+        Subtitle subtitle = { startTime, endTime, subtitleText };
+        m_Subtitles.push_back(subtitle);
+    }
+
+    file.close();
+
+    std::cout << "Loaded " << m_Subtitles.size() << " subtitles from " << srtPath << std::endl;
+}
+
+double GameVideo::parseTime(const std::string& timeStr) {
+    int hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
+
+    // Handle both comma and period as decimal separators in SRT files
+    std::string normalizedStr = timeStr;
+    size_t commaPos = normalizedStr.find(',');
+    if (commaPos != std::string::npos) {
+        normalizedStr[commaPos] = '.'; // Replace comma with period for consistent parsing
+    }
+
+    // Parse the time format "hh:mm:ss,SSS" or "hh:mm:ss.SSS"
+    if (sscanf(normalizedStr.c_str(), "%d:%d:%d.%d", &hours, &minutes, &seconds, &milliseconds) == 4) {
+        return hours * 3600.0 + minutes * 60.0 + seconds + milliseconds / 1000.0;
+    }
+
+    // If parsing fails, return a negative value to indicate error
+    return -1.0;
 }

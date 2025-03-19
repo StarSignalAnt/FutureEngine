@@ -36,6 +36,10 @@ public:
 	}
 	void OnMouseMove(glm::vec2 position, glm::vec2 delta) override;
 	void OnMouseDown(int button) override;
+	void SetAppTitle(std::string title) { m_AppTitle = title; }
+	std::string GetAppTitle() {
+		return m_AppTitle;
+	}
 
 	
 
@@ -45,6 +49,7 @@ private:
 	std::vector<MenuItem*> m_Items;
 	MenuItem* m_OverItem = nullptr;
 	MenuItem* m_OpenItem = nullptr;
+	std::string m_AppTitle = "";
 
 };
 
