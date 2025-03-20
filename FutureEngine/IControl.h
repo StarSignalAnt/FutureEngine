@@ -71,6 +71,8 @@ public:
 	virtual void OnKeyDown(int key) {};
 	virtual void OnKeyUp(int key) {};
 	virtual void OnMouseDoubleClick() {};
+	virtual void OnActivate() {};
+	virtual void OnDeactivate() {}
 	virtual bool InBounds(glm::vec2 position)
 	{
 		glm::vec2 root = GetRenderPosition();

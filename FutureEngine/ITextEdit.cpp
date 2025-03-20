@@ -477,3 +477,15 @@ void ITextEdit::HandleKeyInput() {
         }
     }
 }
+
+void ITextEdit::OnActivate() {
+
+    this->SetFocus(true);
+
+}
+
+void ITextEdit::OnDeactivate() {
+
+    this->SetFocus(false);
+
+}

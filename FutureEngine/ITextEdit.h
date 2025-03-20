@@ -15,6 +15,8 @@ public:
     virtual void OnMouseDown(int button) override;
     virtual void OnMouseUp(int button) override;
     virtual void OnMouseMove(glm::vec2 position, glm::vec2 delta) override;
+    void OnActivate() override;
+    void OnDeactivate() override;
 
     // Set if this control has keyboard focus
     void SetFocus(bool focus) { m_HasFocus = focus; }

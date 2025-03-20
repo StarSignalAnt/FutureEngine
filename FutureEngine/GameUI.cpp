@@ -129,6 +129,11 @@ void GameUI::UpdateUI(float delta)
             if (m_ControlPressed == nullptr) {
                 m_ControlPressed = m_ControlOver;
                 m_ControlPressed->OnMouseDown(0);
+                if (m_ControlActive != nullptr) {
+                    m_ControlActive->OnDeactivate();
+                }
+                m_ControlActive = m_ControlOver;
+                m_ControlOver->OnActivate();
 
                 // Check if this is a window and being dragged by title area
                 IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
@@ -314,6 +319,8 @@ void GameUI::ResetMouse() {
     m_ControlPressed = nullptr;
     m_TabWindow = nullptr;
     m_TabTarget = nullptr;
+    m_DraggingWindow = nullptr;
+    GameInput::m_Dragging = nullptr;
 
 }
 
@@ -323,5 +330,56 @@ void GameUI::SetUISize(int width,int height) {
     m_RootControl->Set(glm::vec2(0, 0), glm::vec2(width, height));
 
     m_RootControl->ApplyDockChildren();
+
+}
+
+void GameUI::InitForFPApp() {
+
+}
+
+void GameUI::InitForGame() {
+
+
+}
+
+void GameUI::SetDragWindow(IWindow* window) {
+
+
+    m_ControlPressed = window;
+    m_ControlOver = window;
+    m_ControlPressed->OnMouseDown(0);
+    if (m_ControlActive != nullptr) {
+        m_ControlActive->OnDeactivate();
+    }
+    m_ControlActive = m_ControlOver;
+    m_ControlOver->OnActivate();
+
+
+    // Check if this is a window and being dragged by title area
+    //IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
+    //if (window != nullptr && window->GetCurrentArea() == AREA_TITLE) {
+        m_DraggingWindow = window;
+    //}
+
+
+    int ctime = clock();
+    //prev_Click = clock();
+    if (ctime < (prev_Click + 200) && m_FirstClick == m_ControlPressed) {
+        m_ControlPressed->OnMouseDoubleClick();
+        m_FirstClick = nullptr;
+    }
+    else {
+        m_FirstClick = nullptr;
+    }
+    prev_Click = ctime;
+    m_FirstClick = m_ControlPressed;
+    //retur
+
+    return;
+    m_ControlPressed = window;
+    m_ControlOver = window;
+    m_DraggingWindow = nullptr;
+    GameInput::m_Dragging = window;
+    
 
 }

@@ -10,6 +10,9 @@ class GameUI
 public:
 
 	GameUI();
+	void InitForGame();
+	void InitForFPApp();
+
 	void SetRoot(IControl* control) { m_RootControl = control; }
 	IControl* GetRoot() { return m_RootControl; };
 	void UpdateUI(float delta);
@@ -21,6 +24,7 @@ public:
 	void SetUISize(int w, int h);
 	IMainMenu* GetMainMenu() { return m_ActiveMenu; };
 	void SetMainMenu(IMainMenu* menu) { m_ActiveMenu = menu; };
+	void SetDragWindow(IWindow* window);
 
 private:
 	bool m_WindowDockingEnabled = true;

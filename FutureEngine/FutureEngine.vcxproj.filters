@@ -160,7 +160,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ITextEdit.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resonance2\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,7 +276,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ITextEdit.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

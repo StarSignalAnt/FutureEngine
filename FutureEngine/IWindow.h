@@ -79,4 +79,5 @@ private:
     IControlGroup* m_BaseArea = nullptr;
     IMainMenu* m_ActiveMenu = nullptr;
     std::string m_AppTitle = "";
+    bool m_Outside = false;
 };

@@ -59,8 +59,8 @@ void IWindow::Render()
 		if (idx == m_CurrentTab) {
 
 			UIHelp::DrawImageWithBG(pos + glm::vec2(sx+1, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.6, 0.847 * 0.6, 0.902 * 0.6, 0.8f));
-			UIHelp::DrawOutlineRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
-			UIHelp::DrawRect(pos + glm::vec2(sx+1, 1), glm::vec2(tab_width + 10-2, 20-2), glm::vec4(0.678 * 0.25, 0.847 * 0.25, 0.902 * 0.25, 0.5f));
+			UIHelp::DrawOutlineRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
+			UIHelp::DrawRect(pos + glm::vec2(sx+1, 1), glm::vec2(tab_width + 10-2, 20-3), glm::vec4(0.678 * 0.25, 0.847 * 0.25, 0.902 * 0.25, 0.5f));
 
 
 
@@ -222,8 +222,44 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 	m_MousePos = position;
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Dragging) {
-			m_Position += delta;
-			if (delta.x < -5 || delta.x>5 || delta.y < -5 || delta.y>5)
+			
+			if (GetRoot()->InBounds(position+GetRenderPosition())) {
+
+				if (m_Outside) {
+					if (GetRenderPosition().x+m_MousePos.x < GetRoot()->GetSize().x / 2)
+					{
+						m_Position = (GetRenderPosition() + position) - glm::vec2(45, 25);
+					}
+					else {
+						m_Position = (GetRenderPosition() + position) - glm::vec2(45, 25);
+
+					}
+				}
+				else {
+					m_Position += delta;
+
+					if (m_Position.x < -50.0f) {
+						m_Position.x = -50;
+					}
+					if (m_Position.y < -50) {
+						m_Position.y = -50;
+					}
+					if (m_Position.x > (GetRoot()->GetSize().x - 5)) {
+						m_Position.x = GetRoot()->GetSize().x - 5;
+					}
+					if (m_Position.y > (GetRoot()->GetSize().y - 5))
+					{
+						m_Position.y = GetRoot()->GetSize().y - 5;
+					}
+				}
+				m_Outside = false;
+			}
+			else {
+				m_Outside = true;
+			}
+
+			
+			if (delta.x < -2 || delta.x>2 || delta.y < -2 || delta.y>2)
 			{
 
 				if (m_CurrentTab != 0) {
@@ -236,15 +272,27 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 					AddChild(m_BaseArea);
 					m_ClientArea = m_BaseArea;
 					AlignWindow();
-					this->GetRoot()->AddChild(m_DockedWindows[m_CurrentTab-1]);
+					
+					
 					auto win = m_DockedWindows[m_CurrentTab - 1];
+					win->GetRoot()->RemoveChild(win);
+					this->GetRoot()->AddChild(m_DockedWindows[m_CurrentTab - 1]);
 					m_DockedWindows[m_CurrentTab - 1]->AlignWindow();
 					m_DockedWindows.erase(m_DockedWindows.begin() + m_CurrentTab-1);
 					m_CurrentTab = 0;
-					
-					auto rp = GetRenderPosition();
-					win->Set(rp+glm::vec2(m_MousePos.x - 10, m_MousePos.y - 5));
-					GameUI::m_Inst->ResetMouse();
+					//GameUI::m_Inst->ResetMouse();
+					//GameInput::m_Dragging = nullptr;
+				
+					m_Dragging = false;
+					win->Set(GetRenderPosition()+ glm::vec2(m_MousePos.x-40, m_MousePos.y-30));
+					GameUI::m_Inst->SetDragWindow(win);
+					//win->OnMouseMove(glm::vec2(30, 10),glm::vec2(0,0));
+					//win->OnMouseDown(0);
+
+
+
+					//GameUI::m_Inst->ResetMouse();
+
 					m_Dragging = false;
 
 				}
