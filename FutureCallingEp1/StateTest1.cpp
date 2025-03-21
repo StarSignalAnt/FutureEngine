@@ -28,6 +28,7 @@
 #include "ITreeView.h"
 #include "IDateSelector.h"
 #include "ITimeSelector.h"
+#include "ISizebox.h"
 
 // Adding a 
 // context menu option to undock windows:
@@ -361,7 +362,7 @@ void StateTest1::InitState()
 
 	// Add tree view to the UI
 	//GameUI::m_Inst->GetRoot()->AddChild(treeView);
-
+	//return;
 	IDateSelector* dateSelector = new IDateSelector(glm::vec2(50, 50), glm::vec2(350, 40));
 
 	// Load a calendar icon (optional)
@@ -465,7 +466,7 @@ void StateTest1::InitState()
 //	timeSelector->SetTime(15, 35, 22);
 
 	// Add to UI
-	GameUI::m_Inst->GetRoot()->AddChild(timeSelector);
+	//GameUI::m_Inst->GetRoot()->AddChild(timeSelector);
 
 	// Create a second time selector without seconds display
 	ITimeSelector* timeSelector2 = new ITimeSelector(glm::vec2(50, 100), glm::vec2(300, 40));
@@ -491,6 +492,30 @@ void StateTest1::InitState()
 
 	// Add to UI
 	//GameUI::m_Inst->GetRoot()->AddChild(resetButton);
+
+	ISizeBox* sizeBox = new ISizeBox(glm::vec2(100, 100), glm::vec2(300, 200));
+
+	// Add child controls that may exceed the size box dimensions
+	//IControl* childControl1 = new MyControl(glm::vec2(10, 10), glm::vec2(200, 100));
+	//IControl* childControl2 = new MyControl(glm::vec2(50, 150), glm::vec2(400, 300));
+
+	IImage* c1,* c2,* c3;
+	c1 = new IImage(glm::vec2(50, 50), glm::vec2(200, 300));
+	c2 = new IImage(glm::vec2(50, 360), glm::vec2(250, 450));
+	c3 = new IImage(glm::vec2(100, 900), glm::vec2(400, 400));
+	c1->SetImage(m_Tex1);
+	c2->SetImage(m_Tex1);
+	c3->SetImage(m_Tex1);
+
+
+	sizeBox->AddChild(c1);
+	sizeBox->AddChild(c2);
+	sizeBox->AddChild(c3);
+
+	m_UI->GetRoot()->AddChild(sizeBox);
+	// Add the size box to your UI
+	//rootControl->AddChild(sizeBox);
+
 
 	std::cout << "Time selectors created with the following features:" << std::endl;
 	std::cout << "1. Auto-updating seconds display" << std::endl;

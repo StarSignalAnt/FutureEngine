@@ -3,9 +3,16 @@
 
 #include <iostream>
 
+#include "FutureApp.h"
+#include "FuturePlatform.h"
+
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::cout << "Booting FutureEngine V0.1!\n";
+	FuturePlatform* app = new FuturePlatform;
+
+
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

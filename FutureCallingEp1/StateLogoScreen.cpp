@@ -25,7 +25,7 @@ void StateLogoScreen::RenderState() {
 	auto frame = m_LogoVideo->GetFrame();
 
 	if (frame.Image != nullptr) {
-		UIHelp::DrawImage(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()), m_LogoVideo->GetFrame().Image, glm::vec4(1, 1, 1, 1));
+		UIHelp::DrawImage(glm::vec2(0, 0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()), frame.Image, glm::vec4(1, 1, 1, 1));
 	}
 }
 

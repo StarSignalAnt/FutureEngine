@@ -24,6 +24,7 @@
     <ProjectGuid>{6e36be6a-6dbc-4bab-bac6-f540141d2f66}</ProjectGuid>
     <RootNamespace>FutureEd</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>FuturePlatform</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -104,10 +105,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FutureEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +134,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FSLogin.cpp" />
+    <ClCompile Include="FUserProfile.cpp" />
+    <ClCompile Include="FUsers.cpp" />
     <ClCompile Include="FutureEd.cpp" />
+    <ClCompile Include="FuturePlatform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FSLogin.h" />
+    <ClInclude Include="FUserProfile.h" />
+    <ClInclude Include="FUsers.h" />
+    <ClInclude Include="FuturePlatform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

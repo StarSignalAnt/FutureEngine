@@ -13,10 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Users">
+      <UniqueIdentifier>{1ea581ef-cd5a-485a-8cdb-24c02abdbd60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FuturePlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FSLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FUsers.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+    <ClCompile Include="FUserProfile.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FuturePlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FSLogin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FUsers.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="FUserProfile.h">
+      <Filter>Users</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

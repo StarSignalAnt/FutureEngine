@@ -9,6 +9,8 @@ glm::vec2 IControl::GetRenderPosition() {
 
 	if (m_RootControl != nullptr) {
 		root = m_RootControl->GetRenderPosition();
+		
+
 		root = root += m_RootControl->GetOffset();
 	}
 

@@ -160,6 +160,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryFile.h" />
     <ClInclude Include="DrawInfo.h" />
     <ClInclude Include="DrawList.h" />
     <ClInclude Include="FileRequester.h" />
@@ -186,7 +187,9 @@
     <ClInclude Include="IFrameBuffer.h" />
     <ClInclude Include="IHorizontalScroller.h" />
     <ClInclude Include="IImage.h" />
+    <ClInclude Include="ILabel.h" />
     <ClInclude Include="IMainMenu.h" />
+    <ClInclude Include="ISizeBox.h" />
     <ClInclude Include="ITextEdit.h" />
     <ClInclude Include="ITimeSelector.h" />
     <ClInclude Include="ITreeNode.h" />
@@ -204,6 +207,8 @@
     <ClInclude Include="UIHelp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp" />
+    <ClCompile Include="BinaryFile.cpp" />
     <ClCompile Include="DrawInfo.cpp" />
     <ClCompile Include="DrawList.cpp" />
     <ClCompile Include="FileRequester.cpp" />
@@ -230,6 +235,7 @@
     <ClCompile Include="IFrameBuffer.cpp" />
     <ClCompile Include="IHorizontalScroller.cpp" />
     <ClCompile Include="IImage.cpp" />
+    <ClCompile Include="ILabel.cpp" />
     <ClCompile Include="IMainMenu.cpp" />
     <ClCompile Include="ITextEdit.cpp" />
     <ClCompile Include="ITimeSelector.cpp" />

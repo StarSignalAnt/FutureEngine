@@ -49,6 +49,9 @@
     <Filter Include="Videon">
       <UniqueIdentifier>{cb4b0934-e01f-4c04-a2a2-0f6d7994ea6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{1ac8170b-54f7-4b5f-a83c-d67c0dd44fd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -129,9 +132,6 @@
     <ClInclude Include="GameFont.h">
       <Filter>Font</Filter>
     </ClInclude>
-    <ClInclude Include="GameVideo.h">
-      <Filter>Videon</Filter>
-    </ClInclude>
     <ClInclude Include="IWindow.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
@@ -175,6 +175,18 @@
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
     <ClInclude Include="ITimeSelector.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="GameVideo.h">
+      <Filter>Videon</Filter>
+    </ClInclude>
+    <ClInclude Include="ILabel.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryFile.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="ISizeBox.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
   </ItemGroup>
@@ -260,9 +272,6 @@
     <ClCompile Include="GameFont.cpp">
       <Filter>Font</Filter>
     </ClCompile>
-    <ClCompile Include="GameVideo.cpp">
-      <Filter>Videon</Filter>
-    </ClCompile>
     <ClCompile Include="IWindow.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
@@ -306,6 +315,18 @@
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
     <ClCompile Include="ITimeSelector.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="GameVideo.cpp">
+      <Filter>Videon</Filter>
+    </ClCompile>
+    <ClCompile Include="ILabel.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

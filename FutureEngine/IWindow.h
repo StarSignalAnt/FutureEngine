@@ -54,6 +54,9 @@ public:
     std::string GetAppTitle() {
         return m_AppTitle;
     }
+    void Close() {
+        m_RootControl->RemoveChild(this);
+    }
 private:
 
 

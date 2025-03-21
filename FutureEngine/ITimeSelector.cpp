@@ -186,7 +186,7 @@ void ITimeSelector::Render()
         float textY = (m_Size.y - UIHelp::StrHeight(timeStr)) / 2.0f;
 
         UIHelp::DrawText(
-            renderPos + glm::vec2(iconOffset, textY),
+            renderPos + glm::vec2(iconOffset+8, textY),
             timeStr,
             m_TimeColor
         );

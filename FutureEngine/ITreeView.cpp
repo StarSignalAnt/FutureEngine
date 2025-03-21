@@ -275,7 +275,7 @@ void ITreeView::Render()
         glm::vec2 nodePos = mousePos - glm::vec2(nodeSize.x / 2, m_NodeHeight / 2);
 
         // Draw semi-transparent background
-        UIHelp::DrawRect(nodePos, nodeSize, glm::vec4(m_NodeSelectedColor.r, m_NodeSelectedColor.g, m_NodeSelectedColor.b, 0.7f));
+        UIHelp::DrawRect(nodePos, nodeSize, glm::vec4(m_NodeSelectedColor.r, m_NodeSelectedColor.g, m_NodeSelectedColor.b, 0.55f));
 
         // Draw node text
         float textOffset = 4.0f;
@@ -283,7 +283,7 @@ void ITreeView::Render()
         {
             glm::vec2 iconPos = nodePos + glm::vec2(textOffset, 2.0f);
             glm::vec2 iconSize = glm::vec2(16.0f, 16.0f);
-            UIHelp::DrawImage(iconPos, iconSize, m_DraggedNode->GetIcon(), glm::vec4(1.0f, 1.0f, 1.0f, 0.7f));
+            UIHelp::DrawImage(iconPos, iconSize, m_DraggedNode->GetIcon(), glm::vec4(1.0f, 1.0f, 1.0f, 0.5f));
             textOffset += 20.0f;
         }
 
@@ -450,7 +450,7 @@ void ITreeView::RenderNode(ITreeNode* node, float& yOffset)
         // Draw expand/collapse indicator if node has children
         if (node->HasChildren())
         {
-            glm::vec2 iconPos = nodePos - glm::vec2(16.0f, 0.0f);
+            glm::vec2 iconPos = nodePos - glm::vec2(16.0f, -3.0f);
             glm::vec2 iconSize = glm::vec2(16.0f, 16.0f);
 
             if (node->IsExpanded())

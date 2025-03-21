@@ -42,7 +42,7 @@ public:
 	}
 	void SetRoot(IControl* root) { m_RootControl = root; }
 	IControl* GetRoot() { return m_RootControl; }
-	void AddChild(IControl* child) { m_Children.push_back(child); child->SetRoot(this); ApplyDockChildren(); }
+	virtual void AddChild(IControl* child) { m_Children.push_back(child); child->SetRoot(this); ApplyDockChildren(); }
 	void RemoveChild(IControl* child) { m_Children.erase(std::remove(m_Children.begin(), m_Children.end(), child), m_Children.end()); }
 	void SetImage(Texture2D* image) { m_Image = image; }
 
@@ -189,6 +189,7 @@ public:
 	bool GetCullChildren() {
 		return m_CullChildren;
 	}
+	
 
 protected:
 
