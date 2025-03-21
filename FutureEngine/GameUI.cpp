@@ -129,11 +129,15 @@ void GameUI::UpdateUI(float delta)
             if (m_ControlPressed == nullptr) {
                 m_ControlPressed = m_ControlOver;
                 m_ControlPressed->OnMouseDown(0);
-                if (m_ControlActive != nullptr) {
+                if (m_ControlActive != nullptr && m_ControlActive!=m_ControlOver) {
                     m_ControlActive->OnDeactivate();
+
+                }
+                else if (m_ControlActive == nullptr) {
+                    m_ControlOver->OnActivate();
                 }
                 m_ControlActive = m_ControlOver;
-                m_ControlOver->OnActivate();
+              
 
                 // Check if this is a window and being dragged by title area
                 IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);

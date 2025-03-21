@@ -23,6 +23,12 @@
 #include "IMainMenu.h"
 #include "FileRequester.h";
 #include "ITextEdit.h"
+#include "IComboBox.h"
+#include "ITreeNode.h"
+#include "ITreeView.h"
+#include "IDateSelector.h"
+#include "ITimeSelector.h"
+
 // Adding a 
 // context menu option to undock windows:
 
@@ -142,8 +148,8 @@ void StateTest1::InitState()
 		std::cout << "Double Click!" << std::endl;
 		});
 
-	auto win1 = new IWindow("Test Window", glm::vec2(100, 100), glm::vec2(300, 300));
-	auto win2 = new IWindow("Other Window", glm::vec2(250, 100), glm::vec2(300, 300));
+	auto win1 = new IWindow("Test Window", glm::vec2(400, 100), glm::vec2(300, 300));
+	auto win2 = new IWindow("Other Window", glm::vec2(550, 100), glm::vec2(300, 300));
 	m_UI->GetRoot()->AddChild(win1);
 	m_UI->GetRoot()->AddChild(win2);
 	auto wb1 = new IButton("Load Game", glm::vec2(20, 60), glm::vec2(130, 30));
@@ -241,18 +247,255 @@ void StateTest1::InitState()
 	m_NameInput->Set(glm::vec2(20, 40), glm::vec2(360, 30));
 	m_NameInput->SetText("John Doe");
 	//panel->AddChild(m_NameInput);
-	m_UI->GetRoot()->AddChild(m_NameInput);
+
+	//m_UI->GetRoot()->AddChild(m_NameInput);
+
+	IComboBox* comboBox = new IComboBox(glm::vec2(100, 100), glm::vec2(200, 30));
+
+	// Add items
+	comboBox->AddItem("Option 1");
+	comboBox->AddItem("Option 2");
+	comboBox->AddItem("Option 3");
+
+	// Set a callback for selection changes
+	comboBox->SetOnSelectionChanged([](int index, std::string item) {
+		std::cout << "Selected: " << item << " (index: " << index << ")" << std::endl;
+		});
+
+	// Add to your UI
+	//GameUI::m_Inst->GetRoot()->AddChild(comboBox);
+
 
 	vp = vid;
 //	win1->AddClientControl(fb);
 
 	vid->Play();
 
+	ITreeView* treeView = new ITreeView(glm::vec2(50, 50), glm::vec2(300, 400));
 
+	// Load icons
+	Texture2D* folderIcon = new Texture2D("engine/ui/folder.png");
+	Texture2D* fileIcon = new Texture2D("engine/ui/file.png");
+	Texture2D* expandedIcon = new Texture2D("engine/ui/expanded.png");
+	Texture2D* collapsedIcon = new Texture2D("engine/ui/collapsed.png");
+
+	// Set custom expand/collapse icons
+	treeView->SetExpandedIcon(expandedIcon);
+	treeView->SetCollapsedIcon(collapsedIcon);
+
+	// Create a root node
+	ITreeNode* projectNode = new ITreeNode("My Project", folderIcon);
+
+	// Add source folder
+	ITreeNode* sourceNode = new ITreeNode("Source", folderIcon);
+	projectNode->AddChild(sourceNode);
+	for (int i = 0; i < 50; i++) {
+		ITreeNode* nn = new ITreeNode("Test!!!", fileIcon);
+		projectNode->AddChild(nn);
+	}
+
+	// Add source files
+	sourceNode->AddChild(new ITreeNode("Main.cpp", fileIcon));
+	sourceNode->AddChild(new ITreeNode("GameState.cpp", fileIcon));
+	sourceNode->AddChild(new ITreeNode("Player.cpp", fileIcon));
+
+	// Add assets folder
+	ITreeNode* assetsNode = new ITreeNode("Assets", folderIcon);
+	projectNode->AddChild(assetsNode);
+
+	// Add asset subfolders and files
+	ITreeNode* texturesNode = new ITreeNode("Textures", folderIcon);
+	assetsNode->AddChild(texturesNode);
+	texturesNode->AddChild(new ITreeNode("grass.png", fileIcon));
+	texturesNode->AddChild(new ITreeNode("sky.png", fileIcon));
+
+	ITreeNode* modelsNode = new ITreeNode("Models", folderIcon);
+	assetsNode->AddChild(modelsNode);
+	modelsNode->AddChild(new ITreeNode("character.fbx", fileIcon));
+	modelsNode->AddChild(new ITreeNode("weapon.fbx", fileIcon));
+
+	ITreeNode* audioNode = new ITreeNode("Audio", folderIcon);
+	assetsNode->AddChild(audioNode);
+	audioNode->AddChild(new ITreeNode("music.mp3", fileIcon));
+	audioNode->AddChild(new ITreeNode("effect.wav", fileIcon));
+
+	// Add resources folder
+	ITreeNode* resourcesNode = new ITreeNode("Resources", folderIcon);
+	projectNode->AddChild(resourcesNode);
+	resourcesNode->AddChild(new ITreeNode("config.json", fileIcon));
+	resourcesNode->AddChild(new ITreeNode("settings.ini", fileIcon));
+
+	// Add build folder
+	ITreeNode* buildNode = new ITreeNode("Build", folderIcon);
+	projectNode->AddChild(buildNode);
+	buildNode->AddChild(new ITreeNode("bin", folderIcon));
+	buildNode->AddChild(new ITreeNode("lib", folderIcon));
+
+	// Add root node to tree view
+	treeView->AddRootNode(projectNode);
+
+	// Set callback for node selection
+	treeView->SetOnNodeSelected([](ITreeNode* node) {
+		std::cout << "Selected: " << node->GetText() << std::endl;
+		});
+
+	// Set callback for node expansion
+	treeView->SetOnNodeExpanded([](ITreeNode* node) {
+		std::cout << "Expanded: " << node->GetText() << std::endl;
+		});
+
+	// Set callback for node collapse
+	treeView->SetOnNodeCollapsed([](ITreeNode* node) {
+		std::cout << "Collapsed: " << node->GetText() << std::endl;
+		});
+
+	// Set individual node click callback
+	sourceNode->SetOnClick([](ITreeNode* node) {
+		std::cout << "Source folder clicked!" << std::endl;
+		});
+
+	// Expand some nodes by default
+	treeView->ExpandNode(projectNode);
+	treeView->ExpandNode(sourceNode);
+	treeView->ExpandNode(assetsNode);
+
+	// Add tree view to the UI
+	//GameUI::m_Inst->GetRoot()->AddChild(treeView);
+
+	IDateSelector* dateSelector = new IDateSelector(glm::vec2(50, 50), glm::vec2(350, 40));
+
+	// Load a calendar icon (optional)
+	Texture2D* calendarIcon = new Texture2D("engine/ui/calendar.png");
+	dateSelector->SetCalendarIcon(calendarIcon);
+
+	// Set custom colors (optional)
+	dateSelector->SetBackgroundColor(glm::vec4(0.15f, 0.15f, 0.2f, 0.9f));
+	dateSelector->SetLabelColor(glm::vec4(0.8f, 0.9f, 1.0f, 1.0f));
+
+	// Set callback for date changes
+	dateSelector->SetOnDateChanged([](const Date& date) {
+		std::cout << "Date changed: " << date.ToString() << std::endl;
+
+		// Example of checking specific dates
+		if (date.month == 12 && date.day == 25) {
+			std::cout << "It's Christmas!" << std::endl;
+		}
+		else if (date.month == 1 && date.day == 1) {
+			std::cout << "Happy New Year!" << std::endl;
+		}
+		});
+
+	// Set a specific date (e.g., January 15, 2023)
+	dateSelector->SetDate(15, 1, 2023);
+
+	// Add to UI
+	//GameUI::m_Inst->GetRoot()->AddChild(dateSelector);
+
+	// Create a second date selector for a date range example
+	IDateSelector* endDateSelector = new IDateSelector(glm::vec2(50, 100), glm::vec2(350, 40));
+	endDateSelector->SetCalendarIcon(calendarIcon);
+
+	// Set to current date + 7 days (for a simple date range)
+	Date endDate;
+	endDate.day += 7;
+	if (endDate.day > endDate.GetDaysInMonth()) {
+		endDate.day -= endDate.GetDaysInMonth();
+		endDate.month++;
+		if (endDate.month > 12) {
+			endDate.month = 1;
+			endDate.year++;
+		}
+	}
+	endDateSelector->SetDate(endDate);
+
+	// Add label for end date
+	endDateSelector->SetOnDateChanged([dateSelector](const Date& endDate) {
+		Date startDate = dateSelector->GetDate();
+
+		// Calculate rough difference (not accounting for all edge cases)
+		int startDays = startDate.day + startDate.month * 30 + startDate.year * 365;
+		int endDays = endDate.day + endDate.month * 30 + endDate.year * 365;
+
+		if (endDays < startDays) {
+			std::cout << "End date cannot be before start date!" << std::endl;
+		}
+		else {
+			std::cout << "Date range: approximately " << (endDays - startDays) << " days" << std::endl;
+		}
+		});
+
+	//GameUI::m_Inst->GetRoot()->AddChild(endDateSelector);
+
+
+	std::cout << "Date selectors created. Current date: " << Date().ToString() << std::endl;
 
 //	m_Vid1 = new GameVideo("test/fcintro.mp4");
 //	m_Vid1->Play();
+	 // Create time selector with appropriate size
+	ITimeSelector* timeSelector = new ITimeSelector(glm::vec2(50, 50), glm::vec2(300, 40));
 
+	// Load a clock icon (optional)
+	Texture2D* clockIcon = new Texture2D("engine/ui/clock.png");
+	timeSelector->SetClockIcon(clockIcon);
+
+	// Set custom colors (optional)
+	timeSelector->SetBackgroundColor(glm::vec4(0.15f, 0.15f, 0.2f, 0.9f));
+	timeSelector->SetLabelColor(glm::vec4(0.8f, 0.9f, 1.0f, 1.0f));
+	timeSelector->SetTimeColor(glm::vec4(1.0f, 1.0f, 0.8f, 1.0f));
+
+	// Configure time display options
+	timeSelector->SetShowSeconds(true);         // Show seconds in display
+	timeSelector->SetAutoUpdateSeconds(true);   // Auto-update seconds
+
+	// Set callback for time changes
+	timeSelector->SetOnTimeChanged([](const Time& time) {
+		// Print time in format: HH:MM:SS
+		std::cout << "Time changed: " << time.ToString() << std::endl;
+
+		// Example of checking specific times
+		if (time.hours == 12 && time.minutes == 0 && time.seconds == 0) {
+			std::cout << "It's noon!" << std::endl;
+		}
+		else if (time.hours == 0 && time.minutes == 0 && time.seconds == 0) {
+			std::cout << "It's midnight!" << std::endl;
+		}
+		});
+
+	// Set a specific time (e.g., 15:35:22)
+//	timeSelector->SetTime(15, 35, 22);
+
+	// Add to UI
+	GameUI::m_Inst->GetRoot()->AddChild(timeSelector);
+
+	// Create a second time selector without seconds display
+	ITimeSelector* timeSelector2 = new ITimeSelector(glm::vec2(50, 100), glm::vec2(300, 40));
+	timeSelector2->SetClockIcon(clockIcon);
+	timeSelector2->SetShowSeconds(false);       // Hide seconds in display
+	timeSelector2->SetAutoUpdateSeconds(false); // Don't auto-update seconds
+
+	// Set to same time as first selector but only showing hours:minutes
+	timeSelector2->SetTime(15, 35, 22);
+
+	// Add to UI
+//	GameUI::m_Inst->GetRoot()->AddChild(timeSelector2);
+
+	// Create a reset button (to reset both time selectors to current time)
+	IButton* resetButton = new IButton("Reset",glm::vec2(50, 150), glm::vec2(120, 30));
+	resetButton->SetOnClick([timeSelector, timeSelector2]() {
+		// Get current time and set both selectors
+		Time currentTime;
+		timeSelector->SetTime(currentTime);
+		timeSelector2->SetTime(currentTime);
+		std::cout << "Reset to current time: " << currentTime.ToString() << std::endl;
+		});
+
+	// Add to UI
+	//GameUI::m_Inst->GetRoot()->AddChild(resetButton);
+
+	std::cout << "Time selectors created with the following features:" << std::endl;
+	std::cout << "1. Auto-updating seconds display" << std::endl;
+	std::cout << "2. Edit button to open dropdown selectors" << std::endl;
+	std::cout << "3. Apply/Cancel buttons when editing" << std::endl;
 }
 
 

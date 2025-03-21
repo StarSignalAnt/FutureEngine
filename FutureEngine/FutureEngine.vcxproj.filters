@@ -162,6 +162,21 @@
     <ClInclude Include="ITextEdit.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IComboBox.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ITreeView.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ITreeNode.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IDateSelector.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ITimeSelector.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -276,6 +291,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ITextEdit.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IComboBox.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ITreeView.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ITreeNode.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IDateSelector.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ITimeSelector.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>
