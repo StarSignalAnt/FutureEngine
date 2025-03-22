@@ -39,6 +39,7 @@ public:
 
 	GameVideo(std::string path);
     void LoadSubtitles(std::string srtPath = "");
+    
 	~GameVideo();
     void Play();
     void Update();
@@ -80,5 +81,6 @@ private:
     int StartClock = 0;
 
     SwsContext* swsContext = nullptr;
+    bool m_NoAudio = false;
 };
 

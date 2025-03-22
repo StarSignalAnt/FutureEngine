@@ -203,6 +203,7 @@
     <ClInclude Include="RenderTarget2D.h" />
     <ClInclude Include="ShaderModule.h" />
     <ClInclude Include="SmartDraw.h" />
+    <ClInclude Include="SoundLib.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="UIHelp.h" />
   </ItemGroup>
@@ -255,6 +256,7 @@
     <ClCompile Include="RenderTarget2D.cpp" />
     <ClCompile Include="ShaderModule.cpp" />
     <ClCompile Include="SmartDraw.cpp" />
+    <ClCompile Include="SoundLib.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="UIHelp.cpp" />

@@ -12,7 +12,9 @@ class ITimeSelector;
 class IDateSelector;
 class ITextEdit;
 class IImage;
-
+class FUsers;
+class ISizeBox;
+class GameVideo;
 
 class FSLogin :
     public FutureState
@@ -48,7 +50,11 @@ private:
     ITextEdit* m_Password;
     IImage* m_Avatar;
     IButton* m_SelectAvatar;
-    std::string m_AvatarPath = "";
+    std::string m_AvatarPath;
+    FUsers* m_Users;
+    ISizeBox* m_UsersBox;
+    GameVideo* m_BGVideo;
+
 
 };
 

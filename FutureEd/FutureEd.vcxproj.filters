@@ -33,6 +33,9 @@
     <ClCompile Include="FUserProfile.cpp">
       <Filter>Users</Filter>
     </ClCompile>
+    <ClCompile Include="FSDesktop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuturePlatform.h">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="FUserProfile.h">
       <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="FSDesktop.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -232,19 +232,19 @@ void ITimeSelector::InitializeComponents()
 {
     // Create edit button
     m_EditButton = new IButton("Edit",glm::vec2(0, 0), glm::vec2(60, 20));
-    m_EditButton->SetOnClick([this]() {
+    m_EditButton->SetOnClick([this](void*data) {
         EnterEditMode();
         });
 
     // Create apply button (initially hidden)
     m_ApplyButton = new IButton("Apply",glm::vec2(0, 0), glm::vec2(60, 20));
-    m_ApplyButton->SetOnClick([this]() {
+    m_ApplyButton->SetOnClick([this](void *data) {
         ExitEditMode(true); // Apply changes
         });
 
     // Create cancel button (initially hidden)
     m_CancelButton = new IButton("Cancel",glm::vec2(0, 0), glm::vec2(60, 20));
-    m_CancelButton->SetOnClick([this]() {
+    m_CancelButton->SetOnClick([this](void* data) {
         ExitEditMode(false); // Discard changes
         });
 

@@ -49,7 +49,7 @@ void IButton::OnMouseDown(int button)
 {
 	m_Color = glm::vec4(0.678 * 2.2, 0.847 * 2.2, 0.902 * 2.2, 1);
 	m_Dragging = true;
-	Click();
+	Click(m_Data);
 
 }
 

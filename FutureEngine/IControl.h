@@ -101,9 +101,9 @@ public:
 		}
 		return false;
 	}
-	void Click() {
+	void Click(void* data=nullptr) {
 		if (OnClick) {
-			OnClick();  // Call the assigned function
+			OnClick(data);  // Call the assigned function
 		}
 	}
 	void DoubleClick() {
@@ -124,7 +124,7 @@ public:
 		}
 	}
 	
-	void SetOnClick(std::function<void()> callback) {
+	void SetOnClick(std::function<void(void*)> callback) {
 		OnClick = callback;
 	}
 	void SetOnDoubleClick(std::function<void()> callback)
@@ -189,10 +189,15 @@ public:
 	bool GetCullChildren() {
 		return m_CullChildren;
 	}
-	
+	void SetData(void* data) {
+		m_Data = data;
+	}
+
 
 protected:
 
+
+	void* m_Data = nullptr;
 	glm::vec2 m_Position;
 	glm::vec2 m_Size;
 	glm::vec2 m_Offset;
@@ -201,7 +206,7 @@ protected:
 	Texture2D* m_Image = nullptr;
 	std::string m_Text;
 	glm::vec4 m_Color;
-	std::function<void()> OnClick = nullptr;
+	std::function<void(void* data)> OnClick = nullptr;
 	std::function<void()> OnDoubleClick = nullptr;
 	std::function<void()> OnPreRender = nullptr;
 	std::function<void(glm::vec2 delta)> OnMove = nullptr;

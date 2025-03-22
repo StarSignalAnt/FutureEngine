@@ -30,10 +30,12 @@ void IWindow::Render()
 	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 
 	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.05, 0.847 * 0.05, 0.902 * 0.05, 0.55f));
+	UIHelp::DrawRect(pos + glm::vec2(0,0),  glm::vec2(m_Size.x, 20), glm::vec4(0.678 * 0.05, 0.847 * 0.05, 0.902 * 0.05, 0.85f));
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
 // 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
-	
+	//return;
+
 	std::vector<std::string> tabs;
 
 	tabs.push_back(m_Text);
@@ -316,6 +318,9 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 
 bool IWindow::InBounds(glm::vec2 position)
 {
+
+	int tab_width = UIHelp::StrWidth(m_Text)+10;
+
 	glm::vec2 root = GetRenderPosition();
 	if (position.x > root.x && position.x < root.x + m_Size.x &&
 		position.y > root.y && position.y < root.y + 16)
@@ -349,7 +354,7 @@ bool IWindow::InBounds(glm::vec2 position)
 void IWindow::InitWindow() {
 
 	m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 16, 2), glm::vec2(16,16));
-	m_MaximizeButton = new IButton("[]", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
+	m_MaximizeButton = new IButton("E", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
 	m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 48, 2), glm::vec2(16,16));
 	m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 36));
@@ -412,7 +417,7 @@ void IWindow::InitWindow() {
 
 
 
-	m_MinimizeButton->SetOnClick([&]() {
+	m_MinimizeButton->SetOnClick([&](void* data) {
 		if (m_OriginalSize.x > 0 && m_OriginalSize.y > 0) {
 			m_Position = m_OriginalPosition;
 			m_Size = m_OriginalSize;
@@ -421,7 +426,7 @@ void IWindow::InitWindow() {
 		//.m_Size = glm::vec2(m_Size.x, 20);
 		});
 
-	m_MaximizeButton->SetOnClick([&]() {
+	m_MaximizeButton->SetOnClick([&](void *data) {
 
 
 		auto pos = GetRenderPosition();
@@ -438,14 +443,14 @@ void IWindow::InitWindow() {
 
 		});
 
-	m_CloseButton->SetOnClick([&]() {
+	m_CloseButton->SetOnClick([&](void* dat) {
 
 		m_RootControl->RemoveChild(this);
 
 		});
 
 	m_TitleBarImage = new Texture2D("engine/ui/windowTitle.png");
-
+	AlignWindow();
 }
 
 void IWindow::AlignWindow() {

@@ -6,6 +6,7 @@
 #include "RenderTarget2D.h"
 #include "UIHelp.h"
 #include "GameUI.h"
+#include "SoundLib.h"
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key >= 0 && key < 512) {
         if (action == GLFW_PRESS || action == GLFW_REPEAT) {
@@ -93,7 +94,10 @@ void FutureApp::SetApp(int width, int height, std::string app)
      glfwSetMouseButtonCallback(window, mouse_button_callback);
      glfwSetScrollCallback(window, scroll_callback);
      glfwSetKeyCallback(window, key_callback);
+     SLib = new SoundLIB;
+     SLib->initialize();
     InitGL();
+
 
 }
 
@@ -131,6 +135,8 @@ void FutureApp::InitGL() {
 int FutureApp::Run()
 {
 
+    
+
 
     int nextfps = clock() + 1000;
 
@@ -142,7 +148,8 @@ int FutureApp::Run()
     //    processInput(window);
         glfwPollEvents();
         // Render
-      
+        SLib->update();
+
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

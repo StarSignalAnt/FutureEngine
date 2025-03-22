@@ -52,6 +52,9 @@
     <Filter Include="File">
       <UniqueIdentifier>{1ac8170b-54f7-4b5f-a83c-d67c0dd44fd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{d8ca10bd-02db-4871-898a-85c072a3eb2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="ISizeBox.h">
       <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLib.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp">
       <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLib.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

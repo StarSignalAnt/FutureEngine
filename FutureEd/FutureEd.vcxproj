@@ -103,7 +103,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FSDesktop.cpp" />
     <ClCompile Include="FSLogin.cpp" />
     <ClCompile Include="FUserProfile.cpp" />
     <ClCompile Include="FUsers.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="FuturePlatform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FSDesktop.h" />
     <ClInclude Include="FSLogin.h" />
     <ClInclude Include="FUserProfile.h" />
     <ClInclude Include="FUsers.h" />

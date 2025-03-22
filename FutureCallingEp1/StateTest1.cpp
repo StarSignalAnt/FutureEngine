@@ -142,7 +142,7 @@ void StateTest1::InitState()
 	IButton* but1 = new IButton("Testing",glm::vec2(450, 200), glm::vec2(168, 80));
 	//m_UI->GetRoot()->AddChild(but1);
 
-	but1->SetOnClick([]() {
+	but1->SetOnClick([](void * data) {
 		//std::cout << "Button clicked! (Lambda function)" << std::endl;
 		});
 	but1->SetOnDoubleClick([]() {
@@ -157,7 +157,7 @@ void StateTest1::InitState()
 	auto wb2 = new IButton("Save Game", glm::vec2(600, 600), glm::vec2(130, 30));
 
 
-	wb1->SetOnClick([&]() {
+	wb1->SetOnClick([&](void * data) {
 
 		std::vector<FileRequester::FileFilter> videoFilters = {
 	 {"Video Files", "*.mp4;*.avi;*.mkv"},
@@ -482,7 +482,7 @@ void StateTest1::InitState()
 
 	// Create a reset button (to reset both time selectors to current time)
 	IButton* resetButton = new IButton("Reset",glm::vec2(50, 150), glm::vec2(120, 30));
-	resetButton->SetOnClick([timeSelector, timeSelector2]() {
+	resetButton->SetOnClick([timeSelector, timeSelector2](void* data) {
 		// Get current time and set both selectors
 		Time currentTime;
 		timeSelector->SetTime(currentTime);

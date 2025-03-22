@@ -133,6 +133,11 @@ public:
         return extension;
     }
 
+    static bool fileExists(const std::string& filename) {
+        std::ifstream file(filename);
+        return file.good();
+    }
+
     // ---- Writing functions for basic types ----
 
     void writeByte(uint8_t value) {
@@ -635,6 +640,7 @@ public:
 
     void close() {
         if (file.is_open()) {
+            file.flush();
             file.close();
         }
     }

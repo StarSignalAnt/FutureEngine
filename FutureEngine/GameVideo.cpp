@@ -57,6 +57,7 @@ GameVideo::GameVideo(std::string path)
     av_dump_format(formatCtx, 0, path.c_str(), 0);
     videoStreamIndex = -1;
     audioStreamIndex = -1;
+    m_NoAudio = true;
 
     for (unsigned int i = 0; i < formatCtx->nb_streams; ++i) {
         AVCodecParameters* codecParams = formatCtx->streams[i]->codecpar;
@@ -77,6 +78,10 @@ GameVideo::GameVideo(std::string path)
                 std::cerr << "Failed to copy codec parameters for audio!" << std::endl;
             }
             avcodec_open2(audioCodecCtx, audioCodec, nullptr);
+            m_NoAudio = false;
+        }
+        else {
+           
         }
     }
 
@@ -128,6 +133,19 @@ void GameVideo::Play() {
 }
 void GameVideo::Update() {
     if (!isPlaying) return;
+
+    int time = clock();
+    int diff = time - StartClock;
+    float ctime = ((float)diff) / (1000.0f);
+
+    if (ctime >= m_TotalDuration) {
+
+        isPlaying = false;
+
+        return;
+
+
+    };
 
     // Read a single packet from the input file
     if (av_read_frame(formatCtx, &packet) < 0) {
@@ -292,7 +310,20 @@ Frame GameVideo::GetFrame() {
     if (!isPlaying || m_Frames.empty()) return Frame();
 
     // Get the current playback time
-    double currentTime = getSourceTime(source);
+    double currentTime;// = getSourceTime(source);
+    if (m_NoAudio) {
+
+        int time = clock();
+        int diff = time - StartClock;
+        float ctime = ((float)diff) / (1000.0f);
+
+
+        currentTime = ctime;
+    }
+    else {
+        currentTime = getSourceTime(source);
+    }
+        
 
     // Find the appropriate subtitle for the current time
     std::string currentSubtitle;
@@ -510,18 +541,33 @@ float GameVideo::GetPosition()  {
 bool GameVideo::IsFinished() {
     // If the video isn't playing, we shouldn't consider it as finished
     if (!isPlaying) {
-        return false;
+        return true;
     }
 
     // Get current playback position
-    float currentTime = getSourceTime(source);
+    if (m_NoAudio) {
+    
+        int time = clock();
+        int diff = time - StartClock;
+        float ctime = ((float)diff) / (1000.0f);
+        if (ctime >= m_TotalDuration) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    
+    }
+    else {
+        float currentTime = getSourceTime(source);
 
-    // Check if we're at or past the end of the video
-    // Using a small threshold to account for floating-point precision
-    const double END_THRESHOLD = 0.1; // 100ms threshold
+        // Check if we're at or past the end of the video
+        // Using a small threshold to account for floating-point precision
+        const double END_THRESHOLD = 0.1; // 100ms threshold
 
-    return (currentTime >= (m_TotalDuration - END_THRESHOLD));
+        return (currentTime >= (m_TotalDuration - END_THRESHOLD));
 
+    }
     // Alternative approach: check if normalized position is very close to 1.0
     // return (GetNormalizedPosition() > 0.99f);
 }

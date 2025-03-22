@@ -6,8 +6,10 @@
 
 class GLFWwindow;
 class RenderTarget2D;
+class SoundLIB;
 
 class FutureApp
+
 {
 public:
 
@@ -23,7 +25,7 @@ public:
 	void SetBind(RenderTarget2D* rt);
 	RenderTarget2D* GetBind() { return m_BoundRT; };
 	static FutureApp* m_Inst;
-
+	SoundLIB* SLib;
 private:
 
 	int m_Width;

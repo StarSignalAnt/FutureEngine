@@ -14,16 +14,24 @@
 #include "FileRequester.h"
 #include "FUsers.h"
 #include "FUserProfile.h"
+#include "ISizeBox.h"
+#include "FSDesktop.h"
+#include "SoundLib.h"
+#include "GameVideo.h"
 
 void FSLogin::InitState() {
 
 	m_Draw = new SmartDraw;
 	m_Background = new Texture2D("platform/wallpapers/platform_defaultwp.jpg");
-
+	auto boot = FutureApp::m_Inst->SLib->loadSound("platform/audio/boot/bootsound.wav");
+	FutureApp::m_Inst->SLib->playSound(boot);
+	m_BGVideo = new GameVideo("platform/video/loginBG.mp4");
+	m_BGVideo->Play();
 }
 
 void FSLogin::UpdateState(float delta) {
 
+	m_BGVideo->Update();
 	m_BGAlpha += 0.45f * delta;
 	if (m_BGAlpha > 1) {
 		m_BGAlpha = 1.0;
@@ -49,7 +57,7 @@ void FSLogin::UpdateState(float delta) {
 			
 			m_NewUser = new IButton("New User", glm::vec2(32, FutureApp::m_Inst->GetHeight() - 72), glm::vec2(130, 30));
 
-			m_NewUser->SetOnClick([&]() {
+			m_NewUser->SetOnClick([&](void * data) {
 
 				CreateNewUser();
 
@@ -59,6 +67,64 @@ void FSLogin::UpdateState(float delta) {
 			
 			m_CreatedUI = true;
 
+			m_Users = new FUsers;
+			m_Users->LoadUsers();
+			m_Users->SaveUsers();
+
+
+			auto login_lab = new ILabel("Future-Platform Login", glm::vec2(FutureApp::m_Inst->GetWidth() / 2 - UIHelp::StrWidth("Future-Platform Login") / 2, FutureApp::m_Inst->GetHeight() / 2 - 180));
+			m_UsersBox = new ISizeBox(glm::vec2(FutureApp::m_Inst->GetWidth() / 2 - 200, FutureApp::m_Inst->GetHeight() / 2 - 140), glm::vec2(400, 280));
+
+			m_UI->GetRoot()->AddChild(m_UsersBox);
+			m_UI->GetRoot()->AddChild(login_lab);
+
+			auto users = m_Users->GetUsers();
+
+			int y = 20;
+
+			for (auto user : users) {
+
+				auto img = new IImage(glm::vec2(10, y), glm::vec2(96, 96));
+				img->SetImage(user->GetAvatarImage());
+				auto lab = new ILabel(user->GetFullName(), glm::vec2(120, y + 40));
+				
+				auto login = new IButton("Login", glm::vec2(275, y + 58), glm::vec2(120, 30));
+				
+				m_UsersBox->AddChild(img);
+				m_UsersBox->AddChild(lab);
+				m_UsersBox->AddChild(login);
+
+				login->SetData(user);
+
+				login->SetOnClick([&](void* data) {
+
+					auto profile = (FUserProfile*)data;
+
+					m_Login = new IWindow("Login", glm::vec2(FutureApp::m_Inst->GetWidth()/2-200,FutureApp::m_Inst->GetHeight()/2-80), glm::vec2(400,160));
+					m_UI->GetRoot()->AddChild(m_Login);
+
+					auto pass_lab = new ILabel("Password", glm::vec2(20, 60));
+					auto name_lab = new ILabel("Account:"+profile->GetFullName(), glm::vec2(10, 15));
+					auto pass_edit = new ITextEdit(glm::vec2(100, 50), glm::vec2(220, 30));
+					auto login = new IButton("Login", glm::vec2(5, 100), glm::vec2(80, 30));
+
+					m_Login->AddClientControl(name_lab);
+					m_Login->AddClientControl(pass_lab);
+					m_Login->AddClientControl(pass_edit);
+					m_Login->AddClientControl(login);
+
+					/*
+					auto desktop = new FSDesktop;
+					desktop->SetUser((FUserProfile*)data);
+
+					FutureApp::m_Inst->PushState(desktop);
+					*/
+
+					});
+
+				y = y + 110;
+
+			}
 
 		}
 	}
@@ -107,7 +173,7 @@ void FSLogin::CreateNewUser() {
 
 	m_SelectAvatar = new IButton("Select Avatar", glm::vec2(148, 35), glm::vec2(100, 30));
 
-	m_SelectAvatar->SetOnClick([&]() {
+	m_SelectAvatar->SetOnClick([&](void * data) {
 
 		auto path = FileRequester::OpenFile("Select Avatar");
 
@@ -128,13 +194,19 @@ void FSLogin::CreateNewUser() {
 	auto create = new IButton("Create User", glm::vec2(m_CreateUser->GetSize().x - 160, m_CreateUser->GetSize().y - 65), glm::vec2(140, 30));
 	m_CreateUser->AddClientControl(create);
 
-	create->SetOnClick([&]() {
+	create->SetOnClick([&](void* data) {
 
 		FUserProfile* profile = new FUserProfile;
 		profile->SetID(m_Name->GetText());
 		profile->CreateUser();
+		profile->SetFullName(m_Name->GetText());
 		profile->SetAvatar(m_AvatarPath);
+		profile->SetPassword(m_Password->GetText());
+		profile->SaveUser();
 	
+		m_Users->AddUser(profile);
+
+		m_Users->SaveUsers();
 
 		m_CreateUser->Close();
 

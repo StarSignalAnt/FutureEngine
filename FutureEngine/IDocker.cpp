@@ -831,6 +831,10 @@ void IDocker::Rebuild() {
         //dock.Window->Set(dpos, dock.Window->GetSize(), false);
         
 
+        dim.x += 3;
+        dim.y += 3;
+        dim.z -= 6;
+        dim.w -= 6;
         dock.Window->Set(glm::vec2(dim.x, dim.y), glm::vec2(dim.z, dim.w),true);
 
 
