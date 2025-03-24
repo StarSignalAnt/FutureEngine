@@ -2,6 +2,10 @@
 #include <FutureState.h>
 
 class FUserProfile;
+class GameUI;
+class Texture2D;
+class IWindow;
+
 
 class FSDesktop :
     public FutureState
@@ -22,6 +26,7 @@ public:
 private:
 
     FUserProfile* m_Profile = nullptr;
+    GameUI* m_UI;
 
 };
 

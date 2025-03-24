@@ -42,6 +42,19 @@ public:
     void SetKeyRepeatDelay(float delay) { m_KeyRepeatDelay = delay; }
     void SetKeyRepeatInterval(float interval) { m_KeyRepeatInterval = interval; }
 
+    void SetOnEdit(std::function<void(std::string text)> edit) {
+
+        OnEdit = edit;
+
+    }
+    void Edited() {
+
+        if (OnEdit) {
+            OnEdit(m_Text);
+        }
+
+    }
+
 private:
     void HandleKeyInput();
     void EnsureCursorVisible();
@@ -78,4 +91,7 @@ private:
     glm::vec4 m_BorderColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     glm::vec4 m_SelectionColor = glm::vec4(0.3f, 0.5f, 0.7f, 0.5f);
     glm::vec4 m_CursorColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    std::function<void(std::string )> OnEdit = nullptr;
+ 
+
 };

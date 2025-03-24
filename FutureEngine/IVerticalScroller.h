@@ -7,7 +7,7 @@ class IVerticalScroller : public IControl
 {
 public:
     IVerticalScroller() : IControl(), m_ContentHeight(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
-        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
+        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollBarWidth(10.0f),
         m_IsHovering(false), m_CurrentButtonWidth(5.0f), m_ExpandedButtonWidth(10.0f),
         m_ContractedButtonWidth(5.0f), m_WidthTransitionSpeed(6.0f) {
@@ -16,7 +16,7 @@ public:
 
     IVerticalScroller(glm::vec2 position, glm::vec2 size)
         : IControl(position, size), m_ContentHeight(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
-        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
+        m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollBarWidth(10.0f),
         m_IsHovering(false), m_CurrentButtonWidth(5.0f), m_ExpandedButtonWidth(10.0f),
         m_ContractedButtonWidth(5.0f), m_WidthTransitionSpeed(6.0f) {
@@ -121,8 +121,8 @@ public:
             glm::vec2 buttonPos = glm::vec2(renderPos.x + buttonOffset, buttonTop);
 
             // Draw the scroll button (thumb) with dynamic width
-            UIHelp::DrawImage(buttonPos, glm::vec2(m_CurrentButtonWidth, m_ScrollButtonSize),
-                m_ScrollImage, glm::vec4(0.678 * 1.8, 0.847 * 1.8, 0.902 * 1.8, 1));
+            UIHelp::DrawRect(buttonPos, glm::vec2(m_CurrentButtonWidth, m_ScrollButtonSize),
+                 glm::vec4( 0.4,  0.4,  0.4, 1));
         }
 
         // Render children controls (if any)

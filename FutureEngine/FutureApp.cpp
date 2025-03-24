@@ -226,6 +226,9 @@ void FutureApp::PopState()
     auto top = m_States.top();
 	m_States.pop();
     top->EndState();
+    GameInput::Buttons[0] = false;
+    GameInput::Buttons[1] = false;
+
 
 }
 

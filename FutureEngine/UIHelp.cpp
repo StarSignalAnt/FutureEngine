@@ -124,7 +124,7 @@ void UIHelp::DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 	float yPos = pos.y / (float)FutureApp::m_Inst->GetHeight();
 	float xPos = pos.x / (float)FutureApp::m_Inst->GetWidth();
 	float xHigh = xPos+size.x / (float)FutureApp::m_Inst->GetWidth();
-
+	yHigh = yPos + yHigh;
 	glEnable(GL_BLEND);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

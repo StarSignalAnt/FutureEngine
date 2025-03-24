@@ -22,6 +22,9 @@ struct MenuItem {
 	IVerticalMenu* m_ActiveControl = nullptr;
 	int m_DrawX, m_DrawY;
 	std::function<void()> OnClick = nullptr;
+	int m_Extra = 0;
+	std::function<void(MenuItem*)> OnSelect = nullptr;
+	void* m_Data;
 };
 
 class IMainMenu : public IControl

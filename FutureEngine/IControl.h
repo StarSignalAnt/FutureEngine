@@ -117,6 +117,12 @@ public:
 		}
 	}
 
+	void Enter(void * data) {
+		if (OnEnter) {
+			OnEnter(data);
+		}
+	}
+
 	void Move(glm::vec2 delta) {
 
 		if (OnMove) {
@@ -142,6 +148,13 @@ public:
 		OnMove = move;
 
 	}
+	void SetOnEnter(std::function<void(void*)> enter) {
+
+		OnEnter = enter;
+
+	}
+
+
 
 	int GetMaxHeight();
 	int GetMaxWidth();
@@ -168,6 +181,16 @@ public:
 			case DockType::m_Fill:
 
 				child->Set(glm::vec2(0, 0), m_Size-glm::vec2(2,4));
+
+				break;
+			case DockType::m_Down:
+
+				child->Set(glm::vec2(0, m_Size.y - child->GetSize().y), glm::vec2(m_Size.x, child->GetSize().y));
+
+				break;
+			case DockType::m_Up:
+
+				child->Set(glm::vec2(0, 0), glm::vec2(m_Size.x, child->GetSize().y));
 
 				break;
 			}
@@ -210,6 +233,7 @@ protected:
 	std::function<void()> OnDoubleClick = nullptr;
 	std::function<void()> OnPreRender = nullptr;
 	std::function<void(glm::vec2 delta)> OnMove = nullptr;
+	std::function<void(void *)> OnEnter = nullptr;
 	bool m_CullChildren = false;
 	DockType m_DockType = DockType::m_Free;
 	bool m_Transist = false;

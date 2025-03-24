@@ -4,6 +4,7 @@ class IControl;
 class IWindow;
 class IDocker;
 class IMainMenu;
+class UITheme;
 
 class GameUI
 {
@@ -23,12 +24,15 @@ public:
 	void ResetMouse();
 	void SetUISize(int w, int h);
 	IMainMenu* GetMainMenu() { return m_ActiveMenu; };
-	void SetMainMenu(IMainMenu* menu) { m_ActiveMenu = menu; };
+	void SetMainMenu(IMainMenu* menu);
 	void SetDragWindow(IWindow* window);
+	static UITheme* GetTheme() { return m_Inst->m_Theme; }
+	IControl* GetActiveControl() { return m_ControlActive; };
 
 private:
 	bool m_WindowDockingEnabled = true;
 	glm::vec2 m_LastWindowPosition;
+	UITheme* m_Theme = nullptr;
 	IWindow* m_DraggingWindow = nullptr;
 	IControl* m_FirstClick = nullptr;
 	IControl* m_RootControl;

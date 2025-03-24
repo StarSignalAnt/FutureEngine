@@ -16,6 +16,15 @@
     <Filter Include="Users">
       <UniqueIdentifier>{1ea581ef-cd5a-485a-8cdb-24c02abdbd60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{d3d8af8e-dfe0-49ed-9418-b7a11f9fa2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps">
+      <UniqueIdentifier>{cc829865-6906-4a3d-b0ee-e69e096f30b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\TestApp1">
+      <UniqueIdentifier>{a9b6e600-ed10-4686-9795-a71e2eab8e99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEd.cpp">
@@ -36,6 +45,30 @@
     <ClCompile Include="FSDesktop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DesktopWallpaper.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppBar.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStart.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FPApps.cpp">
+      <Filter>Apps</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApp1.cpp">
+      <Filter>Apps\TestApp1</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowTestApp.cpp">
+      <Filter>Apps\TestApp1</Filter>
+    </ClCompile>
+    <ClCompile Include="AppButton.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMenu.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuturePlatform.h">
@@ -52,6 +85,30 @@
     </ClInclude>
     <ClInclude Include="FSDesktop.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DesktopWallpaper.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppBar.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStart.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="FPApps.h">
+      <Filter>Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApp1.h">
+      <Filter>Apps\TestApp1</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowTestApp.h">
+      <Filter>Apps\TestApp1</Filter>
+    </ClInclude>
+    <ClInclude Include="AppButton.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMenu.h">
+      <Filter>Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

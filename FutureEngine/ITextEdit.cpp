@@ -26,6 +26,8 @@ ITextEdit::ITextEdit(glm::vec2 position, glm::vec2 size) : IControl(position, si
 void ITextEdit::Render() {
     glm::vec2 renderPos = GetRenderPosition();
 
+    Edited();
+
     // Draw background
     UIHelp::DrawRect(renderPos, m_Size, m_BackgroundColor);
 
@@ -209,6 +211,7 @@ bool ITextEdit::HandleKeyWithRepeat(int key) {
             m_KeyStates[key].timePressed = 0.0f;
             m_KeyStates[key].timeSinceRepeat = 0.0f;
             m_KeyStates[key].hasRepeated = false;
+          
             return true; // First press is always registered
         }
         else {
@@ -413,6 +416,11 @@ void ITextEdit::HandleKeyInput() {
         m_CursorVisible = true;
         EnsureCursorVisible();
         return; // Don't insert 'A'
+    }
+
+    if (GameInput::Keys[GLFW_KEY_ENTER])
+    {
+        Enter(m_Data);
     }
 
     // Handle regular character input with repeat

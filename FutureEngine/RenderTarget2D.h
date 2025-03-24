@@ -17,6 +17,7 @@ public:
 	unsigned int GetDepthBuffer();
 	unsigned int GetWidth();
 	unsigned int GetHeight();
+	void Free();
 
 private:
 

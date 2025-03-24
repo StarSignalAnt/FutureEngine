@@ -6,6 +6,7 @@
 IMainMenu::IMainMenu() {
 
 	m_Size = glm::vec2(FutureApp::m_Inst->GetWidth(), 25);
+	m_DockType = DockType::m_Up;
 
 }
 

@@ -199,13 +199,16 @@
     <ClInclude Include="IVideoPlayer.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="MathsOps.h" />
+    <ClInclude Include="MessageBox.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderTarget2D.h" />
     <ClInclude Include="ShaderModule.h" />
     <ClInclude Include="SmartDraw.h" />
     <ClInclude Include="SoundLib.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="ThemeDark.h" />
     <ClInclude Include="UIHelp.h" />
+    <ClInclude Include="UITheme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp" />
@@ -259,7 +262,9 @@
     <ClCompile Include="SoundLib.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="ThemeDark.cpp" />
     <ClCompile Include="UIHelp.cpp" />
+    <ClCompile Include="UITheme.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

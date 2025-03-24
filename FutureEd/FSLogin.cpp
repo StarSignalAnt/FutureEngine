@@ -18,6 +18,7 @@
 #include "FSDesktop.h"
 #include "SoundLib.h"
 #include "GameVideo.h"
+#include "MessageBox.h"
 
 void FSLogin::InitState() {
 
@@ -88,7 +89,7 @@ void FSLogin::UpdateState(float delta) {
 				img->SetImage(user->GetAvatarImage());
 				auto lab = new ILabel(user->GetFullName(), glm::vec2(120, y + 40));
 				
-				auto login = new IButton("Login", glm::vec2(275, y + 58), glm::vec2(120, 30));
+				auto login = new IButton("Login", glm::vec2(255, y + 58), glm::vec2(135, 30));
 				
 				m_UsersBox->AddChild(img);
 				m_UsersBox->AddChild(lab);
@@ -108,16 +109,67 @@ void FSLogin::UpdateState(float delta) {
 					auto pass_edit = new ITextEdit(glm::vec2(100, 50), glm::vec2(220, 30));
 					auto login = new IButton("Login", glm::vec2(5, 100), glm::vec2(80, 30));
 
+					pass_edit->SetIsPassword(true);
+
+					pass_edit->SetOnEdit([&](std::string pass) {
+
+						m_UserPassword = pass;
+
+						});
+
+					pass_edit->SetData(profile);
+
+					pass_edit->SetOnEnter([&](void* data) {
+
+						auto profile = (FUserProfile*)data;
+
+						if (profile->GetPassword() != m_UserPassword)
+						{
+							std::cout << "Incorrect password" << std::endl;
+							new MessageBox("You have entered an incorrect password. Please try-again");
+						}
+						else {
+
+							auto desktop = new FSDesktop;
+							desktop->SetUser((FUserProfile*)data);
+
+							FutureApp::m_Inst->PushState(desktop);
+
+						}
+
+						});
+
 					m_Login->AddClientControl(name_lab);
 					m_Login->AddClientControl(pass_lab);
 					m_Login->AddClientControl(pass_edit);
 					m_Login->AddClientControl(login);
 
-					/*
-					auto desktop = new FSDesktop;
-					desktop->SetUser((FUserProfile*)data);
+					login->SetData(profile);
 
-					FutureApp::m_Inst->PushState(desktop);
+
+
+					login->SetOnClick([&](void* data) {
+
+						auto profile = (FUserProfile*)data;
+
+						if (profile->GetPassword() != m_UserPassword)
+						{
+							std::cout << "Incorrect password" << std::endl;
+							new MessageBox("You have entered an incorrect password. Please try-again");
+						}
+						else {
+
+							auto desktop = new FSDesktop;
+							desktop->SetUser((FUserProfile*)data);
+
+							FutureApp::m_Inst->PushState(desktop);
+
+						}
+
+						});
+
+					/*
+				
 					*/
 
 					});

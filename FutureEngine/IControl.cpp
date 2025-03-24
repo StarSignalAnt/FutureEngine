@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include "FutureApp.h"
 #include "IWindow.h"
+#include "GameUI.h"
+#include "UIHelp.h"
 
 glm::vec2 IControl::GetRenderPosition() {
 
@@ -63,6 +65,10 @@ void IControl::RenderChildren() {
 			if (m_CullChildren) {
 				setScissor(rpos.x, rpos.y, gsize.x, gsize.y, sh);
 				glEnable(GL_SCISSOR_TEST);
+			}
+			if (child == GameUI::m_Inst->GetActiveControl())
+			{
+				UIHelp::DrawOutlineRect(child->GetRenderPosition() + glm::vec2(-1, -1), child->GetSize() + glm::vec2(2, 2), glm::vec4(1, 1, 1, 1));
 			}
 			child->Render();
 	//	}

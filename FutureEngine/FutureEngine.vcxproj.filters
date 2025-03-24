@@ -55,6 +55,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{d8ca10bd-02db-4871-898a-85c072a3eb2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resonance2\Themes">
+      <UniqueIdentifier>{b8c86d21-779f-487e-9a0f-e9ea7e1847a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -194,6 +197,15 @@
     </ClInclude>
     <ClInclude Include="SoundLib.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBox.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="UITheme.h">
+      <Filter>Resonance2</Filter>
+    </ClInclude>
+    <ClInclude Include="ThemeDark.h">
+      <Filter>Resonance2\Themes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="SoundLib.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="UITheme.cpp">
+      <Filter>Resonance2</Filter>
+    </ClCompile>
+    <ClCompile Include="ThemeDark.cpp">
+      <Filter>Resonance2\Themes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

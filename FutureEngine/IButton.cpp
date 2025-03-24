@@ -19,7 +19,8 @@ void IButton::Render()
 
 
 	if (m_RenderBody || m_Over) {
-		UIHelp::DrawImage(GetRenderPosition(), m_Size, m_Image, m_Color);
+		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,2), glm::vec4(0.5, 0.5, 0.5, 1.0));
+		UIHelp::DrawRect(GetRenderPosition(), m_Size, m_Color);
 	}
 	UIHelp::DrawText(pos,m_Text,glm::vec4(1,1,1,1));
 
@@ -29,25 +30,25 @@ void IButton::Render()
 void IButton::LoadResources() {
 
 	m_Image = new Texture2D("engine/ui/buttonframe.png");
-	m_Color = glm::vec4(0.678 * 1.8, 0.847 * 1.8, 0.902 * 1.8, 1);
+	m_Color = glm::vec4(0.1,0.1,0.1, 1);
 }
 
 void IButton::OnMouseEnter()
 {
-	m_Color = glm::vec4(0.678 * 2, 0.847 * 2, 0.902 * 2, 1);
+	m_Color = glm::vec4(0.15,0.15,0.15, 1);
 	m_Over = true;
 }
 
 void IButton::OnMouseLeave()
 {
-	m_Color = glm::vec4(0.678 * 1.8, 0.847 * 1.8, 0.902 * 1.8, 1);
+	m_Color = glm::vec4(0.1,0.1,0.1, 1);
 	m_Over = false;
 }
 
 
 void IButton::OnMouseDown(int button)
 {
-	m_Color = glm::vec4(0.678 * 2.2, 0.847 * 2.2, 0.902 * 2.2, 1);
+	m_Color = glm::vec4(0.3,0.3,0.3, 1);
 	m_Dragging = true;
 	Click(m_Data);
 
@@ -56,7 +57,7 @@ void IButton::OnMouseDown(int button)
 void IButton::OnMouseUp(int button)
 {
 	m_Dragging = false;
-	m_Color = glm::vec4(0.678 * 2, 0.847 * 2, 0.902 * 2, 1);
+	m_Color = glm::vec4(0.15,0.15,0.15, 1);
 }
 
 void IButton::OnMouseDoubleClick()

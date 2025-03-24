@@ -73,3 +73,11 @@ unsigned int RenderTarget2D::GetWidth() {
 unsigned int RenderTarget2D::GetHeight() {
     return m_Height;
 }
+
+
+void RenderTarget2D::Free() {
+
+	glDeleteFramebuffers(1, &m_FrameBuffer);
+	glDeleteRenderbuffers(1,&m_DepthBuffer);
+
+}

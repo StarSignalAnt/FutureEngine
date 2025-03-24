@@ -6,7 +6,7 @@
 #include "IDocker.h"
 #include "IWindow.h"
 #include "IMainMenu.h"
-
+#include "ThemeDark.h"
 #include <iostream>
 
 GameUI* GameUI::m_Inst = nullptr;
@@ -28,9 +28,9 @@ GameUI::GameUI()
 {
     m_Inst = this;
     m_RootControl = new IControlGroup;
-    m_RootControl->Set(glm::vec2(0, 20), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()-20));
+    m_RootControl->Set(glm::vec2(0,0), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()));
    // m_ActiveMenu = new IMainMenu;
-
+    m_Theme = new ThemeDark;
 
 
 }
@@ -334,6 +334,7 @@ void GameUI::SetUISize(int width,int height) {
     m_RootControl->Set(glm::vec2(0, 0), glm::vec2(width, height));
 
     m_RootControl->ApplyDockChildren();
+    
 
 }
 
@@ -385,5 +386,15 @@ void GameUI::SetDragWindow(IWindow* window) {
     m_DraggingWindow = nullptr;
     GameInput::m_Dragging = window;
     
+
+}
+
+void GameUI::SetMainMenu(IMainMenu* menu)
+{
+    if (m_ActiveMenu != nullptr) {
+        m_RootControl->RemoveChild(m_ActiveMenu);
+    }
+    m_ActiveMenu = menu;
+    m_RootControl->AddChild(m_ActiveMenu);
 
 }

@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureApp;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
@@ -114,7 +114,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>FutureEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FutureEngine.lib;FutureApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,19 +134,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppBar.cpp" />
+    <ClCompile Include="AppButton.cpp" />
+    <ClCompile Include="AppMenu.cpp" />
+    <ClCompile Include="AppStart.cpp" />
+    <ClCompile Include="DesktopWallpaper.cpp" />
+    <ClCompile Include="FPApps.cpp" />
     <ClCompile Include="FSDesktop.cpp" />
     <ClCompile Include="FSLogin.cpp" />
     <ClCompile Include="FUserProfile.cpp" />
     <ClCompile Include="FUsers.cpp" />
     <ClCompile Include="FutureEd.cpp" />
     <ClCompile Include="FuturePlatform.cpp" />
+    <ClCompile Include="TestApp1.cpp" />
+    <ClCompile Include="WindowTestApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppBar.h" />
+    <ClInclude Include="AppButton.h" />
+    <ClInclude Include="AppMenu.h" />
+    <ClInclude Include="AppStart.h" />
+    <ClInclude Include="DesktopWallpaper.h" />
+    <ClInclude Include="FPApps.h" />
     <ClInclude Include="FSDesktop.h" />
     <ClInclude Include="FSLogin.h" />
     <ClInclude Include="FUserProfile.h" />
     <ClInclude Include="FUsers.h" />
     <ClInclude Include="FuturePlatform.h" />
+    <ClInclude Include="TestApp1.h" />
+    <ClInclude Include="WindowTestApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

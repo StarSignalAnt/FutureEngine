@@ -31,6 +31,10 @@ void IVerticalMenu::OnMouseDown(int button) {
 			if (m_OverItem->OnClick)
 			{
 				m_OverItem->OnClick();
+	
+			}
+			if (m_OverItem->OnSelect) {
+				m_OverItem->OnSelect(m_OverItem);
 			}
 		}
 		else {

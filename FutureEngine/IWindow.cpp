@@ -10,6 +10,7 @@
 #include "IDocker.h"
 #include "GameUI.h"
 #include "IMainMenu.h"
+#include "UITheme.h"
 
 void IWindow::Update(float delta)
 {
@@ -23,15 +24,22 @@ void IWindow::Render()
 	m_TitleBG->Grab(pos.x, pos.y);
 	m_ClientBG->Grab(pos.x,pos.y + 20);
 
+	auto theme = GameUI::GetTheme();
 
 
+	UIHelp::DrawOutlineRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(1,-19),theme->GetForeground());
+	
+	if (theme->GetWindowBlur()) {
+		UIHelp::DrawImageBlur(pos + glm::vec2(0, 20 + (m_Size.y - 20)), glm::vec2(m_Size.x, -(m_Size.y - 21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
+	}
 
-	UIHelp::DrawOutlineRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(1,-19), glm::vec4(1, 1, 1, 1.0f));
-	UIHelp::DrawImageBlur(pos + glm::vec2(0,20+(m_Size.y-20)), glm::vec2(m_Size.x, -(m_Size.y-21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
+	auto bg = theme->GetBackground();
+	bg.a = theme->GetWindowAlpha();
 
-	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), glm::vec4(0.678 * 0.05, 0.847 * 0.05, 0.902 * 0.05, 0.55f));
-	UIHelp::DrawRect(pos + glm::vec2(0,0),  glm::vec2(m_Size.x, 20), glm::vec4(0.678 * 0.05, 0.847 * 0.05, 0.902 * 0.05, 0.85f));
+	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), bg );
+	 UIHelp::DrawRect(pos + glm::vec2(0,0),  glm::vec2(m_Size.x, 20), theme->GetWindowTileBar());
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
+// 
 // 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
 	//return;
@@ -466,7 +474,7 @@ void IWindow::AlignWindow() {
 	m_ClientBG->Free();
 	m_ClientBG = new Texture2D(m_Size.x, m_Size.y - 20);
 
-	m_Resizer->Set(glm::vec2(m_Size.x - 10, m_Size.y - 10), glm::vec2(10, 10));
+	m_Resizer->Set(glm::vec2(m_Size.x - 8, m_Size.y - 8), glm::vec2(7, 7));
 
 
 	auto sv = m_YScroller->GetScrollPosition();

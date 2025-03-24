@@ -55,6 +55,8 @@ private:
     ISizeBox* m_UsersBox;
     GameVideo* m_BGVideo;
 
+    std::string m_UserPassword = "";
+
 
 };
 
