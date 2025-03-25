@@ -3,6 +3,7 @@
 #include "AppStart.h"
 #include "AppButton.h"
 #include "IWindow.h"
+#include "FPApps.h"
 
 AppBar::AppBar(glm::vec2 position, glm::vec2 size) {
 
@@ -33,19 +34,19 @@ void AppBar::Render() {
 int AppBar::NextX() {
 
 
-	int x = 35;
+	int x = 120;
 	for (auto window : m_Windows) {
 
-		x = x + UIHelp::StrWidth(window->GetText()) + 30;
+		x = x + UIHelp::StrWidth(window->GetText()) + 60;
 
 	}
 
 	return x;
 }
 
-void AppBar::RegisterWindow(IWindow* window) {
+void AppBar::RegisterWindow(IWindow* window,FPApp* app) {
 
-	m_Windows.push_back(window);
+	
 	auto button = new AppButton;
 	
 	int bx =  NextX();
@@ -53,9 +54,10 @@ void AppBar::RegisterWindow(IWindow* window) {
 	button->Set(glm::vec2(bx, 5), glm::vec2(UIHelp::StrWidth(window->GetText())+45, m_Size.y - 10));
 	button->SetText(window->GetText());
 	button->SetWindow(window);
+	button->SetImage(app->GetIcon());
 
 	AddChild(button);
 	//m_Window = window;
-
+	m_Windows.push_back(window);
 
 }

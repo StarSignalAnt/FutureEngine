@@ -1,7 +1,10 @@
 #pragma once
 #include <FPApp.h>
 
+class GameMap;
 class IDocker;
+class IFrameBuffer;
+class GameCam;
 
 class AppMapEditor :
     public FPApp
@@ -18,6 +21,12 @@ public:
     IWindow* m_Content;
     IWindow* m_Properties;
     IWindow* m_MapView;
+
+    IFrameBuffer* m_MapViewFB;
+    GameMap* m_EditMap;
+    GameCam* m_EditCam;
+
+    bool m_DragCam = false;
 
 };
 

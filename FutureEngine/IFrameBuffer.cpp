@@ -12,8 +12,11 @@ IFrameBuffer::IFrameBuffer(glm::vec2 position, glm::vec2 size) {
 
 void IFrameBuffer::PreRender() {
 
+	if (m_Size.x != m_RT->GetWidth() || m_Size.y != m_RT->GetHeight()) {
+		m_RT = new RenderTarget2D(m_Size.x, m_Size.y);
+	}
 	m_RT->Bind();
-	m_RT->Clear(glm::vec3(1,0,0));
+	m_RT->Clear(glm::vec3(0,0,0));
 	CallPreRender();
 	m_RT->Unbind();
 

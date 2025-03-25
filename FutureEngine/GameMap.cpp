@@ -12,6 +12,7 @@
 #include "GameSprite.h"
 #include "GameAnimation.h"
 
+
 void GameMap::InitMap() {
 
 	m_ShadowRenderer = new SmartDraw;
@@ -21,6 +22,7 @@ void GameMap::InitMap() {
 	m_TileRenderer->SetShaderModule(m_DrawLit);
 	m_ShadowRenderer->SetShaderModule(m_ShadowWrite);
 	m_ShadowRT = new RenderTarget2D(m_ShadowMapSize, m_ShadowMapSize);
+	m_GridTex = new Texture2D("apps/mapeditor/grid.png");
 
 }
 
@@ -298,4 +300,59 @@ void GameMap::FIllBlock(GameTile* tile, int x, int y, int w, int h, int z)
 			SetTile(i, j, z, tile);
 		}
 	}
+}
+
+void GameMap::RenderGrid(GameCam* camera) {
+
+	float midX = FutureApp::m_Inst->GetWidth() / 2.0f;
+	float midY = FutureApp::m_Inst->GetHeight() / 2.0f;
+
+	m_TestRender->Begin();
+
+	for (int y = 0; y < m_Height; y++) {
+
+		for (int x = 0; x < m_Width; x++)
+		{
+
+			float drawX = x * m_TileWidth + m_TileWidth / 2;
+			float drawY = y * m_TileHeight + m_TileHeight / 2;
+
+			drawX -= camera->GetPosition().x;
+
+			drawY -= camera->GetPosition().y;
+
+
+			float pX = drawX - midX;
+			float pY = drawY - midY;
+
+			float rot = camera->GetRotation().y;
+
+			auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, camera->GetPosition().z);
+
+			renderPos = glm::vec2(midX, midY) +
+				renderPos;
+
+
+			//auto tile = GetTile(x, y, z);
+
+
+		//	if (tile != nullptr) {
+
+			if (GetHighlight(x, y)) {
+				auto info = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(0, 1, 1, 1), m_GridTex, rot, camera->GetPosition().z);
+			}
+			else {
+				auto info = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(0, 1, 0, 1), m_GridTex, rot, camera->GetPosition().z);
+			}
+				//extra 0 = cast shadows, extra 2 = receive shadows, extra 3 = recieve light
+
+
+			//}
+
+		}
+
+	}
+
+	m_TestRender->End();
+
 }

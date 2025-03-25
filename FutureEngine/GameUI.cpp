@@ -35,6 +35,8 @@ GameUI::GameUI()
 
 }
     
+bool MouseB[64] = { 0 };
+
 void GameUI::UpdateUI(float delta)
 {
     // Process any pending undock operations first
@@ -107,6 +109,12 @@ void GameUI::UpdateUI(float delta)
                     }
                     else {
                         m_ControlOver->OnMouseLeave();
+                        for (int i = 1; i < 3; i++) {
+                            if (MouseB[i]) {
+                                MouseB[i] = false;
+                                m_ControlOver->MouseUnPressed(i);
+                            }
+                        }
                         m_ControlOver = control;
                         control->OnMouseEnter();
                         prev_Click = 0;
@@ -129,6 +137,7 @@ void GameUI::UpdateUI(float delta)
             if (m_ControlPressed == nullptr) {
                 m_ControlPressed = m_ControlOver;
                 m_ControlPressed->OnMouseDown(0);
+                m_ControlPressed->MousePressed(0);
                 if (m_ControlActive != nullptr && m_ControlActive!=m_ControlOver) {
                     m_ControlActive->OnDeactivate();
 
@@ -166,6 +175,7 @@ void GameUI::UpdateUI(float delta)
         if (m_ControlPressed != nullptr) {
             std::cout << " Mouse Up GameUI" << std::endl;
             m_ControlPressed->OnMouseUp(0);
+            m_ControlPressed->MouseUnPressed(0);
             m_ControlPressed = nullptr;
             m_DraggingWindow = nullptr; // Clear dragging window when mouse is released
         }
@@ -182,12 +192,16 @@ void GameUI::UpdateUI(float delta)
         }
     //    std::cout << "CP MOUSE MOVE:" << std::endl;
         m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
+        m_ControlPressed->Move(GameInput::MouseDelta);
+        m_ControlPressed->MouseWheelMoved(GameInput::MouseDelta.z);
 
     }
     else if (m_ControlOver != nullptr) {
 
       //  std::cout << "CO MOUSE MOVE" << std::endl;
         m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
+        m_ControlOver->Move(GameInput::MouseDelta);
+        m_ControlOver->MouseWheelMoved(GameInput::MouseDelta.z);
 
     }
 
@@ -274,6 +288,34 @@ void GameUI::UpdateUI(float delta)
 
     }
 
+    for (int i = 1; i < 3; i++) {
+
+        if (GameInput::Buttons[i]) {
+
+            if (MouseB[i] == false) {
+
+                MouseB[i] = true;
+                if (m_ControlOver != nullptr) {
+                    m_ControlOver->MousePressed(i);
+                }
+
+            }
+
+        }
+        else {
+
+            if (MouseB[i] == true) {
+
+                MouseB[i] = false;
+                if (m_ControlOver != nullptr) {
+                    m_ControlOver->MouseUnPressed(i);
+                }
+
+            }
+
+        }
+
+    }
 
 
 }

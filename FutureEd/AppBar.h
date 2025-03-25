@@ -18,7 +18,7 @@ public:
     void AppStarted(FPApp* app) {
         m_RunningApps.push_back(app);
     }
-    void RegisterWindow(IWindow* window);
+    void RegisterWindow(IWindow* window,FPApp* app);
     int NextX();
 
 private:

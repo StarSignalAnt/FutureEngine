@@ -162,6 +162,7 @@ public:
 
 	}
 
+	
 
 
 	int GetMaxHeight();
@@ -253,6 +254,47 @@ public:
 
 	}
 
+
+	void SetOnMousePress(std::function<void(int button)> func) {
+		OnMousePress = func;
+	}
+
+	void SetOnMouseUnPress(std::function<void(int button)> func) {
+		OnMouseUnPress = func;
+	}
+
+	void MousePressed(int button) {
+
+		if (OnMousePress) {
+			OnMousePress(button);
+		}
+	}
+
+	void MouseUnPressed(int button) {
+
+		if (OnMouseUnPress) {
+			OnMouseUnPress(button);
+		}
+
+	}
+
+	void SetOnMouseWheel(std::function<void(float move)> func) {
+
+		OnMouseWheelMove = func;
+
+	}
+
+	void MouseWheelMoved(float v) {
+
+		if (OnMouseWheelMove) {
+
+			OnMouseWheelMove(v);
+
+		}
+
+	}
+
+
 protected:
 
 
@@ -270,6 +312,11 @@ protected:
 	std::function<void()> OnPreRender = nullptr;
 	std::function<void(glm::vec2 delta)> OnMove = nullptr;
 	std::function<void(void *)> OnEnter = nullptr;
+	std::function<void(glm::vec2 pos, glm::vec2 delta)> OnMouseMoved = nullptr;
+	std::function<void(int button)> OnMousePress = nullptr;
+	std::function<void(int button)> OnMouseUnPress = nullptr;
+	std::function<void(float move)> OnMouseWheelMove = nullptr;
+
 	bool m_CullChildren = false;
 	DockType m_DockType = DockType::m_Free;
 	bool m_Transist = false;

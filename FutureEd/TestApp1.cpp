@@ -5,6 +5,7 @@
 #include "IImage.h"
 #include "Texture2D.h"
 #include "IVideoPlayer.h"
+#include "FPApps.h"
 
 TestApp1::TestApp1() {
 
@@ -69,6 +70,8 @@ void TestApp1::InitApp() {
 	edit->AddItem(edit_cut);
 	edit->AddItem(edit_paste);
 	edit->AddItem(edit_copy);
+
+	SetIcon(new Texture2D("apps/testapp/icon.png"));
 
 
 	m_StartWindow = win;

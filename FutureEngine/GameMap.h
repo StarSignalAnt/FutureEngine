@@ -8,13 +8,13 @@ class GameLight;
 class GameSprite;
 class ShaderModule;
 class RenderTarget2D;
-
+class Texture2D;
 
 class GameMap
 {
 public:
 
-	GameMap(int width,int height,int depth,int tileWidth,int tileHeight) : m_Width(width), m_Height(height), m_Depth(depth), m_TileWidth(tileWidth), m_TileHeight(tileHeight), m_Tiles(width*height*depth) {
+	GameMap(int width,int height,int depth,int tileWidth,int tileHeight) : m_Width(width), m_Height(height), m_Depth(depth), m_TileWidth(tileWidth), m_TileHeight(tileHeight), m_Tiles(width*height*depth),m_Highlights(width*height) {
 	 
 		m_TileRenderer = new SmartDraw;
 		m_TestRender = new SmartDraw;
@@ -32,6 +32,19 @@ public:
             m_Tiles[Index(x, y, z)] = tile;
         }
     }
+
+	void SetHighlight(int x, int y, bool hl)
+	{
+		m_Highlights[y * m_Width + x] = hl;
+
+	}
+
+	bool GetHighlight(int x, int y) {
+
+		return m_Highlights[y * m_Width + x];
+
+	}
+
 
     // Get a tile at (x, y, z)
     GameTile* GetTile(int x, int y, int z) const {
@@ -56,6 +69,7 @@ public:
 	void AddLight(GameLight* light);
 
 	void RenderMap(GameCam* camera);
+	void RenderGrid(GameCam* camera);
 	void RenderShadowMap();
 
 	void AddSprite(GameSprite* sprite) {
@@ -69,6 +83,7 @@ private:
 	int m_Width, m_Height, m_Depth;
 	int m_TileWidth, m_TileHeight;
 	std::vector<GameTile*> m_Tiles;
+	std::vector < bool > m_Highlights;
 	SmartDraw* m_TileRenderer;
 	SmartDraw* m_TestRender;
 	SmartDraw* m_ShadowRenderer;
@@ -78,6 +93,7 @@ private:
 	RenderTarget2D* m_ShadowRT;
 	int m_ShadowMapSize = 1024;
 	std::vector<GameSprite*> m_Sprites;
+	Texture2D* m_GridTex;
 
 };
 

@@ -23,7 +23,11 @@ void AppButton::Render() {
 		UIHelp::DrawImage(GetRenderPosition(), m_Size,GameUI::GetTheme()->GetButton(), m_Color);
 	//}
 	UIHelp::DrawText(pos+glm::vec2(15,1), m_Text, glm::vec4(1, 1, 1, 1));
-	
+	if (m_Image != nullptr) {
+		pos = GetRenderPosition();
+		UIHelp::DrawImage(pos + glm::vec2(4,4), glm::vec2(16, 16), m_Image, m_Color);
+	}
+
 	float ar = m_Window->GetSize().y / m_Window->GetSize().x;
 	if (ar < 0.65) { ar = 0.65f; };
 	ar = 1;

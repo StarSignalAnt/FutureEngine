@@ -3,6 +3,7 @@
 #include <string>
 
 class IWindow;
+class Texture2D;
 
 enum AppType {
 
@@ -32,7 +33,12 @@ public:
 	AppType GetType() {
 		return m_AppType;
 	}
-
+	void SetIcon(Texture2D* icon) {
+		m_Icon = icon;
+	}
+	Texture2D* GetIcon() {
+		return m_Icon;
+	}
 protected:
 
 	AppType m_AppType = AppType::ATYPE_Misc;
@@ -40,6 +46,6 @@ protected:
 	std::vector<IWindow*> m_Windows;
 	IWindow* m_StartWindow = nullptr;
 	IWindow* m_AppWIndow = nullptr;
-
+	Texture2D* m_Icon = nullptr;
 };
 

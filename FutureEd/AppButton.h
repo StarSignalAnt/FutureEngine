@@ -3,6 +3,7 @@
 
 class IWindow;
 class RenderTarget2D;
+class FPApp;
 
 class AppButton :
 
@@ -20,12 +21,16 @@ public:
     }
     void OnMouseEnter() override;
     void OnMouseLeave() override;
+    void SetApp(FPApp* app) {
+        m_App = app;
+    }
 
 private:
 
     IWindow* m_Window;
     bool m_ShowPreview = false;
     RenderTarget2D* m_Thumbnail;
+    FPApp* m_App;
 
 };
 

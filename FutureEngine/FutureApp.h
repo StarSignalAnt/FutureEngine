@@ -7,6 +7,7 @@
 class GLFWwindow;
 class RenderTarget2D;
 class SoundLIB;
+class Texture2D;
 
 class FutureApp
 
@@ -26,6 +27,7 @@ public:
 	RenderTarget2D* GetBind() { return m_BoundRT; };
 	static FutureApp* m_Inst;
 	SoundLIB* SLib;
+
 private:
 
 	int m_Width;
@@ -38,6 +40,6 @@ private:
 	int frames = 0;
 	int fps = 0;
 	RenderTarget2D* m_BoundRT;
-
+	Texture2D* m_Icon;
 };
 
