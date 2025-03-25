@@ -7,6 +7,12 @@ class Texture2D;
 class IWindow;
 class IMainMenu;
 
+enum HitType {
+
+	HT_True,HT_False
+
+};
+
 enum DockType {
 
 	m_Fill, m_Left, m_Right, m_Down, m_Up, m_Free
@@ -21,6 +27,7 @@ public:
 	IControl(glm::vec2 position, glm::vec2 size) : m_Position(position), m_Size(size),m_Color(glm::vec4(1,1,1,1)) {}
 	void Set(glm::vec2 position, glm::vec2 size = glm::vec2(-1, -1),bool transist = false)
 	{
+		transist = false;
 		if (size.x < 0) {
 			size = m_Size;
 		}
@@ -75,6 +82,7 @@ public:
 	virtual void OnDeactivate() {}
 	virtual bool InBounds(glm::vec2 position)
 	{
+		if (m_HitType == HT_False) return false;
 		glm::vec2 root = GetRenderPosition();
 		
 
@@ -216,6 +224,34 @@ public:
 		m_Data = data;
 	}
 
+	void SetHitType(HitType type) {
+
+		m_HitType = type;
+
+	}
+
+	HitType GetHitType() {
+
+		return m_HitType;
+
+	}
+
+	bool IsChild(IControl* control) {
+
+		for (auto child : m_Children) {
+
+			if (child == control) return true;
+
+			if (child->IsChild(control)) return true;
+
+		}
+
+
+		if (control == this) return true;
+
+		return false;
+
+	}
 
 protected:
 
@@ -240,5 +276,6 @@ protected:
 	glm::vec2 m_TargetPosition;
 	glm::vec2 m_TargetSize;
 	IMainMenu* m_ActiveMenu = nullptr;
+	HitType m_HitType = HitType::HT_True;
 };
 

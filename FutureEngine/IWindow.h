@@ -15,7 +15,7 @@ class IWindow :
     public IControl
 {
 public:
-    IWindow(std::string title, glm::vec2 position, glm::vec2 size) : IControl(position, size) { m_Text = title; InitWindow(); }
+    IWindow(std::string title, glm::vec2 position, glm::vec2 size, bool buttons = true) : IControl(position, size) { m_Text = title; m_Buttons = buttons;  InitWindow(); }
 
     // Get the current active area (needed for undocking detection)
     WindowArea GetCurrentArea() const { return m_CurrentArea; }
@@ -47,6 +47,9 @@ public:
     void SetDock(IDocker* dock) {
         m_Dock = dock;
     }
+    IDocker* GetDock() {
+        return m_Dock;
+    }
     void DockWindow(IWindow* window);
     void SetMenu(IMainMenu* menu) { m_ActiveMenu = menu; }
     IMainMenu* GetMenu() { return m_ActiveMenu; }
@@ -57,9 +60,16 @@ public:
     void Close() {
         m_RootControl->RemoveChild(this);
     }
+    void SetDefaultMenu(IMainMenu* menu) {
+        m_DefaultMenu = menu;
+    }
+    bool BeingDragged() {
+        return m_Dragging;
+    }
 private:
 
 
+    bool m_MouseIn = false;
     IDocker* m_Dock = nullptr;
     bool m_Docked = false;
     WindowArea m_CurrentArea = AREA_NONE;
@@ -70,6 +80,7 @@ private:
     IControlGroup* m_ClientArea = nullptr;
     IVerticalScroller* m_YScroller = nullptr;
     IHorizontalScroller* m_XScroller = nullptr;
+    bool m_Buttons = true;
     Texture2D* m_TitleBarImage;
     //IButton* m_Resizer;
     Texture2D* m_TitleBG;
@@ -83,4 +94,5 @@ private:
     IMainMenu* m_ActiveMenu = nullptr;
     std::string m_AppTitle = "";
     bool m_Outside = false;
+    IMainMenu* m_DefaultMenu = nullptr;
 };

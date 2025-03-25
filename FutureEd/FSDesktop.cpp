@@ -7,11 +7,14 @@
 #include "AppBar.h"
 #include "TestApp1.h"
 #include "FuturePlatform.h"
+#include "IMainMenu.h"
+#include "MessageBox.h"
+#include "AppMapEditor.h"
 
 void FSDesktop::InitState() {
 
-	auto boot = FutureApp::m_Inst->SLib->loadSound("platform/audio/boot/bootsound.wav");
-	FutureApp::m_Inst->SLib->playSound(boot);
+//	auto boot = FutureApp::m_Inst->SLib->loadSound("platform/audio/boot/bootsound.wav");
+//	FutureApp::m_Inst->SLib->playSound(boot);
 
 	m_UI = new GameUI;
 
@@ -31,8 +34,46 @@ void FSDesktop::InitState() {
 
 
 	FuturePlatform::RegisterApp(app);
+	FuturePlatform::RegisterApp(new AppMapEditor);
+
+	SetupDesktopMenu();
+
+	wallpaper->SetOnClick([&](void * data) {
+
+		GameUI::m_Inst->SetMainMenu(nullptr);
+
+		});
+
+	//
+	m_UI->SetWindowSurface(wallpaper);
 
 
+}
+
+
+void FSDesktop::SetupDesktopMenu() {
+
+	IMainMenu* main_menu = new IMainMenu;
+	main_menu->SetAppTitle("Future Platform");
+
+	auto os = new MenuItem("Future Platform");
+
+	auto about = new MenuItem("About");
+	auto exit = new MenuItem("Exit");
+
+	os->AddItem(about);
+	os->AddItem(exit);
+
+	main_menu->AddItem(os);
+
+	GameUI::m_Inst->SetMainMenu(main_menu);
+	GameUI::m_Inst->SetDefualtMenu(main_menu);
+
+	about->OnClick = [&]() {
+
+		new MessageBox("Future Platform - Pre-Alpha W.I.P - Future Platform is an open-source platform for makings and apps and games that use the Future Engine for input/output.","Future Platform");
+
+		};
 
 
 }

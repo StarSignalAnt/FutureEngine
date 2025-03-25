@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <vector>
 class IControl;
 class IWindow;
 class IDocker;
@@ -28,7 +29,21 @@ public:
 	void SetDragWindow(IWindow* window);
 	static UITheme* GetTheme() { return m_Inst->m_Theme; }
 	IControl* GetActiveControl() { return m_ControlActive; };
-
+	void SetDefualtMenu(IMainMenu* menu) {
+		m_DefaultMenu = menu;
+		if (m_ActiveMenu == nullptr) {
+			m_ActiveMenu = menu;
+		}
+	}
+	void AddWindow(IWindow* window) {
+		m_Windows.push_back(window);
+	}
+	void SetWindowSurface(IControl* surface) {
+		m_WindowSurface = surface;
+	}
+	IControl* GetWindowSurface() {
+		return m_WindowSurface;
+	}
 private:
 	bool m_WindowDockingEnabled = true;
 	glm::vec2 m_LastWindowPosition;
@@ -46,5 +61,8 @@ private:
 	IWindow* m_TabWindow = nullptr;
 	IWindow* m_TabTarget = nullptr;
 	IMainMenu* m_ActiveMenu;
+	IMainMenu* m_DefaultMenu = nullptr;
+	std::vector<IWindow*> m_Windows;
+	IControl* m_WindowSurface;
 };
 

@@ -25,6 +25,9 @@
     <Filter Include="Apps\TestApp1">
       <UniqueIdentifier>{a9b6e600-ed10-4686-9795-a71e2eab8e99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Apps\MapEditor">
+      <UniqueIdentifier>{83d7e3b9-4fce-44dc-832d-0bd219335723}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEd.cpp">
@@ -69,6 +72,9 @@
     <ClCompile Include="AppMenu.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
+    <ClCompile Include="AppMapEditor.cpp">
+      <Filter>Apps\MapEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuturePlatform.h">
@@ -109,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="AppMenu.h">
       <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMapEditor.h">
+      <Filter>Apps\MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

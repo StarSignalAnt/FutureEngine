@@ -14,6 +14,12 @@
 
 void IWindow::Update(float delta)
 {
+	if (GetRoot() != GameUI::m_Inst->GetWindowSurface()) {
+	//	GetRoot()->RemoveChild(this);
+//		GameUI::m_Inst->GetWindowSurface()->AddChild(this);
+
+
+	}
 	UpdateChildren(delta);
 }
 
@@ -114,6 +120,7 @@ void IWindow::OnMouseDown(int button)
 	m_RootControl->RemoveChild(this);
 	m_RootControl->AddChild(this);
 
+	m_MouseIn = true;
 	if (m_ActiveMenu != nullptr) {
 		m_ActiveMenu->SetAppTitle(m_AppTitle);
 	}
@@ -135,6 +142,12 @@ void IWindow::OnMouseDown(int button)
 
 	int idx = 0;
 
+	if (tabs.size() == 1)
+	{
+		m_Dragging = true;
+		GameInput::m_Dragging = this;
+		return;
+	}
 	for (auto title : tabs) {
 
 
@@ -144,10 +157,10 @@ void IWindow::OnMouseDown(int button)
 		//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
 
 		if (idx == m_CurrentTab) {
-			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
+		//	UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
 		}
 		else {
-			UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
+	//		UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
 		}
 		int tx = pos.x + sx;
 		int ex = pos.x + sx + tab_width + 1;
@@ -166,23 +179,30 @@ void IWindow::OnMouseDown(int button)
 
 		if (m_MousePos.x >= tx && m_MousePos.x <ex)
 		{
-			if (m_MousePos.y >= pos.y+ay && m_MousePos.y <= pos.y + (20-ay))
+		//	if (m_MousePos.y >= pos.y+ay && m_MousePos.y <= pos.y + (20-ay))
 			{
-				if (idx != m_CurrentTab) {
+				
+					m_CurrentTab = idx;
 					if (idx > 0) {
+						std::cout << "Changed tab:" << idx << std::endl;
 						RemoveChild(m_ClientArea);
-						AddChild(m_DockedWindows[idx-1]->GetClientArea());
-						m_ClientArea = m_DockedWindows[idx - 1]->GetClientArea();
-						AlignWindow();
+						auto client = m_DockedWindows[m_CurrentTab - 1]->GetClientArea();
+						m_ClientArea = client;
+						AddChild(m_ClientArea);
+						GameUI::m_Inst->SetUISize(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
 					}
 					else {
+
 						RemoveChild(m_ClientArea);
 						AddChild(m_BaseArea);
-						m_ClientArea = m_BaseArea;
-						AlignWindow();
+						GameUI::m_Inst->SetUISize(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
+
 					}
-					m_CurrentTab = idx;
-				}
+
+
+					
+
+
 
 			}
 		}
@@ -211,18 +231,19 @@ void IWindow::OnMouseUp(int button)
 {
 	m_Dragging = false;
 	GameInput::m_Dragging = nullptr;
+	m_MouseIn = false;
+	std::cout << "Mouse Up:" << m_Text << std::endl;
 }
 
 void IWindow::OnMouseDoubleClick()
 {
 
+
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Size.x < FutureApp::m_Inst->GetWidth() || m_Size.y < FutureApp::m_Inst->GetHeight() || m_Position.x>0 || m_Position.y>0)
 		{
-			m_MaximizeButton->Click();
-		}
-		else {
-			m_MinimizeButton->Click();
+			Set(glm::vec2(0, 30), glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()-60));
+		
 		}
 	}
 }
@@ -230,9 +251,32 @@ void IWindow::OnMouseDoubleClick()
 void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 {
 	m_MousePos = position;
+	if (m_Dragging) {
+
+		if (m_CurrentTab == 0) {
+			m_MousePos = position;
+			if (delta.x != 0 || delta.y != 0)
+			{
+				if (m_Docked) {
+					if (m_Dock != nullptr) {
+						m_Dock->UndockWindow(this);
+						m_Dock = nullptr;
+						m_Docked = false;
+						return;
+					}
+				}
+			
+			
+				m_Position += delta;
+			}
+		}
+	}
+	//return;
+
 	if (m_CurrentArea == AREA_TITLE) {
 		if (m_Dragging) {
 			
+			/*
 			if (GetRoot()->InBounds(position+GetRenderPosition())) {
 
 				if (m_Outside) {
@@ -246,7 +290,7 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 					}
 				}
 				else {
-					m_Position += delta;
+				
 
 					if (m_Position.x < -50.0f) {
 						m_Position.x = -50;
@@ -268,14 +312,17 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 				m_Outside = true;
 			}
 
-			
-			if (delta.x < -2 || delta.x>2 || delta.y < -2 || delta.y>2)
+			*/
+
+			if (delta.x < -4 || delta.x>4 || delta.y < -4 || delta.y>4)
 			{
 
 				if (m_CurrentTab != 0) {
 
 
-
+					
+					std::cout << "Removing Tab" << std::endl;
+					//return;
 				//	m_MousePos -= delta;
 					RemoveChild(m_ClientArea);
 					m_ClientArea->SetRoot(m_DockedWindows[m_CurrentTab - 1]);
@@ -286,7 +333,9 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 					
 					auto win = m_DockedWindows[m_CurrentTab - 1];
 					win->GetRoot()->RemoveChild(win);
-					this->GetRoot()->AddChild(m_DockedWindows[m_CurrentTab - 1]);
+
+					//this->GetRoot()->AddChild(m_DockedWindows[m_CurrentTab - 1]);
+					GameUI::m_Inst->GetWindowSurface()->AddChild(m_DockedWindows[m_CurrentTab - 1]);
 					m_DockedWindows[m_CurrentTab - 1]->AlignWindow();
 					m_DockedWindows.erase(m_DockedWindows.begin() + m_CurrentTab-1);
 					m_CurrentTab = 0;
@@ -294,7 +343,7 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 					//GameInput::m_Dragging = nullptr;
 				
 					m_Dragging = false;
-					win->Set(GetRenderPosition()+ glm::vec2(m_MousePos.x-40, m_MousePos.y-30));
+					win->Set(GetRenderPosition()+ glm::vec2(m_MousePos.x-25, m_MousePos.y-8));
 					GameUI::m_Inst->SetDragWindow(win);
 					//win->OnMouseMove(glm::vec2(30, 10),glm::vec2(0,0));
 					//win->OnMouseDown(0);
@@ -307,13 +356,7 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 
 				}
 				else {
-					if (m_Docked) {
-						if (m_Dock != nullptr) {
-							m_Dock->UndockWindow(this);
-							m_Dock = nullptr;
-							m_Docked = false;
-						}
-					}
+					
 				}
 			}
 		}
@@ -361,9 +404,11 @@ bool IWindow::InBounds(glm::vec2 position)
 
 void IWindow::InitWindow() {
 
-	m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 16, 2), glm::vec2(16,16));
-	m_MaximizeButton = new IButton("E", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
-	m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 48, 2), glm::vec2(16,16));
+	if (m_Buttons) {
+		m_CloseButton = new IButton("X", glm::vec2(m_Size.x - 16, 2), glm::vec2(16, 16));
+		m_MaximizeButton = new IButton("E", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
+		m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 48, 2), glm::vec2(16, 16));
+	}
 	m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 36));
 	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 10), glm::vec2(m_Size.x - 13, 10));
@@ -377,9 +422,11 @@ void IWindow::InitWindow() {
 
 //	m_MaximizeButton->SetRenderBody(false);
 //	m_MinimizeButton->SetRenderBody(false);
-	AddChild(m_CloseButton);
-	AddChild(m_MaximizeButton);
-	AddChild(m_MinimizeButton);
+	if (m_Buttons) {
+		AddChild(m_CloseButton);
+		AddChild(m_MaximizeButton);
+		AddChild(m_MinimizeButton);
+	}
 	AddChild(m_ClientArea);
 	AddChild(m_YScroller);
 	AddChild(m_XScroller);
@@ -424,38 +471,40 @@ void IWindow::InitWindow() {
 	//m_ClientArea->SetOffset(glm::vec2(0, 200));
 
 
+	if (m_Buttons) {
+		m_MinimizeButton->SetOnClick([&](void* data) {
+			if (m_OriginalSize.x > 0 && m_OriginalSize.y > 0) {
+				m_Position = m_OriginalPosition;
+				m_Size = m_OriginalSize;
+				AlignWindow();
+			}
+			//.m_Size = glm::vec2(m_Size.x, 20);
+			});
 
-	m_MinimizeButton->SetOnClick([&](void* data) {
-		if (m_OriginalSize.x > 0 && m_OriginalSize.y > 0) {
-			m_Position = m_OriginalPosition;
-			m_Size = m_OriginalSize;
-			AlignWindow();
-		}
-		//.m_Size = glm::vec2(m_Size.x, 20);
-		});
-
-	m_MaximizeButton->SetOnClick([&](void *data) {
+		m_MaximizeButton->SetOnClick([&](void* data) {
 
 
-		auto pos = GetRenderPosition();
-		if (pos.x > 0 || pos.y > 0 || m_Size.x < FutureApp::m_Inst->GetWidth() || m_Size.y < FutureApp::m_Inst->GetHeight())
-		{
-			m_OriginalPosition = m_Position;
-			m_OriginalSize = m_Size;
-			m_Position = glm::vec2(0, 0);
-			m_Size = glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
-			AlignWindow();
-		}
-		
-//		//if(m_Position.x>0 || m_Position.y )
+			auto pos = GetRenderPosition();
+			if (pos.x > 0 || pos.y > 0 || m_Size.x < FutureApp::m_Inst->GetWidth() || m_Size.y < FutureApp::m_Inst->GetHeight())
+			{
+				m_OriginalPosition = m_Position;
+				m_OriginalSize = m_Size;
+				m_Position = glm::vec2(0, 0);
+				m_Size = glm::vec2(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
+				AlignWindow();
+			}
 
-		});
+			//		//if(m_Position.x>0 || m_Position.y )
 
-	m_CloseButton->SetOnClick([&](void* dat) {
+			});
 
-		m_RootControl->RemoveChild(this);
+		m_CloseButton->SetOnClick([&](void* dat) {
 
-		});
+			m_RootControl->RemoveChild(this);
+
+			});
+
+	}
 
 	m_TitleBarImage = new Texture2D("engine/ui/windowTitle.png");
 	AlignWindow();
@@ -463,9 +512,11 @@ void IWindow::InitWindow() {
 
 void IWindow::AlignWindow() {
 
-	m_CloseButton->Set(glm::vec2(m_Size.x - 16, 2));
-	m_MaximizeButton->Set(glm::vec2(m_Size.x - 32, 2));
-	m_MinimizeButton->Set(glm::vec2(m_Size.x - 48, 2));
+	if (m_Buttons) {
+		m_CloseButton->Set(glm::vec2(m_Size.x - 16, 2));
+		m_MaximizeButton->Set(glm::vec2(m_Size.x - 32, 2));
+		m_MinimizeButton->Set(glm::vec2(m_Size.x - 48, 2));
+	}
 
 	m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
 	RemoveChild(m_YScroller);

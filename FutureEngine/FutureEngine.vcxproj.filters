@@ -356,6 +356,9 @@
     <ClCompile Include="ThemeDark.cpp">
       <Filter>Resonance2\Themes</Filter>
     </ClCompile>
+    <ClCompile Include="MessageBox.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

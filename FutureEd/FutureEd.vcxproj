@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="AppBar.cpp" />
     <ClCompile Include="AppButton.cpp" />
+    <ClCompile Include="AppMapEditor.cpp" />
     <ClCompile Include="AppMenu.cpp" />
     <ClCompile Include="AppStart.cpp" />
     <ClCompile Include="DesktopWallpaper.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="AppBar.h" />
     <ClInclude Include="AppButton.h" />
+    <ClInclude Include="AppMapEditor.h" />
     <ClInclude Include="AppMenu.h" />
     <ClInclude Include="AppStart.h" />
     <ClInclude Include="DesktopWallpaper.h" />

@@ -23,6 +23,8 @@ public:
         m_Profile = profile;
     }
 
+    void SetupDesktopMenu();
+
 private:
 
     FUserProfile* m_Profile = nullptr;

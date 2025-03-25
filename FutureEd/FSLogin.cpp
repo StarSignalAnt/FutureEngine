@@ -22,6 +22,44 @@
 
 void FSLogin::InitState() {
 
+	if (FFile::fileExists("platform/autologin.data"))
+	{
+
+		FFile* ff = new FFile("platform/autologin.data",true);
+
+		auto user = ff->readString();
+
+		ff->close();
+
+		
+
+
+		m_Users = new FUsers;
+		m_Users->LoadUsers();
+		m_Users->SaveUsers();
+
+		auto users = m_Users->GetUsers();
+		FUserProfile* ulog = nullptr;
+
+		for (auto u : users) {
+			if (u->GetFullName() == user)
+			{
+				ulog = u;
+				break;
+			}
+
+		}
+
+		if (ulog == nullptr) {
+
+		}
+		auto desktop = new FSDesktop;
+		desktop->SetUser((FUserProfile*)ulog);
+
+		FutureApp::m_Inst->PushState(desktop);
+		return;
+	}
+
 	m_Draw = new SmartDraw;
 	m_Background = new Texture2D("platform/wallpapers/platform_defaultwp.jpg");
 	auto boot = FutureApp::m_Inst->SLib->loadSound("platform/audio/boot/bootsound.wav");
@@ -126,12 +164,16 @@ void FSLogin::UpdateState(float delta) {
 						if (profile->GetPassword() != m_UserPassword)
 						{
 							std::cout << "Incorrect password" << std::endl;
-							new MessageBox("You have entered an incorrect password. Please try-again");
+							new MessageBox("You have entered an incorrect password. Please try-again","Login");
 						}
 						else {
 
 							auto desktop = new FSDesktop;
 							desktop->SetUser((FUserProfile*)data);
+
+							FFile* lf = new FFile("platform/autologin.data");
+							lf->writeString(profile->GetFullName());
+							lf->close();
 
 							FutureApp::m_Inst->PushState(desktop);
 
@@ -155,9 +197,14 @@ void FSLogin::UpdateState(float delta) {
 						if (profile->GetPassword() != m_UserPassword)
 						{
 							std::cout << "Incorrect password" << std::endl;
-							new MessageBox("You have entered an incorrect password. Please try-again");
+							new MessageBox("You have entered an incorrect password. Please try-again","Login");
 						}
 						else {
+
+							FFile* lf = new FFile("platform/autologin.data");
+							lf->writeString(profile->GetFullName());
+							lf->close();
+
 
 							auto desktop = new FSDesktop;
 							desktop->SetUser((FUserProfile*)data);

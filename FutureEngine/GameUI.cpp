@@ -58,7 +58,7 @@ void GameUI::UpdateUI(float delta)
 
     for (auto control : list) {
 
-        
+        continue;
         if (control->GetTransist())
         {
             
@@ -140,10 +140,7 @@ void GameUI::UpdateUI(float delta)
               
 
                 // Check if this is a window and being dragged by title area
-                IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
-                if (window != nullptr && window->GetCurrentArea() == AREA_TITLE) {
-                    m_DraggingWindow = window;
-                }
+            
 
                 int ctime = clock();
                 //prev_Click = clock();
@@ -165,19 +162,31 @@ void GameUI::UpdateUI(float delta)
         }
     }
     else {
+        
         if (m_ControlPressed != nullptr) {
+            std::cout << " Mouse Up GameUI" << std::endl;
             m_ControlPressed->OnMouseUp(0);
             m_ControlPressed = nullptr;
             m_DraggingWindow = nullptr; // Clear dragging window when mouse is released
         }
     }
 
+
+
     if (m_ControlPressed != nullptr) {
+        IWindow* window = dynamic_cast<IWindow*>(m_ControlPressed);
+        if (window != nullptr && window->GetCurrentArea() == AREA_TITLE) {
+            if (window->BeingDragged()) {
+                m_DraggingWindow = window;
+            }
+        }
+    //    std::cout << "CP MOUSE MOVE:" << std::endl;
         m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
 
     }
     else if (m_ControlOver != nullptr) {
 
+      //  std::cout << "CO MOUSE MOVE" << std::endl;
         m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
 
     }
@@ -191,6 +200,7 @@ void GameUI::UpdateUI(float delta)
 
             IDocker* dock = dynamic_cast<IDocker*>(beneath);
             if (dock != nullptr) {
+                std::cout << "WIN OVER" << std::endl;
                 dock->WindowOver(GetDraggingWindow(), mouse_pos);
                 m_DraggingDock = dock;
                 m_DockingWindow = GetDraggingWindow();
@@ -201,8 +211,11 @@ void GameUI::UpdateUI(float delta)
             else {
                 if (beneath->IsWindow()) {
                     //exit(1);
+                    std::cout << "BEN DRAG WIN" << std::endl;
                     m_TabWindow = beneath->GetWindow();
                     m_TabTarget = GetDraggingWindow();
+                    
+
                     m_DraggingDock = nullptr;
                     m_DockingWindow = nullptr;
                 }
@@ -220,14 +233,34 @@ void GameUI::UpdateUI(float delta)
 
         if (m_TabWindow != nullptr) {
             //exit(1);
-            m_TabWindow->DockWindow(m_TabTarget);
-            m_TabWindow = nullptr;
+            std::cout << "Dock Window" << std::endl;
+            if (m_TabTarget == m_TabWindow) {
+                m_TabWindow = nullptr;
+                m_TabTarget = nullptr;
+                return;
+            }
+            if (m_TabTarget->IsChild(m_TabWindow)) {
+
+            }
+            else {
+                m_TabWindow->DockWindow(m_TabTarget);
+                m_TabWindow = nullptr;
+            }
         }
         if (m_DraggingDock != nullptr) {
          
 
-            m_DraggingDock->DockWindow(m_DockingWindow, mouse_pos);
-            m_DraggingDock->WindowCancel();
+            std::cout << " Dock Win IDOCK" << std::endl;
+            if (m_DraggingDock->HasNot(m_DockingWindow)) {
+
+                auto check = m_DockingWindow->GetDock();
+               // if (check != m_DraggingDock && check != nullptr) {
+
+                    m_DraggingDock->DockWindow(m_DockingWindow, mouse_pos);
+                    m_DraggingDock->WindowCancel();
+  
+
+            }
             m_DraggingDock = nullptr;
             //auto area = m_DraggingDock->GetDockAreaAtPosition(mouse_pos);
 
@@ -393,6 +426,9 @@ void GameUI::SetMainMenu(IMainMenu* menu)
 {
     if (m_ActiveMenu != nullptr) {
         m_RootControl->RemoveChild(m_ActiveMenu);
+    }
+    if (menu == nullptr) {
+        menu = m_DefaultMenu;
     }
     m_ActiveMenu = menu;
     m_RootControl->AddChild(m_ActiveMenu);

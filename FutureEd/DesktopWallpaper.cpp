@@ -24,3 +24,9 @@ void DesktopWallpaper::Render()
 	RenderChildren();
 
 }
+
+void DesktopWallpaper::OnMouseDown(int button) {
+
+	Click(nullptr);
+
+}

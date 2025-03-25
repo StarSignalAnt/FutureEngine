@@ -640,7 +640,7 @@ void IDocker::Update(float delta)
         // Fade out the highlight if no window is hovering
         m_HighlightAlpha = std::max(0.0f, m_HighlightAlpha - delta * 3.0f);
     }
-
+    WindowCancel();
     // Update all children (docked windows)
     UpdateChildren(delta);
 }
@@ -705,12 +705,55 @@ void IDocker::Render()
     RenderChildren();
 }
 
+
+void IDocker::DockWindow(IWindow* window, DockArea darea) {
+
+    for (auto zone : m_DockZones) {
+
+        if (zone.area == darea) {
+
+            zone.Window = window;
+
+            if (zone.area != DOCK_NONE) {
+
+                m_DockOrder.push_back(zone);
+                window->SetDock(this);
+                window->SetDocked(true);
+                if (window->GetRoot() != nullptr) {
+                    window->GetRoot()->RemoveChild(window);
+                }
+                AddChild(window);
+
+                window->Set(window->GetPosition() - this->GetRenderPosition(), window->GetSize());
+                //    window->set
+                return;
+
+
+            }
+
+        }
+
+    }
+
+
+}
+
 void IDocker::DockWindow(IWindow* window, glm::vec2 position) {
 
+
+    if (GetRoot()->GetRoot() == window) {
+        return;
+   }
 
     auto zone = GetZoneAt(position);
 
     if (zone.area == DOCK_NONE) return;
+
+    if (zone.Window != nullptr)
+    {
+        WindowCancel();
+        return;
+    }
 
     zone.Window = window;
 
@@ -1108,6 +1151,7 @@ void IDocker::UndockWindow(IWindow* window) {
             RemoveChild(dock.Window);
             GameUI::m_Inst->GetRoot()->AddChild(dock.Window);
             dock.Window->Set(glm::vec2(GetRenderPosition().x, GetRenderPosition().y) + dock.Window->GetPosition());
+            break;
 
 
             int b = 5;
@@ -1118,5 +1162,17 @@ void IDocker::UndockWindow(IWindow* window) {
     }
     int a = 5;
     Rebuild();
+
+}
+
+bool IDocker::HasNot(IWindow* window) {
+
+    for (auto dock : m_DockOrder) {
+
+        if (dock.Window == window) return false;
+
+    }
+
+    return true;
 
 }

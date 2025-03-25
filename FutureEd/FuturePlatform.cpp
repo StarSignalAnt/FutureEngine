@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "AppBar.h"
+#include "GameUI.h"
 
 AppBar* FuturePlatform::m_AppBar = nullptr;
 std::vector<FPApp*> FuturePlatform::m_RunningApps;
@@ -25,8 +26,11 @@ void FuturePlatform::StartApp(FPApp* application) {
 	m_RunningApps.push_back(application);
 	application->Start();
 	auto win = application->GetStartWindow();
-	m_Wallpaper->AddChild((IControl*)win);
+	//m_Wallpaper->AddChild((IControl*)win);
+	GameUI::m_Inst->GetWindowSurface()->AddChild((IControl*)win);
 	m_AppBar->RegisterWindow(win);
+
+
 
 }
 

@@ -26,6 +26,7 @@ void AppButton::Render() {
 	
 	float ar = m_Window->GetSize().y / m_Window->GetSize().x;
 	if (ar < 0.65) { ar = 0.65f; };
+	ar = 1;
 	float ww = m_Window->GetSize().x;
 	float wh = m_Window->GetSize().y * ar;
 

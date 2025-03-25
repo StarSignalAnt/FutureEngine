@@ -68,12 +68,24 @@ public:
     void WindowOver(IWindow* window, glm::vec2 position);
     void CreateZones();
 
+    void OnMouseLeave() override {
+
+        m_HoveringWindow = nullptr;
+        m_HoveringArea = DOCK_NONE;
+
+        // Reset animation state
+        m_HighlightAlpha = 0.0f;
+        m_DockingStarted = false;
+
+    };
     DockZone GetLeft();
+    
     DockZone GetRight();
     DockZone GetTop();
     DockZone GetBottom();
     DockZone GetCentre();
     DockZone GetZoneAt(glm::vec2 position);
+    void DockWindow(IWindow* window, DockArea area);
     void DockWindow(IWindow* window,glm::vec2 position);
 
     // Get available dock area at position
@@ -89,6 +101,7 @@ public:
     void UndockWindow(IWindow* window);
     void AfterSet() override;
     DockZone GetDockArea(DockArea area);
+    bool HasNot(IWindow* window);
 
 private:
     std::vector<DockZone> m_DockZones;
