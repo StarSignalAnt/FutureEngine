@@ -6,11 +6,13 @@
 #include <iostream>
 #include "AppBar.h"
 #include "GameUI.h"
+#include "GpuTalk.h"
 
 AppBar* FuturePlatform::m_AppBar = nullptr;
 std::vector<FPApp*> FuturePlatform::m_RunningApps;
 std::vector<FPApp*> FuturePlatform::m_Apps;
 DesktopWallpaper* FuturePlatform::m_Wallpaper;
+GpuTalk* FuturePlatform::m_Talk = nullptr;
 
 
 FuturePlatform::FuturePlatform() {
@@ -18,8 +20,29 @@ FuturePlatform::FuturePlatform() {
 	SetApp(1024, 768, "Future Platform (open-source) - Star Signal Games");
 	PushState(new FSLogin);
 	Run();
+	
 
 }
+
+void FuturePlatform::BeginTalk() {
+
+ m_Talk = new GpuTalk("models/mistral-7b-instruct-v0.1.Q8_0.gguf");
+
+}
+
+std::string FuturePlatform::Ask(std::string text) {
+	return m_Talk->Ask(text);
+
+}
+
+std::string FuturePlatform::Ask(std::string directive, std::string text) {
+
+	return m_Talk->AskWithContext(directive, text);
+
+}
+
+
+
 
 void FuturePlatform::StartApp(FPApp* application) {
 

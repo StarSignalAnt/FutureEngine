@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureApp;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine\llama;C:\project\FCEp1\FutureApp;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
@@ -139,6 +139,7 @@
     <ClCompile Include="AppMapEditor.cpp" />
     <ClCompile Include="AppMenu.cpp" />
     <ClCompile Include="AppStart.cpp" />
+    <ClCompile Include="ContentBrowser.cpp" />
     <ClCompile Include="DesktopWallpaper.cpp" />
     <ClCompile Include="FPApps.cpp" />
     <ClCompile Include="FSDesktop.cpp" />
@@ -147,7 +148,13 @@
     <ClCompile Include="FUsers.cpp" />
     <ClCompile Include="FutureEd.cpp" />
     <ClCompile Include="FuturePlatform.cpp" />
+    <ClCompile Include="FutureTalk.cpp" />
+    <ClCompile Include="GroupView.cpp" />
+    <ClCompile Include="MapViewFB.cpp" />
     <ClCompile Include="TestApp1.cpp" />
+    <ClCompile Include="TileGroup.cpp" />
+    <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="TileView.cpp" />
     <ClCompile Include="WindowTestApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +163,7 @@
     <ClInclude Include="AppMapEditor.h" />
     <ClInclude Include="AppMenu.h" />
     <ClInclude Include="AppStart.h" />
+    <ClInclude Include="ContentBrowser.h" />
     <ClInclude Include="DesktopWallpaper.h" />
     <ClInclude Include="FPApps.h" />
     <ClInclude Include="FSDesktop.h" />
@@ -163,7 +171,13 @@
     <ClInclude Include="FUserProfile.h" />
     <ClInclude Include="FUsers.h" />
     <ClInclude Include="FuturePlatform.h" />
+    <ClInclude Include="FutureTalk.h" />
+    <ClInclude Include="GroupView.h" />
+    <ClInclude Include="MapViewFB.h" />
     <ClInclude Include="TestApp1.h" />
+    <ClInclude Include="TileGroup.h" />
+    <ClInclude Include="TileManager.h" />
+    <ClInclude Include="TileView.h" />
     <ClInclude Include="WindowTestApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

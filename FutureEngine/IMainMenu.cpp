@@ -7,6 +7,7 @@ IMainMenu::IMainMenu() {
 
 	m_Size = glm::vec2(FutureApp::m_Inst->GetWidth(), 25);
 	m_DockType = DockType::m_Up;
+	SetIgnoreScissor(true);
 
 }
 
@@ -42,7 +43,7 @@ void IMainMenu::OnMouseDown(int button) {
 			if (m_OpenItem != nullptr) {
 
 				RemoveChild(m_OpenItem->m_ActiveControl);
-				delete m_OpenItem->m_ActiveControl;
+			//	delete m_OpenItem->m_ActiveControl;
 				m_OpenItem->m_Open = false;
 
 			}
@@ -80,7 +81,7 @@ void IMainMenu::OnMouseDown(int button) {
 		else {
 
 			RemoveChild(m_OverItem->m_ActiveControl);
-			delete m_OverItem->m_ActiveControl;
+		//	delete m_OverItem->m_ActiveControl;
 			m_OverItem->m_Open = false;
 			if (m_OpenItem == m_OverItem) {
 				m_OpenItem = nullptr;

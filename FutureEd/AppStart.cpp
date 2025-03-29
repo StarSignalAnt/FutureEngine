@@ -12,6 +12,7 @@ AppStart::AppStart(glm::vec2 position, glm::vec2 size) {
 	m_Position = position;
 
 	m_Size = size;
+	SetIgnoreScissor(true);
 
 }
 
@@ -55,10 +56,12 @@ void AppStart::OnMouseDown(int button) {
 		auto internet = new MenuItem("Internet");
 		auto media = new MenuItem("Media");
 		auto misc = new MenuItem("Misc");
+		auto ai = new MenuItem("AI");
 
 		m_Menu->AddItem(term);
 		m_Menu->AddItem(utility);
 		m_Menu->AddItem(system);
+		m_Menu->AddItem(ai);
 		m_Menu->AddItem(devel);
 		m_Menu->AddItem(game);
 		m_Menu->AddItem(internet);
@@ -74,6 +77,7 @@ void AppStart::OnMouseDown(int button) {
 		internet->m_Extra = AppType::ATYPE_Internet;
 		media->m_Extra = AppType::ATYPE_Media;
 		misc->m_Extra = AppType::ATYPE_Misc;
+		ai->m_Extra = AppType::ATYPE_AI;
 
 
 

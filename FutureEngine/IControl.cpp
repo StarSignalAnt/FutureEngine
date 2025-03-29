@@ -28,59 +28,86 @@ void IControl::UpdateChildren(float delta) {
 
 void IControl::PreRenderChildren() {
 
-	for (auto child : m_Children) {
+    for (auto child : m_Children) {
 
-		child->PreRender();
+        child->PreRender();
+
+    }
+}
+
+glm::vec4 IControl::GetScissor() {
+
+	glm::vec4 root = glm::vec4(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
+
+	if (GetRoot() != nullptr) {
+
+		root = GetRoot()->GetScissor();
 
 	}
+
+	auto rpos = GetRenderPosition();
+	auto rsize = GetSize();
+	float sx, sy,ex,ey;
+
+	sx = rpos.x;
+	sy = rpos.y;
+	ex = sx + rsize.x;
+	ey = sy + rsize.y;
+
+	if (sx < root.x)
+	{
+		//int dif = root.x - sx;
+		sx = root.x;
+	}
+	if (sy < root.y) {
+		sy = root.y;
+	}
+	if (ex > (root.x + root.z))
+	{
+		ex = root.x + root.z;
+	}
+	if (ey > (root.y + root.w))
+	{
+		ey = root.y + root.w;
+	}
+
+
+	return glm::vec4(sx-1,sy-1,ex-sx+3,ey-sy+3);
 
 }
 
 void IControl::RenderChildren() {
-	auto gsize = GetSize();
+    // Skip if no children
+    if (m_Children.empty()) {
+        return;
+    }
 
-	auto os = GetOffset();
+    auto rpos = GetRenderPosition();
+    auto size = GetSize();
+    auto offset = GetOffset();
 
-	auto rpos = GetRenderPosition();
+    // Store current scissor state
+   
 
-	float sh = FutureApp::m_Inst->GetHeight();
+    // Render all children
+    for (auto child : m_Children) {
+		auto s = child->GetScissor();
 
-	//glViewport(rpos.x, rpos.y, gsize.x, gsize.y);
-	//glScissor(rpos.x, sh-rpos.y, gsize.x, -gsize.y);
-
-
-
-	for (auto child : m_Children) {
-		
-		auto pos = child->GetPosition() + os;
-		auto size = child->GetSize();
-		
-	//	if (m_CullChildren) {
-			if (pos.x >= 0 && pos.y >= 0 && pos.x + size.x <= gsize.x+2  && pos.y + size.y < gsize.y + 2) {
-			//	child->Render();
-
-			}
-	//	}
-	//	else {
-			if (m_CullChildren) {
-				setScissor(rpos.x, rpos.y, gsize.x, gsize.y, sh);
-				glEnable(GL_SCISSOR_TEST);
-			}
-			if (child == GameUI::m_Inst->GetActiveControl())
-			{
-				UIHelp::DrawOutlineRect(child->GetRenderPosition() + glm::vec2(-1, -1), child->GetSize() + glm::vec2(2, 2), glm::vec4(1, 1, 1, 1));
-			}
-			child->Render();
-	//	}
-			glDisable(GL_SCISSOR_TEST);
-
-
-	}
+		if (GetIgnoreScissor()) {
+			UIHelp::RemoveScissor();
+		}
+		else {
 	
+			UIHelp::setScissor(s.x, s.y, s.z, s.w, FutureApp::m_Inst->GetHeight());
+		}
+        // Render the child
+        child->Render();
+    }
 
-	//glViewport(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
 
-}	
+
+}
+    
 
 int IControl::GetMaxHeight() {
 

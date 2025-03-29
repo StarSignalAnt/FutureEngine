@@ -11,6 +11,7 @@
 #include "GameUI.h"
 #include "IMainMenu.h"
 #include "UITheme.h"
+#include "IToolBar.h"
 
 void IWindow::Update(float delta)
 {
@@ -117,12 +118,12 @@ void IWindow::Render()
 void IWindow::OnMouseDown(int button)
 {
 
-	m_RootControl->RemoveChild(this);
-	m_RootControl->AddChild(this);
+
+
 
 	m_MouseIn = true;
 	if (m_ActiveMenu != nullptr) {
-		m_ActiveMenu->SetAppTitle(m_AppTitle);
+//		m_ActiveMenu->SetAppTitle(m_AppTitle);
 	}
 	GameUI::m_Inst->SetMainMenu(m_ActiveMenu);
 
@@ -192,9 +193,10 @@ void IWindow::OnMouseDown(int button)
 						GameUI::m_Inst->SetUISize(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
 					}
 					else {
-
+					
 						RemoveChild(m_ClientArea);
 						AddChild(m_BaseArea);
+						m_ClientArea = m_BaseArea;
 						GameUI::m_Inst->SetUISize(FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
 
 					}
@@ -409,13 +411,14 @@ void IWindow::InitWindow() {
 		m_MaximizeButton = new IButton("E", glm::vec2(m_Size.x - 32, 2), glm::vec2(16, 16));
 		m_MinimizeButton = new IButton("_", glm::vec2(m_Size.x - 48, 2), glm::vec2(16, 16));
 	}
-	m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+
+	
+	
 	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 36));
 	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 10), glm::vec2(m_Size.x - 13, 10));
 	m_Resizer = new IButton(".", glm::vec2(m_Size.x-10,m_Size.y-10),glm::vec2(10,10));
 	//m_CloseButton->SetRenderBody(false);
 
-	m_BaseArea = m_ClientArea;
 
 	m_TitleBG = new Texture2D(m_Size.x, 20);
 	m_ClientBG = new Texture2D(m_Size.x, m_Size.y - 20);
@@ -427,10 +430,23 @@ void IWindow::InitWindow() {
 		AddChild(m_MaximizeButton);
 		AddChild(m_MinimizeButton);
 	}
+
+	if (m_HasToolBar) {
+		m_ClientArea = new IControlGroup(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
+		m_ToolBar = new IToolBar;
+		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 30));
+
+		AddChild(m_ToolBar);
+
+	}
+	else {
+		m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+	}
 	AddChild(m_ClientArea);
 	AddChild(m_YScroller);
 	AddChild(m_XScroller);
 	AddChild(m_Resizer);
+	m_BaseArea = m_ClientArea;
 
 	m_Resizer->SetOnMoved([&](glm::vec2 delta) {
 
@@ -508,6 +524,7 @@ void IWindow::InitWindow() {
 
 	m_TitleBarImage = new Texture2D("engine/ui/windowTitle.png");
 	AlignWindow();
+	Setup();
 }
 
 void IWindow::AlignWindow() {
@@ -518,9 +535,15 @@ void IWindow::AlignWindow() {
 		m_MinimizeButton->Set(glm::vec2(m_Size.x - 48, 2));
 	}
 
-	m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+	if (m_HasToolBar) {
+		m_ClientArea->Set(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
+	}
+	else {
+		m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+	}
 	RemoveChild(m_YScroller);
 	m_TitleBG->Free();
+
 	m_TitleBG = new Texture2D(m_Size.x, 20);
 	m_ClientBG->Free();
 	m_ClientBG = new Texture2D(m_Size.x, m_Size.y - 20);
@@ -572,8 +595,11 @@ void IWindow::AlignWindow() {
 
 	//if(m_ClientArea->GetOffset().
 
+	if (m_HasToolBar) {
+		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 30));
+		//m_ToolBar->SetDockType(DockType::m_Up);
 
-
+	}
 
 }
 
@@ -599,6 +625,7 @@ void IWindow::DockWindow(IWindow* window) {
 
 	m_DockedWindows.push_back(window);
 	window->GetRoot()->RemoveChild(window);
+	
 //	exit(2);
 
 }

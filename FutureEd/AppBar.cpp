@@ -15,6 +15,7 @@ AppBar::AppBar(glm::vec2 position, glm::vec2 size) {
 	m_DockType = DockType::m_Down;
 
 	AddChild(m_AppStart);
+	SetIgnoreScissor(true);
 
 }
 

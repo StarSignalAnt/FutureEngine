@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include <string>
 class Texture2D;
 
 class GameTile
@@ -19,7 +19,13 @@ public:
 	bool GetCastShadows() { return m_CastShadow; }
 	bool GetReceivesShadows() { return m_ReceivesShadow; }
 	bool GetReceivesLight() { return m_ReceivesLight; }
-
+	void SetName(std::string name) {
+		m_Name = name;
+	}
+	std::string GetName()
+	{
+		return m_Name;
+	}
 
 private:
 
@@ -30,6 +36,6 @@ private:
 	bool m_ReceivesShadow = false;
 	bool m_ReceivesLight = true;
 	static Texture2D* m_BlankNormal; // = nullptr;
-
+	std::string m_Name = "";
 };
 

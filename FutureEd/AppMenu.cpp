@@ -19,6 +19,7 @@ AppMenu::AppMenu(glm::vec2 position, glm::vec2 size) {
 		FutureApp::m_Inst->PopState();
 
 		});
+	SetIgnoreScissor(true);
 
 }
 

@@ -22,14 +22,18 @@ void IButton::Render()
 		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,2), glm::vec4(0.5, 0.5, 0.5, 1.0));
 		UIHelp::DrawRect(GetRenderPosition(), m_Size, m_Color);
 	}
-	UIHelp::DrawText(pos,m_Text,glm::vec4(1,1,1,1));
-
+	if (m_Image != nullptr) {
+		UIHelp::DrawImage(GetRenderPosition(), GetSize(), m_Image, glm::vec4(1,1,1,1));
+	}
+	else {
+		UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));
+	}
 	RenderChildren();
 }
 
 void IButton::LoadResources() {
 
-	m_Image = new Texture2D("engine/ui/buttonframe.png");
+//	m_Image = new Texture2D("engine/ui/buttonframe.png");
 	m_Color = glm::vec4(0.1,0.1,0.1, 1);
 }
 

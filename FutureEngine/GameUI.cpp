@@ -112,7 +112,7 @@ void GameUI::UpdateUI(float delta)
                         for (int i = 1; i < 3; i++) {
                             if (MouseB[i]) {
                                 MouseB[i] = false;
-                                m_ControlOver->MouseUnPressed(i);
+                                m_ControlOver->OnMouseUp(i);
                             }
                         }
                         m_ControlOver = control;
@@ -192,7 +192,7 @@ void GameUI::UpdateUI(float delta)
         }
     //    std::cout << "CP MOUSE MOVE:" << std::endl;
         m_ControlPressed->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
-        m_ControlPressed->Move(GameInput::MouseDelta);
+     //   m_ControlPressed->Move(GameInput::MouseDelta);
         m_ControlPressed->MouseWheelMoved(GameInput::MouseDelta.z);
 
     }
@@ -200,7 +200,7 @@ void GameUI::UpdateUI(float delta)
 
       //  std::cout << "CO MOUSE MOVE" << std::endl;
         m_ControlOver->OnMouseMove(mouse_pos - m_ControlOver->GetRenderPosition(), GameInput::MouseDelta);
-        m_ControlOver->Move(GameInput::MouseDelta);
+      //  m_ControlOver->Move(GameInput::MouseDelta);
         m_ControlOver->MouseWheelMoved(GameInput::MouseDelta.z);
 
     }
@@ -296,7 +296,7 @@ void GameUI::UpdateUI(float delta)
 
                 MouseB[i] = true;
                 if (m_ControlOver != nullptr) {
-                    m_ControlOver->MousePressed(i);
+                    m_ControlOver->OnMouseDown(i);
                 }
 
             }
@@ -308,7 +308,8 @@ void GameUI::UpdateUI(float delta)
 
                 MouseB[i] = false;
                 if (m_ControlOver != nullptr) {
-                    m_ControlOver->MouseUnPressed(i);
+
+                    m_ControlOver->OnMouseUp(i);
                 }
 
             }
@@ -317,11 +318,18 @@ void GameUI::UpdateUI(float delta)
 
     }
 
+    if (m_ControlOver) {
+
+        m_ControlOver->OnMouseWheel(GameInput::MouseDelta.z);
+
+    }
 
 }
 void GameUI::RenderUI()
 {
 	m_RootControl->PreRender();
+
+    CurrentScissor = glm::vec4(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
 
 	m_RootControl->Render();
     

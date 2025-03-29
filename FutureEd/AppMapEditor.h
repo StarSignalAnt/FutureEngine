@@ -4,7 +4,9 @@
 class GameMap;
 class IDocker;
 class IFrameBuffer;
+class MapViewFB;
 class GameCam;
+class ContentBrowser;
 
 class AppMapEditor :
     public FPApp
@@ -22,7 +24,9 @@ public:
     IWindow* m_Properties;
     IWindow* m_MapView;
 
-    IFrameBuffer* m_MapViewFB;
+    ContentBrowser* m_ContentBrowser = nullptr;
+
+    MapViewFB* m_MapViewFB;
     GameMap* m_EditMap;
     GameCam* m_EditCam;
 

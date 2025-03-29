@@ -294,6 +294,20 @@ public:
 
 	}
 
+	bool GetIgnoreScissor() const { return m_IgnoreScissor; }
+	void SetIgnoreScissor(bool ignore) { m_IgnoreScissor = ignore; }
+
+	// In the protected section:
+	bool m_IgnoreScissor = false; // Controls whether scissor testing affects this control
+
+	glm::vec4 GetScissor();
+
+	virtual void Setup() {};
+	void ClearChildren() {
+
+		m_Children.clear();
+
+	}
 
 protected:
 

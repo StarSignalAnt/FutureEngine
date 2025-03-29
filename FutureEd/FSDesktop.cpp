@@ -10,6 +10,7 @@
 #include "IMainMenu.h"
 #include "MessageBox.h"
 #include "AppMapEditor.h"
+#include "FutureTalk.h"
 
 void FSDesktop::InitState() {
 
@@ -35,6 +36,9 @@ void FSDesktop::InitState() {
 
 	FuturePlatform::RegisterApp(app);
 	FuturePlatform::RegisterApp(new AppMapEditor);
+	FuturePlatform::RegisterApp(new FutureTalk);
+
+	FuturePlatform::BeginTalk();
 
 	SetupDesktopMenu();
 

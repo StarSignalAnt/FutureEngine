@@ -44,7 +44,16 @@ public:
 	IControl* GetWindowSurface() {
 		return m_WindowSurface;
 	}
+	void SetScissor(glm::vec4 s) {
+		CurrentScissor = s;
+	}
+	glm::vec4 GetScissor() {
+		return CurrentScissor;
+	}
+
+
 private:
+	glm::vec4 CurrentScissor;
 	bool m_WindowDockingEnabled = true;
 	glm::vec2 m_LastWindowPosition;
 	UITheme* m_Theme = nullptr;

@@ -58,6 +58,9 @@
     <Filter Include="Resonance2\Themes">
       <UniqueIdentifier>{b8c86d21-779f-487e-9a0f-e9ea7e1847a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GenAI">
+      <UniqueIdentifier>{4da56e41-27d1-4727-9ada-7fea053ee927}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -207,6 +210,27 @@
     <ClInclude Include="ThemeDark.h">
       <Filter>Resonance2\Themes</Filter>
     </ClInclude>
+    <ClInclude Include="IToolBar.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="llama\ggml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="llama\llama.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="llama\llama-cpp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GpuTalk.h">
+      <Filter>GenAI</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextArea.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IGetName.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEngine.cpp">
@@ -344,9 +368,6 @@
     <ClCompile Include="BinaryFile.cpp">
       <Filter>File</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp">
-      <Filter>Resonance2\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="SoundLib.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -357,6 +378,21 @@
       <Filter>Resonance2\Themes</Filter>
     </ClCompile>
     <ClCompile Include="MessageBox.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IToolBar.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="llama\ggml.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GpuTalk.cpp">
+      <Filter>GenAI</Filter>
+    </ClCompile>
+    <ClCompile Include="ITextArea.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IGetName.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

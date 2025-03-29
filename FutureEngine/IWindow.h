@@ -6,6 +6,7 @@ class IControlGroup;
 class IHorizontalScroller;
 class IVerticalScroller;
 class IDocker;
+class IToolBar;
 
 enum WindowArea {
     AREA_TITLE, AREA_LEFT, AREA_RIGHT, AREA_BOTTOM, AREA_RESIZER, AREA_CLIENT, AREA_NONE
@@ -15,7 +16,7 @@ class IWindow :
     public IControl
 {
 public:
-    IWindow(std::string title, glm::vec2 position, glm::vec2 size, bool buttons = true) : IControl(position, size) { m_Text = title; m_Buttons = buttons;  InitWindow(); }
+    IWindow(std::string title, glm::vec2 position, glm::vec2 size, bool buttons = true, bool toolbar=false) : IControl(position, size) { m_Text = title; m_Buttons = buttons;m_HasToolBar = toolbar ; InitWindow(); }
 
     // Get the current active area (needed for undocking detection)
     WindowArea GetCurrentArea() const { return m_CurrentArea; }
@@ -36,6 +37,10 @@ public:
 
     void AfterSet() override;
 
+
+    IToolBar* GetToolBar() {
+        return m_ToolBar;
+    }
     // Make dragging state accessible to friends
     friend class DockPanel;
     friend class IWindowDock;
@@ -95,4 +100,6 @@ private:
     std::string m_AppTitle = "";
     bool m_Outside = false;
     IMainMenu* m_DefaultMenu = nullptr;
+    bool m_HasToolBar = false;
+    IToolBar* m_ToolBar = nullptr;
 };

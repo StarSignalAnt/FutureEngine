@@ -197,3 +197,64 @@ std::string FileRequester::BuildFilterString(const std::vector<FileFilter>& filt
     return "";
 #endif
 }
+#include "FileRequester.h"
+#include <string>
+#include <vector>
+
+/**
+ * Extension to FileRequester that supports multiple file selection
+ * This would need to be integrated with your FileRequester class
+ */
+std::vector<std::string> FileRequester::OpenMultipleFiles(
+    const std::string& title,
+    const std::vector<FileRequester::FileFilter>& filters,
+    const std::string& initialDir
+) {
+    std::vector<std::string> result;
+
+#ifdef _WIN32
+    char filename[32768] = ""; // Large buffer for multiple filenames
+
+    OPENFILENAMEA ofn;
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = filename;
+    ofn.nMaxFile = sizeof(filename);
+
+    std::string filterStr = FileRequester::BuildFilterString(filters);
+    ofn.lpstrFilter = filterStr.c_str();
+
+    ofn.lpstrInitialDir = initialDir.empty() ? NULL : initialDir.c_str();
+    ofn.lpstrTitle = title.c_str();
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
+
+    if (GetOpenFileNameA(&ofn)) {
+        // Parse the multiple file selection result
+        if (filename[ofn.nFileOffset - 1] != '\0') {
+            // Only one file was selected
+            result.push_back(filename);
+        }
+        else {
+            // Multiple files were selected
+            std::string directory = filename;
+            char* p = filename + directory.size() + 1;
+
+            while (*p) {
+                std::string file = p;
+                result.push_back(directory + "\\" + file);
+                p += file.size() + 1;
+            }
+        }
+    }
+#else
+    // Placeholder for non-Windows implementation
+    // For now, fall back to single selection
+    std::string singleFile = FileRequester::OpenFile(title, filters, initialDir);
+    if (!singleFile.empty()) {
+        result.push_back(singleFile);
+    }
+#endif
+
+    return result;
+}

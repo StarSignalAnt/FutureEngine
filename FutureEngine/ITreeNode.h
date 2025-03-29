@@ -48,6 +48,12 @@ public:
 
     // Depth calculation (useful for indentation)
     int GetDepth() const;
+    void SetType(std::string type) {
+        m_Type = type;
+    }
+    std::string GetType() {
+        return m_Type;
+    }
 
 private:
     std::string m_Text;
@@ -58,4 +64,5 @@ private:
     ITreeNode* m_Parent;
     std::function<void(ITreeNode*)> m_OnClick;
     void* m_UserData;
+    std::string m_Type = "UNKNOWN";
 };

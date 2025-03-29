@@ -39,6 +39,11 @@ public:
         const std::string& title = "Select Folder",
         const std::string& initialDir = ""
     );
+    static std::vector<std::string> OpenMultipleFiles(
+        const std::string& title,
+        const std::vector<FileRequester::FileFilter>& filters,
+        const std::string& initialDir = ""
+    );
 
 private:
     // Helper function to construct filter string in the format needed by the platform

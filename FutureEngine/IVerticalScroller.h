@@ -108,11 +108,12 @@ public:
         glm::vec2 renderPos = GetRenderPosition();
 
         // Draw the scroll track (background) - fixed width
-        UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollBarWidth, m_Size.y), m_ScrollTrackColor);
+    
 
         // Only draw the scroll button if content requires scrolling
         if (m_ContentHeight > m_Size.y)
         {
+            UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollBarWidth, m_Size.y), m_ScrollTrackColor);
             // Calculate the position of the scroll button
             float buttonTop = renderPos.y + m_ScrollPosition * (m_Size.y - m_ScrollButtonSize);
 

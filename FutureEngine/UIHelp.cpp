@@ -17,7 +17,7 @@ Texture2D* m_ColorBG;
 void UIHelp::InitHelp() {
 
 	m_Draw = new SmartDraw;
-	m_UIFont = new GameFont("engine/ui/uifont.ttf",15);
+	m_UIFont = new GameFont("engine/ui/uifont.ttf",16);
 	m_FontDraw = new SmartDraw;
 	m_BlurDraw = new SmartDraw;
 	m_BlurDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawBlurFS.glsl"));

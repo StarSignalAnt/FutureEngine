@@ -8,6 +8,7 @@ public:
 
 		m_Position = position;
 		m_Text = text;
+		SetIgnoreScissor(true);
 
 	}
 

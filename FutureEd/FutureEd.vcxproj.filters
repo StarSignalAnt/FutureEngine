@@ -28,6 +28,12 @@
     <Filter Include="Apps\MapEditor">
       <UniqueIdentifier>{83d7e3b9-4fce-44dc-832d-0bd219335723}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Apps\MapEditor\Controls">
+      <UniqueIdentifier>{fc2f43e9-3b3a-4161-a97a-990e76e7ba59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\FutureTalk">
+      <UniqueIdentifier>{ee5b3484-b798-460d-857f-2377f2e8f80e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FutureEd.cpp">
@@ -75,6 +81,27 @@
     <ClCompile Include="AppMapEditor.cpp">
       <Filter>Apps\MapEditor</Filter>
     </ClCompile>
+    <ClCompile Include="MapViewFB.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentBrowser.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FutureTalk.cpp">
+      <Filter>Apps\FutureTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="TileGroup.cpp">
+      <Filter>Apps\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TileView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupView.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuturePlatform.h">
@@ -118,6 +145,27 @@
     </ClInclude>
     <ClInclude Include="AppMapEditor.h">
       <Filter>Apps\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapViewFB.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentBrowser.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="FutureTalk.h">
+      <Filter>Apps\FutureTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="TileGroup.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="TileView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupView.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

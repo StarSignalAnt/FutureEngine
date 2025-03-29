@@ -54,7 +54,11 @@ public:
         }
 
     }
+    void Reset() {
+        m_Text = "";
+        m_CursorPosition = 0;
 
+    }
 private:
     void HandleKeyInput();
     void EnsureCursorVisible();

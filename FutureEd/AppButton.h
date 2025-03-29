@@ -11,6 +11,9 @@ class AppButton :
 {
 public:
 
+    AppButton() {
+        SetIgnoreScissor(true);
+    }
     void Update(float delta) override;
     void Render() override;
     void SetWindow(IWindow* window) {

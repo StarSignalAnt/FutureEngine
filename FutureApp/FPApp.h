@@ -9,12 +9,14 @@ enum AppType {
 
 	ATYPE_Utility,
 	ATYPE_System,
+	ATYPE_AI,
 	ATYPE_Development,
 	ATYPE_Game,
 	ATYPE_Internet,
 	ATYPE_Media,
 	ATYPE_Terminal,
 	ATYPE_Misc,
+
 
 };
 

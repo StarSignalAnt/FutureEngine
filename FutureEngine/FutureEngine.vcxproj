@@ -115,7 +115,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <EnableModules>true</EnableModules>
-      <AdditionalIncludeDirectories>C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine\llama;C:\project\FCEp1\FutureEngine\llama\ggml-cpu;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -123,10 +123,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>openal32.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;postproc.lib;freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal32.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;postproc.lib;freetype.lib;glfw3.lib;llama.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\project\FCEp1\openal\libs\Win64;C:\project\FCEp1\ffmpeg\lib;C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\llm\llama.cpp\build\src\Release;C:\project\FCEp1\openal\libs\Win64;C:\project\FCEp1\ffmpeg\lib;C:\project\FCEp1\FreeType;C:\project\FCEp1\FutureEngine\packages\glfw.3.4.0\build\native\lib\static\v143\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,6 +178,7 @@
     <ClInclude Include="GameTile.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="GameVideo.h" />
+    <ClInclude Include="GpuTalk.h" />
     <ClInclude Include="IButton.h" />
     <ClInclude Include="IComboBox.h" />
     <ClInclude Include="IControl.h" />
@@ -185,19 +186,25 @@
     <ClInclude Include="IDateSelector.h" />
     <ClInclude Include="IDocker.h" />
     <ClInclude Include="IFrameBuffer.h" />
+    <ClInclude Include="IGetName.h" />
     <ClInclude Include="IHorizontalScroller.h" />
     <ClInclude Include="IImage.h" />
     <ClInclude Include="ILabel.h" />
     <ClInclude Include="IMainMenu.h" />
     <ClInclude Include="ISizeBox.h" />
+    <ClInclude Include="ITextArea.h" />
     <ClInclude Include="ITextEdit.h" />
     <ClInclude Include="ITimeSelector.h" />
+    <ClInclude Include="IToolBar.h" />
     <ClInclude Include="ITreeNode.h" />
     <ClInclude Include="ITreeView.h" />
     <ClInclude Include="IVerticalMenu.h" />
     <ClInclude Include="IVerticalScroller.h" />
     <ClInclude Include="IVideoPlayer.h" />
     <ClInclude Include="IWindow.h" />
+    <ClInclude Include="llama\ggml.h" />
+    <ClInclude Include="llama\llama-cpp.h" />
+    <ClInclude Include="llama\llama.h" />
     <ClInclude Include="MathsOps.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="pch.h" />
@@ -211,7 +218,6 @@
     <ClInclude Include="UITheme.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Users\AntRWells\Documents\ISizeBox.cpp" />
     <ClCompile Include="BinaryFile.cpp" />
     <ClCompile Include="DrawInfo.cpp" />
     <ClCompile Include="DrawList.cpp" />
@@ -230,6 +236,7 @@
     <ClCompile Include="GameTile.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="GameVideo.cpp" />
+    <ClCompile Include="GpuTalk.cpp" />
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="IComboBox.cpp" />
     <ClCompile Include="IControl.cpp" />
@@ -237,18 +244,22 @@
     <ClCompile Include="IDateSelector.cpp" />
     <ClCompile Include="IDocker.cpp" />
     <ClCompile Include="IFrameBuffer.cpp" />
+    <ClCompile Include="IGetName.cpp" />
     <ClCompile Include="IHorizontalScroller.cpp" />
     <ClCompile Include="IImage.cpp" />
     <ClCompile Include="ILabel.cpp" />
     <ClCompile Include="IMainMenu.cpp" />
+    <ClCompile Include="ITextArea.cpp" />
     <ClCompile Include="ITextEdit.cpp" />
     <ClCompile Include="ITimeSelector.cpp" />
+    <ClCompile Include="IToolBar.cpp" />
     <ClCompile Include="ITreeNode.cpp" />
     <ClCompile Include="ITreeView.cpp" />
     <ClCompile Include="IVerticalMenu.cpp" />
     <ClCompile Include="IVerticalScroller.cpp" />
     <ClCompile Include="IVideoPlayer.cpp" />
     <ClCompile Include="IWindow.cpp" />
+    <ClCompile Include="llama\ggml.c" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="pch.cpp">

@@ -53,6 +53,8 @@ void AppButton::Render() {
 
 		}
 
+
+		UIHelp::RemoveScissor();
 		auto rt = m_Thumbnail;
 	
 		rt->Bind();
@@ -78,7 +80,7 @@ void AppButton::Render() {
 		float dy = -128;
 		float dh = 80 * ar;
 		dy = dy + (128 - dh) / 2;
-
+		UIHelp::RemoveScissor();
 		UIHelp::DrawRect(GetRenderPosition() + glm::vec2(-8, -120), glm::vec2(144, 120), glm::vec4(0.2, 0.2, 0.2, 0.75));
 		UIHelp::DrawImage(GetRenderPosition() + glm::vec2(0,dy+dh), glm::vec2(128,-dh), rt->GetTexture(), glm::vec4(1, 1, 1, 1));
 

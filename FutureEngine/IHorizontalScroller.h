@@ -37,6 +37,12 @@ public:
         Scrolled();
     }
 
+    float GetContentWidth() {
+
+        return m_ContentWidth;
+
+    }
+
     // Set colors for the scrollbar
     void SetScrollTrackColor(const glm::vec4& color) { m_ScrollTrackColor = color; }
     void SetScrollButtonColor(const glm::vec4& color) { m_ScrollButtonColor = color; }

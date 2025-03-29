@@ -1,5 +1,8 @@
 #pragma once
 #include "IControl.h"
+
+class Texture2D;
+
 class IButton :
     public IControl
 {
@@ -7,6 +10,7 @@ public:
 
 	IButton() : IControl() { LoadResources(); }
 	IButton(std::string text, glm::vec2 position, glm::vec2 size) : IControl(position, size) { m_Text = text; LoadResources(); }
+	IButton(Texture2D* icon, glm::vec2 position, glm::vec2 size) : IControl(position, size) { m_Image = icon; LoadResources(); }
 	void Update(float delta) override;
 	void Render() override;
 	void OnMouseEnter() override;
