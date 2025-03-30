@@ -26,6 +26,9 @@ public:
 	{
 		return m_Name;
 	}
+	int GetFrameCount() {
+		return m_ColorFrames.size();
+	}
 
 private:
 

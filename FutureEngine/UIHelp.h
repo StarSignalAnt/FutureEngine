@@ -19,5 +19,6 @@ public:
 	static float StrWidth(std::string text,float scale=1.0);
 	static float StrHeight(std::string text,float scale=1.0);
 	static void DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color);
+	static void ClearZ();
 };
 

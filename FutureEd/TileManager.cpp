@@ -9,6 +9,11 @@
 #include "GameTile.h"
 #include "IControlGroup.h"
 #include "GroupView.h"
+#include "BinaryFile.h"
+
+GameTile* TileManager::m_SelectedTile = nullptr;
+TileManager* TileManager::m_Inst = nullptr;
+
 std::vector<std::string> LoadMultipleImageFiles(const std::string& initialDir = "") {
 	// Define common image file filters
 	std::vector<FileRequester::FileFilter> imageFilters = {
@@ -26,7 +31,7 @@ std::vector<std::string> LoadMultipleImageFiles(const std::string& initialDir = 
 std::vector<TileGroup*> TileManager::m_Groups;
 
 void TileManager::Setup() {
-
+	m_Inst = this;
 	m_Dock = new IDocker(glm::vec2(0, 0), glm::vec2(200, 200));
 	m_Dock->SetDockType(DockType::m_Fill);
 
@@ -81,6 +86,7 @@ void TileManager::Setup() {
 			group->SetName(name);
 			m_Groups.push_back(group);
 
+			Save();
 			RebuildTree();
 
 			// Save the file or perform other actions with the name
@@ -110,7 +116,7 @@ void TileManager::Setup() {
 					}
 
 				}
-
+				Save();
 				RebuildTree();
 
 
@@ -119,6 +125,7 @@ void TileManager::Setup() {
 		}
 		};
 
+	Load();
 }
 
 void TileManager::RebuildTree() {
@@ -200,4 +207,121 @@ void TileManager::RebuildTree() {
 		}});
 
 		
+}
+
+void TileManager::Save() {
+
+	FFile* f = new FFile("apps/mapeditor/tiles.dat",false);
+
+	f->writeInt(m_Groups.size());
+
+	for (auto g : m_Groups) {
+
+		f->writeString(g->GetName());
+		f->writeInt(g->GetTiles().size());
+
+		for (auto t : g->GetTiles()) {
+
+
+			f->writeBool(t->GetCastShadows());
+			f->writeBool(t->GetReceivesShadows());
+			f->writeBool(t->GetReceivesLight());
+			f->writeString(t->GetName());
+
+			f->writeInt(t->GetFrameCount());
+
+			for (int tf = 0; tf < t->GetFrameCount(); tf++) {
+
+				auto frame = t->GetFrame(tf);
+
+				f->writeString(frame[0]->GetPath());
+				f->writeString(frame[1]->GetPath());
+
+			}
+
+		}
+
+	}
+
+	f->close();
+
+}
+
+void TileManager::Load() {
+
+
+	m_Groups.clear();
+
+	if (FFile::fileExists("apps/mapeditor/tiles.dat")) {
+
+		FFile* f = new FFile("apps/mapeditor/tiles.dat", true);
+
+	
+		int gc = f->readInt();
+
+		for (int g = 0; g < gc; g++) {
+
+			TileGroup* group = new TileGroup;
+			m_Groups.push_back(group);
+			auto name = f->readString();
+			group->SetName(name);
+			int tc = f->readInt();
+
+			for (int t = 0; t < tc; t++) {
+
+				GameTile* tile = new GameTile;
+
+				bool castShadows = f->readBool();
+				bool recvShadows = f->readBool();
+				bool recvLight = f->readBool();
+
+				auto name = f->readString();
+
+				int fc = f->readInt();
+
+				tile->Set(castShadows, recvShadows, recvLight);
+				tile->SetName(name);
+
+
+				for (int tf = 0; tf < fc; tf++) {
+
+					auto dif = f->readString();
+					auto norm = f->readString();
+
+					if (norm == "") {
+						tile->AddFrame(new Texture2D(dif), nullptr);
+					}
+					else {
+						tile->AddFrame(new Texture2D(dif), new Texture2D(norm));
+					}
+					
+
+				}
+
+				group->AddTile(tile);
+
+			}
+
+		}
+
+		f->close();
+
+	}
+	RebuildTree();
+}
+
+GameTile* TileManager::FindTile(std::string name) {
+
+	for (auto g : m_Groups) {
+
+		for (auto t : g->GetTiles()) {
+
+			if (t->GetName() == name) {
+				return t;
+			}
+
+		}
+
+	}
+
 }

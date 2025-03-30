@@ -178,3 +178,9 @@ void UIHelp::RemoveScissor() {
 	glDisable(GL_SCISSOR_TEST);
 
 }
+
+void UIHelp::ClearZ() {
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+}

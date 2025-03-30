@@ -15,6 +15,7 @@
 #include "ContentBrowser.h"
 #include "TileManager.h"
 #include "GameUI.h"
+#include "MapViewFB.h"
 
 AppMapEditor::AppMapEditor() {
 
@@ -32,6 +33,17 @@ void AppMapEditor::InitApp() {
 	toolbar->AddButton(new Texture2D("apps/mapeditor/translate.png"));
 	toolbar->AddButton(new Texture2D("apps/mapeditor/rotate.png"));
 	toolbar->AddButton(new Texture2D("apps/mapeditor/scale.png"));
+	auto b1 = toolbar->AddButton("Rect");
+	auto b2 = toolbar->AddButton("Fill");
+	
+	b1->SetOnClick([&](void* data) {
+		MapViewFB::m_EditMode = EM_RectFill;
+		});
+	b2->SetOnClick([&](void* data) {
+		MapViewFB::m_EditMode = EM_Fill;
+		});
+
+
 
 	m_Window = win;
 	m_Dock = new IDocker(glm::vec2(0, 0), glm::vec2(200, 200));
