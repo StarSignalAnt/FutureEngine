@@ -20,5 +20,9 @@ public:
 	static float StrHeight(std::string text,float scale=1.0);
 	static void DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color);
 	static void ClearZ();
+	static void Begin();
+	static void End();
+	static glm::vec4 m_Scissor;
+
 };
 

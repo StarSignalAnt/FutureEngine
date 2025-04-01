@@ -12,7 +12,7 @@ void IToolBar::Update(float delta) {
 void IToolBar::Render() {
 
 
-	UIHelp::DrawImageWithBG(GetRenderPosition(), GetSize(), m_Color);
+	UIHelp::DrawRect(GetRenderPosition(), GetSize(), glm::vec4(0.145, 0.1455, 0.1455, 1.0));
 	RenderChildren();
 
 }

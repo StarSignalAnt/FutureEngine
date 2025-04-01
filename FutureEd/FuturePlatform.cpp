@@ -26,7 +26,7 @@ FuturePlatform::FuturePlatform() {
 
 void FuturePlatform::BeginTalk() {
 
- m_Talk = new GpuTalk("models/mistral-7b-instruct-v0.1.Q8_0.gguf");
+
 
 }
 

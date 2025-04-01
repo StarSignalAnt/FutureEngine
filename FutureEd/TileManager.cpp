@@ -37,11 +37,11 @@ void TileManager::Setup() {
 
 	AddClientControl(m_Dock);
 
-	m_TileTree = new IWindow("Tiles", glm::vec2(20, 20), glm::vec2(220, 202));
+	m_TileTree = new IWindow("Tiles", glm::vec2(20, 20), glm::vec2(220, 202),false);
 
 	m_Dock->DockWindow(m_TileTree, DockArea::DOCK_LEFT);
 
-	m_TileView = new IWindow("Tile View", glm::vec2(20, 20), glm::vec2(220, 220));
+	m_TileView = new IWindow("Tile View", glm::vec2(20, 20), glm::vec2(220, 220),false);
 
 	m_Dock->DockWindow(m_TileView, DockArea::DOCK_CENTER);
 

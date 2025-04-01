@@ -18,12 +18,15 @@ public:
 	bool GetWindowBlur() { return m_WindowBlur; }
 	Texture2D* GetButton() { return m_Button; }
 	Texture2D* GetScrollButton() { return m_ScrollButton; };
-
+	glm::vec4 GetWindowLight() { return m_WindowLight; };
+	glm::vec4 GetWindowDark() { return m_WindowDark; };
 protected:
 
 	glm::vec4 m_Background;
 	glm::vec4 m_Foreground;
 	glm::vec4 m_WindowTitleBar;
+	glm::vec4 m_WindowLight;
+	glm::vec4 m_WindowDark;
 	bool m_WindowBlur = false;
 	float m_WindowAlpha = 0.95f;
 	Texture2D* m_Button;

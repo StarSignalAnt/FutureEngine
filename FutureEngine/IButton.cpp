@@ -1,6 +1,8 @@
 #include "IButton.h"
 #include "Texture2D.h"
 #include "UIHelp.h"
+#include "GameUI.h"
+#include "UITheme.h"
 
 void IButton::Update(float delta)
 {
@@ -17,10 +19,14 @@ void IButton::Render()
 	pos.x = pos.x + m_Size.x / 2 - UIHelp::StrWidth(m_Text) / 2;
 	pos.y = pos.y + m_Size.y / 2 - UIHelp::StrHeight(m_Text) / 2;
 
-
+	auto theme = GameUI::GetTheme();
 	if (m_RenderBody || m_Over) {
-		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,2), glm::vec4(0.5, 0.5, 0.5, 1.0));
-		UIHelp::DrawRect(GetRenderPosition(), m_Size, m_Color);
+		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,2),theme->GetWindowLight()*3.0f );
+		UIHelp::DrawRect(GetRenderPosition(), m_Size,  theme->GetWindowDark() * 2.0f*(m_Color*10.0f));
+
+
+
+
 	}
 	if (m_Image != nullptr) {
 		UIHelp::DrawImage(GetRenderPosition(), GetSize(), m_Image, glm::vec4(1,1,1,1));

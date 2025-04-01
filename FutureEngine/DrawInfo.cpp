@@ -58,5 +58,7 @@ void DrawInfo::Free()
 	delete m_Y;
 	delete m_TexX;
 	delete m_TexY;
+	delete m_Extra;
+	delete m_View;
 }
 

@@ -16,6 +16,7 @@ public:
 		m_RealX = new float[4];
 		m_RealY = new float[4];
 		m_Extra = new float[4];
+		m_View = new float[4];
 	}
 	void SetCoord(int coord, float x, float y);
 	void SetRealCoord(int coord, float x, float y)
@@ -48,6 +49,17 @@ public:
 	}
 	glm::vec4 GetExtra() {
 		return glm::vec4(m_Extra[0], m_Extra[1], m_Extra[2], m_Extra[3]);
+
+	}
+	glm::vec4 GetView() {
+		return glm::vec4(m_View[0], m_View[1], m_View[2], m_View[3]);
+	}
+	void SetView(glm::vec4 view) {
+
+		m_View[0] = view.x;
+		m_View[1] = view.y;
+		m_View[2] = view.z;
+		m_View[3] = view.w;
 
 	}
 
@@ -83,6 +95,7 @@ private:
 	float* m_RealX;
 	float* m_RealY;
 	float* m_Extra;
+	float* m_View;
 	float* m_TexX;
 	float* m_TexY;
 	float m_Z = 0.0f;

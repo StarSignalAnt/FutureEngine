@@ -17,14 +17,29 @@ Texture2D::Texture2D(int width, int height, unsigned char* data, int channels) {
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            GL_RED, // Store only the grayscale channel
+            GL_RGB, // Store only the grayscale channel
             width,
             height,
             0,
-            GL_RED,
+            GL_RGB,
             GL_UNSIGNED_BYTE,
             data
         );
+    }
+    else if (channels == 4) {
+
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGBA, // Store only the grayscale channel
+            width,
+            height,
+            0,
+            GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            data
+        );
+
     }
     else {
         glTexImage2D(
@@ -65,6 +80,8 @@ Texture2D::Texture2D(std::string path) {
             m_Handle = tex->GetID();
             m_Width = tex->GetWidth();
             m_Height = tex->GetHeight();
+            m_Path = tex->GetPath();
+            m_Channels = 4;
             return;
                 
 

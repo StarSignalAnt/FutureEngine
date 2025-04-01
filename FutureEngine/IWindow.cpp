@@ -34,16 +34,16 @@ void IWindow::Render()
 	auto theme = GameUI::GetTheme();
 
 
-	UIHelp::DrawOutlineRect(pos+glm::vec2(-1,19), m_Size+glm::vec2(1,-19),theme->GetForeground());
 	
 	if (theme->GetWindowBlur()) {
-		UIHelp::DrawImageBlur(pos + glm::vec2(0, 20 + (m_Size.y - 20)), glm::vec2(m_Size.x, -(m_Size.y - 21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
+	//	UIHelp::DrawImageBlur(pos + glm::vec2(0, 20 + (m_Size.y - 20)), glm::vec2(m_Size.x, -(m_Size.y - 21)), m_ClientBG, glm::vec4(1, 1, 1, 1), 2.1);
 	}
 
 	auto bg = theme->GetBackground();
 	bg.a = theme->GetWindowAlpha();
 
-	UIHelp::DrawRect(pos+glm::vec2(0,20), m_Size+glm::vec2(0,-21), bg );
+	UIHelp::DrawRect(pos + glm::vec2(0, 20), m_Size + glm::vec2(0, -17), theme->GetWindowDark());
+	UIHelp::DrawRect(pos + glm::vec2(3, 20), m_Size + glm::vec2(-6, -21), theme->GetWindowLight());
 	 UIHelp::DrawRect(pos + glm::vec2(0,0),  glm::vec2(m_Size.x, 20), theme->GetWindowTileBar());
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
 // 
@@ -69,15 +69,15 @@ void IWindow::Render()
 
 
 
-		int tab_width = UIHelp::StrWidth(title);
+		int tab_width = UIHelp::StrWidth(title) + 60;
 
 	//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
 
 		if (idx == m_CurrentTab) {
 
-			UIHelp::DrawImageWithBG(pos + glm::vec2(sx+1, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.6, 0.847 * 0.6, 0.902 * 0.6, 0.8f));
-			UIHelp::DrawOutlineRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
-			UIHelp::DrawRect(pos + glm::vec2(sx+1, 1), glm::vec2(tab_width + 10-2, 20-3), glm::vec4(0.678 * 0.25, 0.847 * 0.25, 0.902 * 0.25, 0.5f));
+		//	UIHelp::DrawImageWithBG(pos + glm::vec2(sx+1, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.6, 0.847 * 0.6, 0.902 * 0.6, 0.8f));
+		//	UIHelp::DrawOutlineRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 19), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
+			UIHelp::DrawRect(pos + glm::vec2(sx+1, 3), glm::vec2(tab_width + 10-2, 20-3),theme->GetWindowLight());
 
 
 
@@ -85,9 +85,9 @@ void IWindow::Render()
 		}
 		else {
 //			UIHelp::DrawImageWithBG(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
-			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
+		//	UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14), glm::vec4(0.678 * 0.8, 0.847 * 0.8, 0.902 * 0.8, 0.8f));
 
-			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
+			UIHelp::DrawRect(pos + glm::vec2(sx, 4), glm::vec2(tab_width + 10, 14),theme->GetWindowDark());
 
 			UIHelp::DrawText(pos + glm::vec2(sx + 5, 12 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
 		}
@@ -110,6 +110,15 @@ void IWindow::Render()
 
 	//UIHelp::DrawText(pos + glm::vec2(m_Size.x - 15, m_Size.y - 15),"X", glm::vec4(1, 1, 1, 1));
 //	UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));
+
+	//UIHelp::DrawOutlineRect(pos + glm::vec2(0, 19), m_Size + glm::vec2(0, -19), theme->GetForeground());
+	
+	pos += glm::vec2(0, 19);
+	auto size = m_Size + glm::vec2(0, -19);
+	auto color = m_Color;
+//	UIHelp::DrawRect(pos, glm::vec2(1, size.y), color);
+//	UIHelp::DrawRect(pos + glm::vec2(0, size.y), glm::vec2(size.x, 1), color);
+//	UIHelp::DrawRect(pos + glm::vec2(size.x, 0), glm::vec2(1, size.y), color);
 
 
 	RenderChildren();
@@ -153,7 +162,7 @@ void IWindow::OnMouseDown(int button)
 
 
 
-		int tab_width = UIHelp::StrWidth(title);
+		int tab_width = UIHelp::StrWidth(title) + 60;
 
 		//	UIHelp::DrawImageBlur(pos + glm::vec2(sx, 20), glm::vec2(tab_width + 10 , -20), m_TitleBG, glm::vec4(1, 1, 1, 1), 1.3);
 
@@ -164,7 +173,7 @@ void IWindow::OnMouseDown(int button)
 	//		UIHelp::DrawRect(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.35, 0.847 * 0.35, 0.902 * 0.35, 0.8f));
 		}
 		int tx = pos.x + sx;
-		int ex = pos.x + sx + tab_width + 1;
+		int ex = pos.x + sx + tab_width + 10;
 
 
 		int ay = 0;
@@ -445,7 +454,7 @@ void IWindow::InitWindow() {
 	AddChild(m_ClientArea);
 	AddChild(m_YScroller);
 	AddChild(m_XScroller);
-	AddChild(m_Resizer);
+//	AddChild(m_Resizer);
 	m_BaseArea = m_ClientArea;
 
 	m_Resizer->SetOnMoved([&](glm::vec2 delta) {
@@ -539,8 +548,30 @@ void IWindow::AlignWindow() {
 		m_ClientArea->Set(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
 	}
 	else {
-		m_ClientArea->Set(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+		m_ClientArea->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));
 	}
+	std::list<IControlGroup*> groups;
+
+	groups.push_back(m_BaseArea);
+
+	for (auto win : m_DockedWindows) {
+
+		groups.push_back(win->GetClientArea());
+
+	}
+
+	for (auto g : groups) {
+
+		if (g != m_ClientArea) {
+			if (m_HasToolBar) {
+				g->Set(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
+			}
+			else {
+				g->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));
+			}
+		}
+	}
+
 	RemoveChild(m_YScroller);
 	m_TitleBG->Free();
 
@@ -618,13 +649,19 @@ void IWindow::AfterSet() {
 
 	AlignWindow();
 
-	m_ClientArea->ApplyDockChildren();
+	//m_ClientArea->ApplyDockChildren();
+
+	
+
+	
+
 }
 
 void IWindow::DockWindow(IWindow* window) {
 
 	m_DockedWindows.push_back(window);
 	window->GetRoot()->RemoveChild(window);
+	AlignWindow();
 	
 //	exit(2);
 

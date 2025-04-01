@@ -10,6 +10,7 @@ MapViewFB::MapViewFB() : IFrameBuffer(glm::vec2(20, 20), glm::vec2(40, 40)) {
 
 	SetOnPreRender([&]() {
 
+
 		m_Map->RenderMap(m_Cam);
 				m_Map->RenderGrid(m_Cam);
 

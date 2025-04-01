@@ -4,6 +4,7 @@
 #include "IWindow.h"
 #include "GameUI.h"
 #include "UIHelp.h"
+#include "GameInput.h"
 
 glm::vec2 IControl::GetRenderPosition() {
 
@@ -97,14 +98,13 @@ void IControl::RenderChildren() {
 			UIHelp::RemoveScissor();
 		}
 		else {
-	
 			UIHelp::setScissor(s.x, s.y, s.z, s.w, FutureApp::m_Inst->GetHeight());
 		}
         // Render the child
         child->Render();
     }
 
-
+	UIHelp::RemoveScissor();
 
 }
     
@@ -163,8 +163,12 @@ bool IControl::IsWindow() {
 	while (current != nullptr) {
 
 		auto window = dynamic_cast<IWindow*>(current);
-		if (window != nullptr) return true;
-
+		if (window != nullptr)
+		{
+			if (GameInput::MousePosition.y>window->GetRenderPosition().y && GameInput::MousePosition.y < window->GetRenderPosition().y + 20) {
+				return true;
+			}
+		}
 		current = current->GetRoot();
 
 	}

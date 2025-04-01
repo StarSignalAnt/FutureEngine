@@ -12,6 +12,7 @@ SmartDraw* m_FontDraw;
 SmartDraw* m_BlurDraw;
 Texture2D* m_RectTex;
 Texture2D* m_ColorBG;
+glm::vec4 UIHelp::m_Scissor;
 
 
 void UIHelp::InitHelp() {
@@ -24,11 +25,13 @@ void UIHelp::InitHelp() {
 	m_FontDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawFont.glsl"));
 	m_RectTex = new Texture2D("engine/ui/rect.png");
 	m_ColorBG = new Texture2D("engine/ui/colorBG6.jpg");
+	m_Scissor = glm::vec4(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight()/2);
 
 }
 
 void UIHelp::DrawImageBlur(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color,float blur)
 {
+	return;
 	glEnable(GL_BLEND);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -44,13 +47,14 @@ void UIHelp::DrawImageBlur(glm::vec2 position, glm::vec2 size, Texture2D* textur
 
 void UIHelp::DrawImage(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color)
 {
-	glEnable(GL_BLEND);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_Draw->Begin();
-	m_Draw->DrawDirect(position, size, color, texture);
+//	glEnable(GL_BLEND);
+//	glClear(GL_DEPTH_BUFFER_BIT);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//m_Draw->Begin();
+	auto inf = m_Draw->DrawDirect(position, size, color, texture);
+	inf->SetView(m_Scissor);
 	
-	m_Draw->End();
+//	m_Draw->End();
 
 }
 
@@ -67,11 +71,12 @@ float UIHelp::StrHeight(std::string text,float scale) {
 void UIHelp::DrawCharacter(glm::vec2 position, glm::vec2 size, Texture2D* texture, glm::vec4 color)
 {
 //	return;
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//m_FontDraw->Begin();
-	m_FontDraw->DrawDirect(position, size, color, texture);
+	auto inf = m_Draw->DrawDirect(position, size, color, texture);
+	inf->SetView(m_Scissor);
 	//m_FontDraw->End();
 
 
@@ -80,23 +85,28 @@ void UIHelp::DrawCharacter(glm::vec2 position, glm::vec2 size, Texture2D* textur
 
 void UIHelp::DrawText(glm::vec2 position, std::string text, glm::vec4 color,float scale) {
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	m_FontDraw->Begin();
+	//glClear(GL_DEPTH_BUFFER_BIT);
+//	m_FontDraw->Begin();
 	m_UIFont->Render(position,text, color,scale);
-	m_FontDraw->End();
+
+
+//	m_FontDraw->End();
 
 }
 
 void UIHelp::DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDisable(GL_DEPTH_TEST);
-	m_Draw->Begin();
-	m_Draw->DrawDirect(pos, size, color,m_RectTex);
-	m_Draw->End();
-	glEnable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
+	//m_Draw->Begin();
+	auto inf = m_Draw->DrawDirect(pos, size, color,m_RectTex);
+	inf->SetView(m_Scissor);
+
+	//	/m_Draw->End();
+	// 
+	//glEnable(GL_DEPTH_TEST);
 }
 
 void UIHelp::DrawOutlineRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
@@ -119,28 +129,30 @@ void UIHelp::DrawOutlineRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 
 void UIHelp::DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 {
-
+	
 	float yHigh = size.y / (float)FutureApp::m_Inst->GetHeight();
 	float yPos = pos.y / (float)FutureApp::m_Inst->GetHeight();
 	float xPos = pos.x / (float)FutureApp::m_Inst->GetWidth();
 	float xHigh = xPos+size.x / (float)FutureApp::m_Inst->GetWidth();
 	yHigh = yPos + yHigh;
-	glEnable(GL_BLEND);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_BlurDraw->Begin();
+//	glEnable(GL_BLEND);
+//	glClear(GL_DEPTH_BUFFER_BIT);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//	m_BlurDraw->Begin();
 
-	m_BlurDraw->GetShaderModule()->Bind();
-	m_BlurDraw->GetShaderModule()->SetFloat("blurAmount", 0.4 * 500);
-	auto info = m_BlurDraw->DrawDirect(pos, size, color,m_ColorBG);
+//	m_BlurDraw->GetShaderModule()->Bind();
+//	m_BlurDraw->GetShaderModule()->SetFloat("blurAmount", 0.4 * 500);
+	auto info = m_Draw->DrawDirect(pos, size, color,m_ColorBG);
 
 	info->SetTexCoord(0, xPos, yPos);
 	info->SetTexCoord(1, xHigh, yPos);
 	info->SetTexCoord(2, xHigh, yHigh);
 	info->SetTexCoord(3, xPos, yHigh);
-	m_BlurDraw->End();
+	info->SetView(m_Scissor);
 
+//	m_BlurDraw->End();
 
+	
 
 	return;
 
@@ -166,21 +178,37 @@ void UIHelp::DrawImageWithBG(glm::vec2 pos, glm::vec2 size, glm::vec4 color)
 void UIHelp::setScissor(int x, int y, int width, int height, int windowHeight) {
 	// Convert from left-top (0,0) to OpenGL's left-bottom (0,0)
 	// by flipping the Y coordinate
+	m_Scissor = glm::vec4(x, y, width, height);
+	return;
 	int openglY = windowHeight - (y + height);
 
 	// Set the scissor test
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(x, openglY, width, height);
+
 }
 
 void UIHelp::RemoveScissor() {
-
+	m_Scissor = glm::vec4(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
+	return;
 	glDisable(GL_SCISSOR_TEST);
 
 }
 
 void UIHelp::ClearZ() {
 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_DEPTH_BUFFER_BIT);
+
+}
+
+void UIHelp::Begin() {
+
+	m_Draw->Begin();
+
+}
+
+void UIHelp::End() {
+
+	m_Draw->End();
 
 }

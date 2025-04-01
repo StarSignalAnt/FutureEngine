@@ -2,6 +2,8 @@
 #include "FutureApp.h"
 #include "UIHelp.h"
 #include "IVerticalMenu.h"
+#include "UITheme.h"
+#include "GameUI.h"
 
 IMainMenu::IMainMenu() {
 
@@ -99,8 +101,11 @@ void IMainMenu::Render() {
 
 	//UIHelp::DrawRect(m_Position, m_Size, glm::vec4(0.45, 0.45, 0.45, 0.65f));
 //UIHelp::DrawImage(m_Position,m_Size)
+	
+	auto theme = GameUI::GetTheme();
 	UIHelp::DrawOutlineRect(m_Position, m_Size, glm::vec4(1, 1, 1, 0.85f));
-	UIHelp::DrawImageWithBG(m_Position, m_Size, glm::vec4(1, 1, 1, 0.95f));
+	UIHelp::DrawRect(m_Position, m_Size,theme->GetWindowLight());
+
 
 	UIHelp::DrawText(glm::vec2(m_Position.x + 8, m_Position.y + 9), m_AppTitle,glm::vec4(1,0.7,0,1), 0.85f);
 
@@ -112,9 +117,9 @@ void IMainMenu::Render() {
 
 		if (item == m_OverItem) {
 
-			UIHelp::DrawOutlineRect(pos + glm::vec2(dx - 15, 2), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35, 22), glm::vec4(0.75f, 0.75f, 0.75f, 0.6f));
+			//UIHelp::DrawOutlineRect(pos + glm::vec2(dx - 15, 2), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35, 22), glm::vec4(0.75f, 0.75f, 0.75f, 0.6f));
 
-			UIHelp::DrawRect(pos + glm::vec2(dx-14, 3), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35-2, 22-2), glm::vec4(0.45f, 0.45f, 0.45f, 0.4f));
+			UIHelp::DrawRect(pos + glm::vec2(dx-14, 3), glm::vec2(UIHelp::StrWidth(item->m_Name) + 35-2, 22-2), glm::vec4(0.25f, 0.25f, 0.25f, 0.85f));
 
 		}
 

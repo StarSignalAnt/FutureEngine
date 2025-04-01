@@ -30,7 +30,24 @@ GameFont::GameFont(std::string path,int size)
             continue;
         }
 
-		Texture2D* charTex = new Texture2D(face->glyph->bitmap.width, face->glyph->bitmap.rows, face->glyph->bitmap.buffer,1);
+        unsigned char* nBuf = (unsigned char *)malloc(face->glyph->bitmap.width * face->glyph->bitmap.rows * 4);
+
+        for (int y = 0; y < face->glyph->bitmap.rows; y++) {
+            for (int x = 0; x < face->glyph->bitmap.width; x++) {
+
+                int loc1 = (y * face->glyph->bitmap.width) + x;
+                int loc2 = (y * face->glyph->bitmap.width * 4) + (x * 4);
+                char r = face->glyph->bitmap.buffer[loc1];
+                nBuf[loc2] = r;
+                nBuf[loc2 + 1] = r;
+                nBuf[loc2 + 2] = r;
+                nBuf[loc2 + 3] = r;
+
+
+            }
+        }
+
+		Texture2D* charTex = new Texture2D(face->glyph->bitmap.width, face->glyph->bitmap.rows,nBuf,4);
 
         FontChar fc = {
 

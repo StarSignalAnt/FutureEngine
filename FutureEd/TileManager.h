@@ -11,8 +11,9 @@ class TileManager :
 {
 public:
 
-    TileManager() : IWindow("Tile Manager", glm::vec2(30, 60), glm::vec2(750, 500))
+    TileManager() : IWindow("Tile Manager", glm::vec2(30, 60), glm::vec2(750, 500),false)
     {
+
 
         Setup();
     }

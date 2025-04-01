@@ -8,6 +8,7 @@
 #include "IMainMenu.h"
 #include "ThemeDark.h"
 #include <iostream>
+#include "UIHelp.h"
 
 GameUI* GameUI::m_Inst = nullptr;
 
@@ -236,6 +237,8 @@ void GameUI::UpdateUI(float delta)
                 else {
                     m_TabWindow = nullptr;
                     m_TabTarget = nullptr;
+                    m_DraggingDock = nullptr;
+                    m_DockingWindow = nullptr;
                 }
             }
 
@@ -327,10 +330,14 @@ void GameUI::UpdateUI(float delta)
 }
 void GameUI::RenderUI()
 {
+
+
+  
+
 	m_RootControl->PreRender();
 
     CurrentScissor = glm::vec4(0, 0, FutureApp::m_Inst->GetWidth(), FutureApp::m_Inst->GetHeight());
-
+    UIHelp::Begin();
 	m_RootControl->Render();
     
     if (m_ActiveMenu)
@@ -339,6 +346,9 @@ void GameUI::RenderUI()
         m_ActiveMenu->Render();
 
     }
+
+    UIHelp::RemoveScissor();
+    UIHelp::End();
 
 }
 

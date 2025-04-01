@@ -1,6 +1,8 @@
 #include "IVerticalMenu.h"
 #include "UIHelp.h"
 #include "IMainMenu.h"
+#include "UITheme.h"
+#include "GameUI.h"
 
 void IVerticalMenu::OnMouseMove(glm::vec2 position, glm::vec2 delta) {
 
@@ -104,10 +106,12 @@ void IVerticalMenu::Update(float delta) {
 void IVerticalMenu::Render() {
 
 
-	UIHelp::DrawImageWithBG(GetRenderPosition()+glm::vec2(2,2), GetSize()+glm::vec2(-3,-3), glm::vec4(1.5,1.5,1.5, 0.88));
-	UIHelp::DrawOutlineRect(GetRenderPosition(), GetSize(), glm::vec4(1, 1, 1, 0.85));
+//	UIHelp::DrawImageWithBG(GetRenderPosition()+glm::vec2(2,2), GetSize()+glm::vec2(-3,-3), glm::vec4(1.5,1.5,1.5, 0.88));
+	//UIHelp::DrawOutlineRect(GetRenderPosition(), GetSize(), glm::vec4(1, 1, 1, 0.85));
 	
-	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2), glm::vec4(0.2, 0.2, 0.2, 0.65f));
+	auto theme = GameUI::GetTheme();
+
+	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2),theme->GetWindowLight());
 
 	int dy = 10;
 	int dx = 25;
@@ -115,9 +119,9 @@ void IVerticalMenu::Render() {
 
 
 		if (item == m_OverItem) {
-			UIHelp::DrawOutlineRect(GetRenderPosition() + glm::vec2(2, dy - 6), glm::vec2(GetSize().x-4, 22), glm::vec4(0.8f, 0.8f, 0.8f, 0.5f));
-			UIHelp::DrawImageWithBG(GetRenderPosition() + glm::vec2(3, dy - 5), glm::vec2(GetSize().x - 6, 22 - 2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
-			UIHelp::DrawRect(GetRenderPosition() + glm::vec2(3, dy-5), glm::vec2(GetSize().x-6, 22-2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
+		//	UIHelp::DrawOutlineRect(GetRenderPosition() + glm::vec2(2, dy - 6), glm::vec2(GetSize().x-4, 22), glm::vec4(0.8f, 0.8f, 0.8f, 0.5f));
+		//	UIHelp::DrawImageWithBG(GetRenderPosition() + glm::vec2(3, dy - 5), glm::vec2(GetSize().x - 6, 22 - 2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
+			UIHelp::DrawRect(GetRenderPosition() + glm::vec2(3, dy-5), glm::vec2(GetSize().x-6, 22-2), glm::vec4(0.25f, 0.25f, 0.25f, 0.85f));
 		//	UIHelp::DrawImageWithBG(GetRenderPosition() + glm::vec2(3, dy - 5), glm::vec2(GetSize().x - 6, 22 - 2), glm::vec4(0.55f, 0.55f, 0.55f, 0.5f));
 		}
 

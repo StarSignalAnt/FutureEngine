@@ -112,6 +112,8 @@ void GameMap::RenderMap(GameCam* camera)
 
         m_TestRender->Begin();
 
+     ;
+
         for (int z = 0; z < m_Depth; z++) {
             for (int y = 0; y < m_Height; y++) {
 
@@ -145,7 +147,7 @@ void GameMap::RenderMap(GameCam* camera)
 
 
                         auto info = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1,1, 1),tile->GetFrame(0)[0], rot, camera->GetPosition().z);
-
+                        info->SetView(UIHelp::m_Scissor);
                         //extra 0 = cast shadows, extra 2 = receive shadows, extra 3 = recieve light
 
 
@@ -155,7 +157,7 @@ void GameMap::RenderMap(GameCam* camera)
 
             }
         }
-
+        RenderGrid(camera);
         m_TestRender->End();
 
 
@@ -374,7 +376,7 @@ void GameMap::RenderGrid(GameCam* camera) {
 	float midX = FutureApp::m_Inst->GetWidth() / 2.0f;
 	float midY = FutureApp::m_Inst->GetHeight() / 2.0f;
 
-	m_TestRender->Begin();
+	//m_TestRender->Begin();
 
 	for (int y = 0; y < m_Height; y++) {
 
@@ -407,7 +409,7 @@ void GameMap::RenderGrid(GameCam* camera) {
 
 		
 			auto info = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(0, 1, 0, 1), m_GridTex, rot, camera->GetPosition().z);
-		
+            info->SetView(UIHelp::m_Scissor);
 			//extra 0 = cast shadows, extra 2 = receive shadows, extra 3 = recieve light
 
 
@@ -417,12 +419,14 @@ void GameMap::RenderGrid(GameCam* camera) {
 
 	}
 
-	m_TestRender->End();
+	//m_TestRender->End();
 
 
-	UIHelp::ClearZ();
 
-	m_TestRender->Begin();
+
+
+
+	//m_TestRender->Begin();
 
 	for (int y = 0; y < m_Height; y++) {
 
@@ -456,7 +460,8 @@ void GameMap::RenderGrid(GameCam* camera) {
 			if (GetHighlight(x, y)) {
 				auto info = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth, m_TileHeight), glm::vec4(1, 1, 1, 0.75), m_SelectTex, rot, camera->GetPosition().z);
 				auto info2 = m_TestRender->Draw(renderPos, glm::vec2(m_TileWidth-8, m_TileHeight-8), glm::vec4(1, 1, 1, 1), m_GridTex, rot, camera->GetPosition().z);
-
+                info->SetView(UIHelp::m_Scissor);
+                info2->SetView(UIHelp::m_Scissor);
 			}
 			
 			//extra 0 = cast shadows, extra 2 = receive shadows, extra 3 = recieve light
@@ -468,7 +473,7 @@ void GameMap::RenderGrid(GameCam* camera) {
 
 	}
 
-	m_TestRender->End();
+	//m_TestRender->End();
 
 }
 

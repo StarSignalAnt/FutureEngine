@@ -189,7 +189,8 @@ public:
 			switch (child->GetDockType()) {
 			case DockType::m_Fill:
 
-				child->Set(glm::vec2(0, 0), m_Size-glm::vec2(2,4));
+				//child->Set(child->GetPosition(), m_Size-child->GetPosition());
+				child->Set(glm::vec2(0, 0), m_Size);
 
 				break;
 			case DockType::m_Down:
