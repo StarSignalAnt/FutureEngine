@@ -10,6 +10,10 @@
 #include "IControlGroup.h"
 #include "GroupView.h"
 #include "BinaryFile.h"
+#include "IWindow.h"
+#include "IImage.h"
+#include "ILabel.h"
+#include "IPropertyEditor.h"
 
 GameTile* TileManager::m_SelectedTile = nullptr;
 TileManager* TileManager::m_Inst = nullptr;
@@ -45,6 +49,8 @@ void TileManager::Setup() {
 
 	m_Dock->DockWindow(m_TileView, DockArea::DOCK_CENTER);
 
+	m_TileProps = new IWindow("Tile Properties", glm::vec2(20, 20), glm::vec2(300, 300), false);
+	m_Dock->DockWindow(m_TileProps, DockArea::DOCK_RIGHT);
 
 
 	m_Tree = new ITreeView(glm::vec2(5, 5), glm::vec2(10, 10));
@@ -181,6 +187,8 @@ void TileManager::RebuildTree() {
 				view->SetDockType(DockType::m_Fill);
 				m_TileView->GetClientArea()->AddChild(view);
 				view->SetGroup((TileGroup*)node->GetUserData());
+				m_View = view;
+				m_CGroup = (TileGroup*)node->GetUserData();
 
 
 			}
@@ -323,5 +331,162 @@ GameTile* TileManager::FindTile(std::string name) {
 		}
 
 	}
+
+}
+
+void TileManager::SetPropTile(GameTile* tile) {
+
+
+	if (tile == nullptr) {
+		m_TileProps->GetClientArea()->ClearChildren();
+		return;
+	}
+	m_SelectedTile = tile;
+	m_TileProps->GetClientArea()->ClearChildren();
+
+	IPropertyEditor* m_Edit = new IPropertyEditor;
+
+	auto info = new PropertyGroup("Info");
+	auto images = new PropertyGroup("Images");
+	auto rendering = new PropertyGroup("Rendering");
+
+
+
+	m_TileProps->GetClientArea()->AddChild(m_Edit);
+	m_TileProps->ApplyDockChildren();
+	m_Edit->AddGroup(info);
+	m_Edit->AddGroup(images);
+	m_Edit->AddGroup(rendering);
+
+	auto name = info->AddItem(new PropertyItem("Name", PT_Text));
+	auto col = images->AddItem(new PropertyItem("Color Map", PT_Image));
+	auto norm = images->AddItem(new PropertyItem("Normal Map", PT_Image));
+	auto castShadows = rendering->AddItem(new PropertyItem("Cast Shadows", PT_Check));
+	auto recvShadows = rendering->AddItem(new PropertyItem("Receive Shadows", PT_Check));
+	auto recvLight = rendering->AddItem(new PropertyItem("Receive Light", PT_Check));
+	//auto v1 = rendering->AddItem(new PropertyItem("Position", PT_Vec3));
+	castShadows->m_PropCheck->SetChecked(m_SelectedTile->GetCastShadows());
+	recvShadows->m_PropCheck->SetChecked(m_SelectedTile->GetReceivesShadows());
+	recvLight->m_PropCheck->SetChecked(m_SelectedTile->GetReceivesLight());
+	m_ColProp = col;
+	m_NormProp = norm;
+
+	col->m_ImgDot->SetOnClick([&](void* data) {
+		std::vector<FileRequester::FileFilter> imageFilters = {
+FileRequester::FileFilter("PNG Files", "*.png"),
+FileRequester::FileFilter("JPEG Files", "*.jpg;*.jpeg"),
+FileRequester::FileFilter("BMP Files", "*.bmp"),
+FileRequester::FileFilter("TGA Files", "*.tga"),
+FileRequester::FileFilter("GIF Files", "*.gif"),
+FileRequester::FileFilter("All Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.tga;*.gif")
+		};
+		auto img = FileRequester::OpenFile("Select Color Image", imageFilters);
+		m_SelectedTile->SetColorFrame(new Texture2D(img), 0);
+		Save();
+		m_View->SetGroup(m_CGroup);
+		m_ColProp->m_PropImage->SetImage(m_SelectedTile->GetFrame(0)[0]);
+	});
+
+		norm->m_ImgDot->SetOnClick([&](void* data) {
+			std::vector<FileRequester::FileFilter> imageFilters = {
+	FileRequester::FileFilter("PNG Files", "*.png"),
+	FileRequester::FileFilter("JPEG Files", "*.jpg;*.jpeg"),
+	FileRequester::FileFilter("BMP Files", "*.bmp"),
+	FileRequester::FileFilter("TGA Files", "*.tga"),
+	FileRequester::FileFilter("GIF Files", "*.gif"),
+	FileRequester::FileFilter("All Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.tga;*.gif")
+			};
+			auto img = FileRequester::OpenFile("Select Color Image", imageFilters);
+
+			m_SelectedTile->SetNormalFrame(new Texture2D(img), 0);
+			Save();
+			m_View->SetGroup(m_CGroup);
+			m_NormProp->m_PropImage->SetImage(m_SelectedTile->GetFrame(0)[1]);
+
+
+			});
+
+
+	castShadows->m_PropCheck->SetOnCheck([&](bool ch) {
+		m_SelectedTile->SetCastShadows(ch);
+		Save();
+		});
+	recvShadows->m_PropCheck->SetOnCheck([&](bool ch) {
+		m_SelectedTile->SetRecvShadows(ch);
+		Save();
+		});
+	recvLight->m_PropCheck->SetOnCheck([&](bool ch) {
+
+		m_SelectedTile->SetRecvLight(ch);
+		Save();
+		});
+
+
+
+	col->SetImage(tile->GetFrame(0)[0]);
+	norm->SetImage(tile->GetFrame(0)[1]);
+
+
+
+
+
+
+	return;
+
+	auto dif_img = new IImage(glm::vec2(75, 20), glm::vec2(96, 96));
+	dif_img->SetImage(tile->GetFrame(0)[0]);
+
+	m_TileProps->GetClientArea()->AddChild(dif_img);
+
+	auto norm_img = new IImage(glm::vec2(75, 124),glm::vec2(96, 96));
+	norm_img->SetImage(tile->GetFrame(0)[1]);
+
+	auto dif_lab = new ILabel("Color", glm::vec2(5, 80));
+	auto norm_lab = new ILabel("Normal", glm::vec2(5, 174));
+
+	m_TileProps->GetClientArea()->AddChild(norm_img);
+	m_TileProps->GetClientArea()->AddChild(dif_lab);
+	m_TileProps->GetClientArea()->AddChild(norm_lab);
+
+	auto dif_browse = new IButton("Browse", glm::vec2(185, 87),glm::vec2(80,30));
+	auto norm_browse = new IButton("Browse", glm::vec2(185, 189),glm::vec2(80,30));
+
+	m_TileProps->GetClientArea()->AddChild(dif_browse);
+	m_TileProps->GetClientArea()->AddChild(norm_browse);
+
+	dif_browse->SetOnClick([&](void* data) {
+		std::vector<FileRequester::FileFilter> imageFilters = {
+	FileRequester::FileFilter("PNG Files", "*.png"),
+	FileRequester::FileFilter("JPEG Files", "*.jpg;*.jpeg"),
+	FileRequester::FileFilter("BMP Files", "*.bmp"),
+	FileRequester::FileFilter("TGA Files", "*.tga"),
+	FileRequester::FileFilter("GIF Files", "*.gif"),
+	FileRequester::FileFilter("All Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.tga;*.gif")
+		};
+		
+			auto file = FileRequester::OpenFile("Open Color Image", imageFilters);
+			m_SelectedTile->SetColorFrame(new Texture2D(file), 0);
+			SetPropTile(m_SelectedTile);
+
+		});
+
+	norm_browse->SetOnClick([&](void* data) {
+		std::vector<FileRequester::FileFilter> imageFilters = {
+	FileRequester::FileFilter("PNG Files", "*.png"),
+	FileRequester::FileFilter("JPEG Files", "*.jpg;*.jpeg"),
+	FileRequester::FileFilter("BMP Files", "*.bmp"),
+	FileRequester::FileFilter("TGA Files", "*.tga"),
+	FileRequester::FileFilter("GIF Files", "*.gif"),
+	FileRequester::FileFilter("All Image Files", "*.png;*.jpg;*.jpeg;*.bmp;*.tga;*.gif")
+		};
+
+		auto file = FileRequester::OpenFile("Open Color Image", imageFilters);
+		m_SelectedTile->SetNormalFrame(new Texture2D(file), 0);
+		SetPropTile(m_SelectedTile);
+
+		});
+
+	
+
 
 }

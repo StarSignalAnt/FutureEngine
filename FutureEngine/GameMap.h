@@ -9,6 +9,7 @@ class GameSprite;
 class ShaderModule;
 class RenderTarget2D;
 class Texture2D;
+class GameObj;
 
 struct Selection {
 
@@ -111,7 +112,8 @@ public:
 	void RenderMap(GameCam* camera);
 	void RenderGrid(GameCam* camera);
 	void RenderShadowMap();
-
+	void RenderAligned(GameCam* camera, Texture2D* image, glm::vec2 pos, glm::vec2 size, bool inhibitrot = true);
+	glm::vec2 MapPosition(GameCam* cam,glm::vec2 position);
 	void AddSprite(GameSprite* sprite) {
 		m_Sprites.push_back(sprite);
 	}
@@ -128,6 +130,13 @@ public:
 		const glm::vec2& p3, const glm::vec2& p4);
 	bool IsPointInPolygon(const glm::vec2& point, const std::array<glm::vec2, 4>& vertices);
 	bool PolygonsIntersect(const std::vector<glm::vec2>& polyA, const std::vector<glm::vec2>& polyB);
+	std::vector<GameLight*> GetLights() {
+		return m_Lights;
+	}
+	void RenderGizmos(GameCam* cam);
+	GameObj* MouseOver(GameCam* cam, glm::vec2 pos);
+
+	bool IsWithin(GameCam* cam, glm::vec2 pos, glm::vec2 size,glm::vec2 mp);
 private:
 
 	int m_Width, m_Height, m_Depth;
@@ -146,6 +155,9 @@ private:
 	Texture2D* m_GridTex;
 	Texture2D* m_SelectTex;
 	int m_DW, m_DH;
+	Texture2D* m_LightIcon;
+	Texture2D* m_LeftRight;
+	Texture2D* m_UpDown;
 	std::vector<Selection> m_Used;
 };
 

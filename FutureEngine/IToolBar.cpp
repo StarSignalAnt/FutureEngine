@@ -30,9 +30,15 @@ IButton* IToolBar::AddButton(std::string text) {
 IButton* IToolBar::AddButton(Texture2D* icon) {
 
 
-	auto button = new IButton(icon, glm::vec2(m_NextX, 5),glm::vec2(25, 20));
+	auto button = new IButton(icon, glm::vec2(m_NextX, 5),glm::vec2(30, 30));
 	AddChild(button);
-	m_NextX += 35;
+	m_NextX += 40;
 	return button;
+
+}
+
+void IToolBar::Seperator(int width) {
+
+	m_NextX += width;
 
 }

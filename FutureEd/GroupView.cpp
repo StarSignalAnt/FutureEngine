@@ -74,6 +74,7 @@ void GroupView::OnMouseDown(int button) {
 	m_SelectedTile = m_OverTile;
 	TileManager::m_SelectedTile = m_OverTile;
 	TileManager::m_Inst->Save();
+	TileManager::m_Inst->SetPropTile(m_OverTile);
 
 }
 

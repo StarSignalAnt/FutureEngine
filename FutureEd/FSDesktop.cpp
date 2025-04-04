@@ -36,9 +36,9 @@ void FSDesktop::InitState() {
 
 	FuturePlatform::RegisterApp(app);
 	FuturePlatform::RegisterApp(new AppMapEditor);
-	FuturePlatform::RegisterApp(new FutureTalk);
 
-	FuturePlatform::BeginTalk();
+
+
 
 	SetupDesktopMenu();
 

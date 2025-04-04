@@ -21,15 +21,15 @@ void IButton::Render()
 
 	auto theme = GameUI::GetTheme();
 	if (m_RenderBody || m_Over) {
-		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,2),theme->GetWindowLight()*3.0f );
-		UIHelp::DrawRect(GetRenderPosition(), m_Size,  theme->GetWindowDark() * 2.0f*(m_Color*10.0f));
+		UIHelp::DrawOutlineRect(GetRenderPosition()+glm::vec2(-1,-1), m_Size+glm::vec2(2,-2),theme->GetWindowLight()*3.0f );
+		UIHelp::DrawRect(GetRenderPosition(), m_Size+glm::vec2(0,-3), theme->GetWindowDark() * 2.0f * (m_Color * 10.0f));
 
 
 
 
 	}
 	if (m_Image != nullptr) {
-		UIHelp::DrawImage(GetRenderPosition(), GetSize(), m_Image, glm::vec4(1,1,1,1));
+		UIHelp::DrawImage(GetRenderPosition(), GetSize()+glm::vec2(0,-3), m_Image, glm::vec4(1, 1, 1, 1)*(m_Color*9.0f));
 	}
 	else {
 		UIHelp::DrawText(pos, m_Text, glm::vec4(1, 1, 1, 1));

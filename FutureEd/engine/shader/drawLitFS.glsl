@@ -4,6 +4,7 @@ in vec4 fragColor;
 in vec2 fragTexCoord;
 in vec2 fragRealPos;
 in vec4 fragExtra;
+in vec4 fragView;
 out vec4 outColor;
 
 uniform sampler2D uTexture;
@@ -16,8 +17,9 @@ uniform vec2 feLightActual;
 uniform float feLightRange;
 uniform float feCamRot;
 uniform float feCamZoom;
+uniform vec3 feLightDiffuse;
 uniform vec2 feMapSize;
-
+uniform float TopY;
 const vec2 offsets[9] = vec2[](
     vec2(-12, -12), vec2(  0, -12), vec2( 12, -12),
     vec2(-12,   0), vec2(  0,   0), vec2( 12,   0),
@@ -64,6 +66,17 @@ float getShadow(vec2 start, vec2 end) {
 }
 
 void main() {
+
+
+    float pixX = gl_FragCoord.x;
+    float pixY = TopY-gl_FragCoord.y;
+        
+
+    if(pixX<fragView.x || pixX>fragView.x+fragView.z || pixY<fragView.y || pixY>fragView.y+fragView.w)
+    {
+        discard;
+    }
+
     vec2 fragPos = gl_FragCoord.xy;
     fragPos.y = feScreenSize.y - fragPos.y;
 
@@ -89,10 +102,11 @@ void main() {
     float diffuse = max(dot(norm, light_Dir), 0.0);
 
     float shadow = 0.0;
-    for (int i = 0; i < 9; i++)
-        shadow += getShadow(fragRealPos + offsets[i], feLightActual + offsets[i]);
+//    for (int i = 0; i < 9; i++)
+        shadow = getShadow(fragRealPos, feLightActual);
 
-    shadow /= sampleCount;
+    //shadow /= sampleCount;
+
 
     if (fragExtra.y < 0.1) shadow = 1.0;
     if (fragExtra.z <= 0.1) {
@@ -103,6 +117,8 @@ void main() {
     vec4 texColor = texture(uTexture, fragTexCoord);
     vec4 finalColor = fragColor * texColor * light * diffuse * shadow;
     finalColor.a = texColor.a;
+
+    finalColor.rgb *= feLightDiffuse;
 
     outColor = finalColor;
 }

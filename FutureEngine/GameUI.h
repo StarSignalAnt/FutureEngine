@@ -50,6 +50,7 @@ public:
 	glm::vec4 GetScissor() {
 		return CurrentScissor;
 	}
+	void Deactivate();
 
 
 private:

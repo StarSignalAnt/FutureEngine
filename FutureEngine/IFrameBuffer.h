@@ -13,7 +13,8 @@ public:
     void PreRender() override;
     void Render() override;
     void Update(float delta) override;
-
+    void Bind();
+    void Unbind();
 private:
 
     RenderTarget2D* m_RT;

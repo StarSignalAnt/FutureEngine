@@ -17,10 +17,13 @@ void IFrameBuffer::PreRender() {
 	if (m_Size.x != m_RT->GetWidth() || m_Size.y != m_RT->GetHeight()) {
 		m_RT = new RenderTarget2D(m_Size.x, m_Size.y);
 	}
-	m_RT->Bind();
-	m_RT->Clear(glm::vec3(0,0,0));
+	//m_RT->Bind();
+
+
+	//m_RT->Clear(glm::vec3(0,0,0));
 	CallPreRender();
-	m_RT->Unbind();
+//	m_RT->Unbind();
+
 
 	PreRenderChildren();
 
@@ -45,4 +48,14 @@ void IFrameBuffer::Render() {
 void IFrameBuffer::Update(float delta) {
 
 
+}
+
+void IFrameBuffer::Bind() {
+
+	m_RT->Bind();
+	m_RT->Clear(glm::vec3(0, 0, 0));
+}
+
+void IFrameBuffer::Unbind() {
+	m_RT->Unbind();
 }

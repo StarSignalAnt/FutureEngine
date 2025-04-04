@@ -35,7 +35,7 @@
 
 void StateTest1::InitState()
 {
-	m_Tex1 = new Texture2D("engine/ui/colorBG5.jpg");
+	m_Tex1 = new Texture2D("test/test2.png");
 	m_Tex2 = new Texture2D("test/test2.png");
 	m_UI = new GameUI;
 	
@@ -85,10 +85,10 @@ void StateTest1::InitState()
 	m_Map1 = new GameMap(16, 16, 3, 128, 128);
 
 	m_Tile1 = new GameTile;
-	m_Tile1->AddFrame(m_Tex1, norm2);
+	m_Tile1->AddFrame(m_Tex1,nullptr);
 
 	m_Tile2 = new GameTile;
-	m_Tile2->AddFrame(m_Tex2, norm1);
+	m_Tile2->AddFrame(m_Tex2,nullptr);
 	m_Tile2->Set(true, false, true);
 
 	m_Tile1->Set(false, true, true);
@@ -551,10 +551,6 @@ void StateTest1::UpdateState(float delta)
 
 	//m_Vid1->Update();
 
-	m_UI->UpdateUI(delta);
-
-	
-	return;
 	if (GameInput::Buttons[MOUSE_BUTTON_RIGHT]) {
 		m_Cam1->MoveLocal(glm::vec2(GameInput::MouseDelta.x, GameInput::MouseDelta.y));
 		//m_Cam1->SetPosition(glm::vec2(GameInput::
@@ -585,22 +581,7 @@ void StateTest1::RenderState()
 	//}
 
 
-	m_UI->RenderUI();
-	if (m_UI->GetDraggingWindow() != nullptr) {
-
-		//UIHelp::DrawText(glm::vec2(5, 5), "Dragging window:" + m_UI->GetDraggingWindow()->GetText(), glm::vec4(0, 1, 0, 1));
-		if (m_UI->GetBeneathWindow() != nullptr) {
-	//		UIHelp::DrawText(glm::vec2(5, 35), "Beneath:" + m_UI->GetBeneathWindow()->GetText(), glm::vec4(0, 1, 0, 1));
-		}
-
-	}
-	else {
-//		UIHelp::DrawText(glm::vec2(5, 5), "Not dragging a window.", glm::vec4(1, 0, 0, 1));
-	}
-	//uto pos = vp->Position();
-	//UIHelp::DrawText(glm::vec2(64, 64), std::to_string(pos), glm::vec4(1, 1, 1, 1), 3);
-
-	return;
+	
 	ax = ax + 1;
 	if (ax > 800) {
 		ax = 0;
@@ -609,6 +590,7 @@ void StateTest1::RenderState()
 	
 	//m_RT1->Bind();
 	//m_RT1->Clear();
+	m_Map1->RenderShadowMap();
 	m_Map1->RenderMap(m_Cam1);
 	//m_RT1->Unbind();
 

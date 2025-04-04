@@ -9,6 +9,13 @@ public:
 
 	void SetRange(float range);
 	float GetRange();
+	void SetDiffuse(glm::vec3 diffuse) {
+		m_Diffuse = diffuse;
+	}
+	glm::vec3 GetDiffuse()
+	{
+		return m_Diffuse;
+	}
 
 
 private:

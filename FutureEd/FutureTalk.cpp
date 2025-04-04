@@ -36,17 +36,7 @@ void FutureTalk::InitApp() {
 //	std::cout << res << std::endl;
 	quest->SetOnEnter([&](void* data) {
 
-		auto text = FuturePlatform::Ask(m_Question->GetText());
-		
-		m_Answer->AddText("Question:" + m_Question->GetText()+"\n\n");
-		m_Answer->AddText(text);
-
-
-		//m_Question->SetText("");
-		m_Question->Reset();
-		std::cout << text << std::endl;
-
-
+	
 
 		});
 

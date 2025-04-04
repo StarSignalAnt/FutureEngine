@@ -26,6 +26,16 @@ public:
     void SetIsPassword(bool isPassword) { m_IsPassword = isPassword; }
     bool GetIsPassword() const { return m_IsPassword; }
 
+    // Numeric mode property
+    void SetIsNumeric(bool isNumeric) {
+        m_IsNumeric = isNumeric;
+        if (m_IsNumeric && (m_Text.empty() || m_Text == "-")) {
+            m_Text = "0";
+            m_CursorPosition = 1;
+        }
+    }
+    bool GetIsNumeric() const { return m_IsNumeric; }
+
     void SetMaxLength(int maxLength) { m_MaxLength = maxLength; }
     int GetMaxLength() const { return m_MaxLength; }
 
@@ -43,26 +53,45 @@ public:
     void SetKeyRepeatInterval(float interval) { m_KeyRepeatInterval = interval; }
 
     void SetOnEdit(std::function<void(std::string text)> edit) {
-
         OnEdit = edit;
-
     }
-    void Edited() {
 
+    void Edited() {
         if (OnEdit) {
             OnEdit(m_Text);
         }
-
     }
+
+    // Drag adjustment for numeric mode
+    void SetDragAdjustInterval(float interval) { m_DragAdjustInterval = interval; }
+    float GetDragAdjustInterval() const { return m_DragAdjustInterval; }
+
+    void SetDragSensitivity(float sensitivity) { m_DragSensitivity = sensitivity; }
+    float GetDragSensitivity() const { return m_DragSensitivity; }
+
     void Reset() {
-        m_Text = "";
-        m_CursorPosition = 0;
-
+        if (m_IsNumeric) {
+            m_Text = "0";
+            m_CursorPosition = 1;
+        }
+        else {
+            m_Text = "";
+            m_CursorPosition = 0;
+        }
     }
+
+    // Set a numeric value (only works when IsNumeric is true)
+    void SetNumber(float number);
+
+    // Get the current numeric value (only works when IsNumeric is true)
+    float GetNumber() const;
+
 private:
     void HandleKeyInput();
     void EnsureCursorVisible();
     bool HandleKeyWithRepeat(int key);
+    bool IsValidNumericInput(char c, bool& decimalExists);
+    void FormatNumericInput();  // New helper method
 
     int m_CursorPosition = 0;
     int m_SelectionStart = -1;
@@ -74,8 +103,16 @@ private:
     bool m_HasFocus = false;
 
     bool m_IsPassword = false;
+    bool m_IsNumeric = false;   // Numeric mode flag
     bool m_IsReadOnly = false;
     int m_MaxLength = -1;
+
+    // Drag adjustment variables
+    bool m_IsDragging = false;
+    float m_DragStartX = 0.0f;
+    float m_DragAdjustInterval = 0.1f;  // Default adjustment amount per drag unit
+    float m_DragSensitivity = 5.0f;     // Pixels of movement needed for one adjustment
+    float m_LastDragAmount = 0.0f;      // Track accumulated drag amount
 
     // Key repeat settings
     float m_KeyRepeatDelay = 0.5f;      // Initial delay in seconds before repeating
@@ -95,7 +132,5 @@ private:
     glm::vec4 m_BorderColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     glm::vec4 m_SelectionColor = glm::vec4(0.3f, 0.5f, 0.7f, 0.5f);
     glm::vec4 m_CursorColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    std::function<void(std::string )> OnEdit = nullptr;
- 
-
+    std::function<void(std::string)> OnEdit = nullptr;
 };

@@ -4,7 +4,7 @@ class GameObj
 {
 
 public:
-
+	virtual ~GameObj() = default;
 	void SetPosition(glm::vec3 position);
 	void SetRotation(glm::vec3 rotation);
 	void SetPosition(glm::vec2 position);
@@ -14,6 +14,7 @@ public:
 	void Move(glm::vec3 delta);
 	void Move(glm::vec2 delta);
 	void MoveLocal(glm::vec2 delta);
+	glm::vec2 Transform(glm::vec2 delta);
 	void Zoom(float delta);
 
 

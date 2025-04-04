@@ -15,7 +15,8 @@ enum HitType {
 
 enum DockType {
 
-	m_Fill, m_Left, m_Right, m_Down, m_Up, m_Free
+	m_Fill, m_Left, m_Right, m_Down, m_Up, m_Free,
+	m_Centre
 
 };
 
@@ -187,6 +188,11 @@ public:
 
 		for (auto child : m_Children) {
 			switch (child->GetDockType()) {
+			case DockType::m_Centre:
+
+				child->Set(glm::vec2(0, child->GetPosition().y), glm::vec2(m_Size.x, child->GetSize().y));
+
+				break;
 			case DockType::m_Fill:
 
 				//child->Set(child->GetPosition(), m_Size-child->GetPosition());

@@ -16,6 +16,7 @@ public:
     void Render() override;
     IButton* AddButton(std::string text);
     IButton* AddButton(Texture2D* icon);
+    void Seperator(int width);
 private:
 
     int m_NextX = 25;

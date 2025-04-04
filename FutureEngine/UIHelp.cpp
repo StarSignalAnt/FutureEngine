@@ -18,7 +18,7 @@ glm::vec4 UIHelp::m_Scissor;
 void UIHelp::InitHelp() {
 
 	m_Draw = new SmartDraw;
-	m_UIFont = new GameFont("engine/ui/uifont.ttf",16);
+	m_UIFont = new GameFont("engine/ui/uifont.ttf",14);
 	m_FontDraw = new SmartDraw;
 	m_BlurDraw = new SmartDraw;
 	m_BlurDraw->SetShaderModule(new ShaderModule("engine/shader/drawvs.glsl", "engine/shader/drawBlurFS.glsl"));
@@ -87,7 +87,7 @@ void UIHelp::DrawText(glm::vec2 position, std::string text, glm::vec4 color,floa
 
 	//glClear(GL_DEPTH_BUFFER_BIT);
 //	m_FontDraw->Begin();
-	m_UIFont->Render(position,text, color,scale);
+	m_UIFont->Render(position,text, color*2.5f,scale);
 
 
 //	m_FontDraw->End();
@@ -197,7 +197,7 @@ void UIHelp::RemoveScissor() {
 
 void UIHelp::ClearZ() {
 
-	//glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
 
 }
 

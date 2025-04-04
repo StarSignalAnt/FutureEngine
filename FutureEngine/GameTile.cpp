@@ -30,3 +30,14 @@ std::vector<Texture2D*> GameTile::GetFrame(int index)
 }
 
 
+void GameTile::SetColorFrame(Texture2D* color, int index) {
+
+	m_ColorFrames[index] = color;
+
+}
+
+void GameTile::SetNormalFrame(Texture2D* normal, int index) {
+
+	m_NormalFrames[index] = normal;
+
+}

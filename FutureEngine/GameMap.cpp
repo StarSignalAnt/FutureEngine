@@ -29,6 +29,7 @@ void GameMap::InitMap() {
 	m_ShadowRT = new RenderTarget2D(m_ShadowMapSize, m_ShadowMapSize);
 	m_GridTex = new Texture2D("apps/mapeditor/grid.png");
     m_SelectTex = new Texture2D("engine/maps/white.png");
+    m_LightIcon = new Texture2D("apps/mapeditor/light.png");
 }
 
 void GameMap::RenderShadowMap() {
@@ -58,7 +59,8 @@ void GameMap::RenderShadowMap() {
 
 					if (tile->GetCastShadows()) {
 
-						m_ShadowRenderer->DrawDirect(glm::vec2(drawX, drawY), glm::vec2(m_TileWidth * xScale, m_TileHeight * yScale), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0]);
+						auto inf = m_ShadowRenderer->DrawDirect(glm::vec2(drawX, drawY), glm::vec2(m_TileWidth * xScale, m_TileHeight * yScale), glm::vec4(1, 1, 1, 1), tile->GetFrame(0)[0]);
+                        inf->SetView(UIHelp::m_Scissor);
 
 					}
 
@@ -164,8 +166,9 @@ void GameMap::RenderMap(GameCam* camera)
         return;
 
     }
+    UIHelp::RemoveScissor();
 
-	RenderShadowMap();
+//	RenderShadowMap();
 
 
 	//
@@ -212,7 +215,7 @@ void GameMap::RenderMap(GameCam* camera)
 					info->SetRealCoord(1, sX + m_TileWidth,sY);
 					info->SetRealCoord(2, sX+ m_TileWidth, sY + m_TileHeight);
 					info->SetRealCoord(3, sX, sY + m_TileHeight);
-
+                    info->SetView(UIHelp::m_Scissor);
 					glm::vec4 ext(0, 0, 0, 0);
 
 					if (tile->GetCastShadows()) {
@@ -342,6 +345,7 @@ void GameMap::RenderMap(GameCam* camera)
 		m_DrawLit->SetFloat("feCamRot", camera->GetRotation().y);
 		m_DrawLit->SetFloat("feCamZoom", camera->GetPosition().z);
 		m_DrawLit->SetVec2("feLightActual", glm::vec2(light->GetPosition().x, light->GetPosition().y));
+        m_DrawLit->SetVec3("feLightDiffuse", light->GetDiffuse());
 		m_DrawLit->SetVec2("feMapSize", glm::vec2(m_Width * m_TileWidth, m_Height * m_TileHeight));
 		m_ShadowRT->GetTexture()->Bind(2);
 		m_TileRenderer->End();
@@ -349,6 +353,11 @@ void GameMap::RenderMap(GameCam* camera)
 
 
 	}
+    UIHelp::ClearZ();
+    
+    m_TestRender->Begin();
+    RenderGrid(camera);
+    m_TestRender->End();
 
 
 
@@ -1359,3 +1368,172 @@ SelectionList GameMap::SmartFill(int startX, int startY, GameCam* cam, GameTile*
     int b = 5;
 
 }
+
+void GameMap::RenderAligned(GameCam* camera, Texture2D* image,glm::vec2 pos,glm::vec2 size,bool ir) {
+    m_DW = FutureApp::m_Inst->GetWidth();
+    m_DH = FutureApp::m_Inst->GetHeight();
+    float midX = FutureApp::m_Inst->GetWidth() / 2.0f;
+    float midY = FutureApp::m_Inst->GetHeight() / 2.0f;
+
+    m_TestRender->Begin();
+
+        float drawX = pos.x;
+        float drawY = pos.y;
+
+        drawX -= camera->GetPosition().x;
+
+        drawY -= camera->GetPosition().y;
+
+
+        float pX = drawX - midX;
+        float pY = drawY - midY;
+
+        float rot = camera->GetRotation().y;
+
+        auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, camera->GetPosition().z);
+
+        renderPos = glm::vec2(midX, midY) +
+            renderPos;
+
+  
+        if (ir) {
+            rot = 0;
+        }
+        auto info = m_TestRender->Draw(renderPos, glm::vec2(size.x,size.y), glm::vec4(1, 1, 1, 1),image, rot, camera->GetPosition().z);
+        //info->SetNormalTexture(frame->m_Normal);
+
+
+        glm::vec4 ext(0, 0, 0, 0);
+
+
+
+        info->SetExtra(ext);
+        info->SetView(UIHelp::m_Scissor);
+
+        m_TestRender->End();
+
+    }
+
+void GameMap::RenderGizmos(GameCam* cam) {
+
+    for (auto l : m_Lights) {
+
+        RenderAligned(cam, m_LightIcon, glm::vec2(l->GetPosition().x, l->GetPosition().y), glm::vec2(64, 64));
+
+    }
+
+}
+
+GameObj* GameMap::MouseOver(GameCam* cam, glm::vec2 pos) {
+
+    for (auto l : m_Lights) {
+
+        if (IsWithin(cam, glm::vec2(l->GetPosition().x, l->GetPosition().y), glm::vec2(64, 64),pos)) {
+            return l;
+        }
+
+
+    }
+    return nullptr;
+
+}
+
+bool GameMap::IsWithin(GameCam* camera, glm::vec2 pos, glm::vec2 size, glm::vec2 mp) {
+
+    float midX = m_DW / 2.0f;
+    float midY = m_DH / 2.0f;
+
+
+
+
+    float drawX = pos.x;// *m_TileWidth + m_TileWidth / 2;
+    float drawY = pos.y;// *m_TileHeight + m_TileHeight / 2;
+
+    drawX -= camera->GetPosition().x;
+
+    drawY -= camera->GetPosition().y;
+
+
+    float pX = drawX - midX;
+    float pY = drawY - midY;
+
+    float rot = camera->GetRotation().y;
+
+    auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, camera->GetPosition().z);
+
+    renderPos = glm::vec2(midX, midY) +
+        renderPos;
+
+
+    //auto tile = GetTile(x, y, z);
+
+
+    float tx0, tx1, tx2, tx3;
+    float ty0, ty1, ty2, ty3;
+
+    tx0 = -size.x / 2;
+    tx1 = size.x / 2;
+    tx2 = size.x / 2;
+    tx3 = -size.x / 2;
+
+    ty0 = -size.y / 2;
+
+    ty1 = -size.y / 2;
+    ty2 = size.y / 2;
+    ty3 = size.y / 2;
+
+    float scale = camera->GetPosition().z;
+
+    auto v1 = MathsOps::TransformCoord(glm::vec2(tx0, ty0), rot, scale);
+    auto v2 = MathsOps::TransformCoord(glm::vec2(tx1, ty1), rot, scale);
+    auto v3 = MathsOps::TransformCoord(glm::vec2(tx2, ty2), rot, scale);
+    auto v4 = MathsOps::TransformCoord(glm::vec2(tx3, ty3), rot, scale);
+
+
+    v1 = glm::vec2(renderPos.x + v1.x, renderPos.y + v1.y);
+    v2 = glm::vec2(renderPos.x + v2.x, renderPos.y + v2.y);
+    v3 = glm::vec2(renderPos.x + v3.x, renderPos.y + v3.y);
+    v4 = glm::vec2(renderPos.x + v4.x, renderPos.y + v4.y);
+
+    if (IsPointInTriangle(glm::vec2(mp.x, mp.y), v1, v2, v3) || IsPointInTriangle(glm::vec2(mp.x, mp.y), v3, v4, v1)) {
+
+        return true;
+        //return list;
+
+    }
+}
+
+
+glm::vec2 GameMap::MapPosition(GameCam* cam,glm::vec2 position) {
+
+    m_DW = FutureApp::m_Inst->GetWidth();
+    m_DH = FutureApp::m_Inst->GetHeight();
+    float midX = FutureApp::m_Inst->GetWidth() / 2.0f;
+    float midY = FutureApp::m_Inst->GetHeight() / 2.0f;
+
+    m_TestRender->Begin();
+
+    float drawX = position.x;
+    float drawY = position.y;
+
+    drawX -= cam->GetPosition().x;
+
+    drawY -= cam->GetPosition().y;
+
+
+    float pX = drawX - midX;
+    float pY = drawY - midY;
+
+    float rot = cam->GetRotation().y;
+
+    auto renderPos = MathsOps::TransformCoord(glm::vec2(pX, pY), rot, cam->GetPosition().z);
+
+    renderPos = glm::vec2(midX, midY) +
+        renderPos;
+
+//    auto info = m_TestRender->Draw(renderPos, glm::vec2(size.x, size.y), glm::vec4(1, 1, 1, 1), image, rot, camera->GetPosition().z);
+
+    return renderPos;
+
+}
+

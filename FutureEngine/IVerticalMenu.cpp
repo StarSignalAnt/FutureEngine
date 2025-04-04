@@ -73,6 +73,7 @@ void IVerticalMenu::OnMouseDown(int button) {
 				new_menu->Set(glm::vec2(m_Size.x +1, m_OverItem->m_DrawY-10), glm::vec2(big_width + 60, height + 5));
 
 				AddChild(new_menu);
+				new_menu->SetIgnoreScissor(true);
 
 				m_OverItem->m_ActiveControl = new_menu;
 
@@ -109,6 +110,8 @@ void IVerticalMenu::Render() {
 //	UIHelp::DrawImageWithBG(GetRenderPosition()+glm::vec2(2,2), GetSize()+glm::vec2(-3,-3), glm::vec4(1.5,1.5,1.5, 0.88));
 	//UIHelp::DrawOutlineRect(GetRenderPosition(), GetSize(), glm::vec4(1, 1, 1, 0.85));
 	
+	SetIgnoreScissor(true);
+
 	auto theme = GameUI::GetTheme();
 
 	UIHelp::DrawRect(GetRenderPosition()+glm::vec2(1,1), GetSize()+glm::vec2(-2,-2),theme->GetWindowLight());

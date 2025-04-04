@@ -154,7 +154,7 @@ void GameUI::UpdateUI(float delta)
 
                 int ctime = clock();
                 //prev_Click = clock();
-                if (ctime < (prev_Click + 200) && m_FirstClick == m_ControlPressed) {
+                if (ctime < (prev_Click + 300) && m_FirstClick == m_ControlPressed) {
                     m_ControlPressed->OnMouseDoubleClick();
                     m_FirstClick = nullptr;
                 }
@@ -492,5 +492,14 @@ void GameUI::SetMainMenu(IMainMenu* menu)
     }
     m_ActiveMenu = menu;
     m_RootControl->AddChild(m_ActiveMenu);
+
+}
+
+void GameUI::Deactivate() {
+
+    if (m_ControlActive != nullptr) {
+        m_ControlActive->OnDeactivate();
+        m_ControlActive = nullptr;
+    }
 
 }

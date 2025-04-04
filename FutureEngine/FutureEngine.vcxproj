@@ -178,8 +178,8 @@
     <ClInclude Include="GameTile.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="GameVideo.h" />
-    <ClInclude Include="GpuTalk.h" />
     <ClInclude Include="IButton.h" />
+    <ClInclude Include="ICheckBox.h" />
     <ClInclude Include="IComboBox.h" />
     <ClInclude Include="IControl.h" />
     <ClInclude Include="IControlGroup.h" />
@@ -191,6 +191,7 @@
     <ClInclude Include="IImage.h" />
     <ClInclude Include="ILabel.h" />
     <ClInclude Include="IMainMenu.h" />
+    <ClInclude Include="IPropertyEditor.h" />
     <ClInclude Include="ISizeBox.h" />
     <ClInclude Include="ITextArea.h" />
     <ClInclude Include="ITextEdit.h" />
@@ -236,8 +237,8 @@
     <ClCompile Include="GameTile.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="GameVideo.cpp" />
-    <ClCompile Include="GpuTalk.cpp" />
     <ClCompile Include="IButton.cpp" />
+    <ClCompile Include="ICheckBox.cpp" />
     <ClCompile Include="IComboBox.cpp" />
     <ClCompile Include="IControl.cpp" />
     <ClCompile Include="IControlGroup.cpp" />
@@ -249,6 +250,7 @@
     <ClCompile Include="IImage.cpp" />
     <ClCompile Include="ILabel.cpp" />
     <ClCompile Include="IMainMenu.cpp" />
+    <ClCompile Include="IPropertyEditor.cpp" />
     <ClCompile Include="ITextArea.cpp" />
     <ClCompile Include="ITextEdit.cpp" />
     <ClCompile Include="ITimeSelector.cpp" />
@@ -259,7 +261,6 @@
     <ClCompile Include="IVerticalScroller.cpp" />
     <ClCompile Include="IVideoPlayer.cpp" />
     <ClCompile Include="IWindow.cpp" />
-    <ClCompile Include="llama\ggml.c" />
     <ClCompile Include="MathsOps.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="pch.cpp">

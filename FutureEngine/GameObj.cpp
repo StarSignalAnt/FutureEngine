@@ -36,6 +36,16 @@ void GameObj::MoveLocal(glm::vec2 delta) {
 
 }
 
+glm::vec2 GameObj::Transform(glm::vec2 delta) {
+
+	auto realMove = MathsOps::TransformCoord(delta, 360.0 - m_Rotation.y, 1.0f);
+
+	realMove = realMove / m_Position.z;
+
+	return realMove;
+
+}
+
 void GameObj::Zoom(float delta) {
 
 	m_Position.z = m_Position.z + delta * m_Position.z;

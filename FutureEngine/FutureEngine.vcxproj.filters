@@ -222,13 +222,16 @@
     <ClInclude Include="llama\llama-cpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GpuTalk.h">
-      <Filter>GenAI</Filter>
-    </ClInclude>
     <ClInclude Include="ITextArea.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
     <ClInclude Include="IGetName.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IPropertyEditor.h">
+      <Filter>Resonance2\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ICheckBox.h">
       <Filter>Resonance2\Controls</Filter>
     </ClInclude>
   </ItemGroup>
@@ -383,16 +386,16 @@
     <ClCompile Include="IToolBar.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="llama\ggml.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GpuTalk.cpp">
-      <Filter>GenAI</Filter>
-    </ClCompile>
     <ClCompile Include="ITextArea.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
     <ClCompile Include="IGetName.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="IPropertyEditor.cpp">
+      <Filter>Resonance2\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ICheckBox.cpp">
       <Filter>Resonance2\Controls</Filter>
     </ClCompile>
   </ItemGroup>

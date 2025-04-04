@@ -441,9 +441,9 @@ void IWindow::InitWindow() {
 	}
 
 	if (m_HasToolBar) {
-		m_ClientArea = new IControlGroup(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
+		m_ClientArea = new IControlGroup(glm::vec2(1, 66), glm::vec2(m_Size.x - 12, m_Size.y - 67));
 		m_ToolBar = new IToolBar;
-		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 30));
+		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 40));
 
 		AddChild(m_ToolBar);
 
@@ -545,7 +545,7 @@ void IWindow::AlignWindow() {
 	}
 
 	if (m_HasToolBar) {
-		m_ClientArea->Set(glm::vec2(1, 56), glm::vec2(m_Size.x - 12, m_Size.y - 57));
+		m_ClientArea->Set(glm::vec2(1, 66), glm::vec2(m_Size.x - 12, m_Size.y - 67));
 	}
 	else {
 		m_ClientArea->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));

@@ -41,7 +41,22 @@ GameFont::GameFont(std::string path,int size)
                 nBuf[loc2] = r;
                 nBuf[loc2 + 1] = r;
                 nBuf[loc2 + 2] = r;
-                nBuf[loc2 + 3] = r;
+                if (r <-120) {
+                    nBuf[loc2 + 3] = -124;
+                    nBuf[loc2] = -124;
+                    nBuf[loc2 + 1] = -124;
+                    nBuf[loc2 + 2] = -124;
+                    //nBuf[loc2] = 
+
+                }
+                else {
+                    
+                    nBuf[loc2] = r;
+                    nBuf[loc2 + 1] = r;
+                    nBuf[loc2 + 2] = r;
+                    nBuf[loc2 + 3] = r;
+
+                }
 
 
             }
