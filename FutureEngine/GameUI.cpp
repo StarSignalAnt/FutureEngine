@@ -104,6 +104,7 @@ void GameUI::UpdateUI(float delta)
 
             if (control->InBounds(mouse_pos))
             {
+                std::cout << "BOUNDS:" << control->GetText() << std::endl;
                 if (m_ControlOver) {
                     if (m_ControlOver == control) {
 

@@ -30,7 +30,8 @@ void FuturePlatform::StartApp(FPApp* application) {
 	application->Start();
 	auto win = application->GetStartWindow();
 	//m_Wallpaper->AddChild((IControl*)win);
-	GameUI::m_Inst->GetWindowSurface()->AddChild((IControl*)win);
+ GameUI::m_Inst->GetWindowSurface()->AddChild((IControl*)win);
+//	GameUI::m_Inst->GetRoot()->AddChild((IControl*)win);
 	m_AppBar->RegisterWindow(win,application);
 
 

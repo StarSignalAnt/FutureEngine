@@ -81,15 +81,25 @@ void main() {
     fragPos.y = feScreenSize.y - fragPos.y;
 
     vec2 delta = feLightPos.xy - fragPos;
-    float dis = dot(delta, delta); // Faster than sqrt()
+    //float dis = dot(delta, delta); // Faster than sqrt()
     
-    if (dis > feLightRange * feLightRange) {
-        discard;
-        return;
+    //if (dis > feLightRange * feLightRange) {
+     //   discard;
+       // return;
+    //}
+
+    float dis = sqrt(delta.x*delta.x+delta.y*delta.y);
+
+    float light = dis / feLightRange;
+  
+    if(light>1.0){
+        light = 1.0;
     }
 
-    float light = 1.0 - sqrt(dis) / feLightRange;
-    
+
+    light = 1 - light;
+
+
     vec3 norm = texture(feNormalMap, fragTexCoord).rgb * 2.0 - 1.0;
     norm.y = -norm.y; // Flip Y-axis
     

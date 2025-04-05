@@ -73,7 +73,7 @@ glm::vec4 IControl::GetScissor() {
 	}
 
 
-	return glm::vec4(sx-1,sy-1,ex-sx+3,ey-sy+3);
+	return glm::vec4(sx,sy,ex-sx,ey-sy);
 
 }
 

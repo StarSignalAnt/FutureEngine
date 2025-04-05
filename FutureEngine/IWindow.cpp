@@ -82,6 +82,9 @@ void IWindow::Render()
 
 
 			UIHelp::DrawText(pos + glm::vec2(sx + 5, 10 - UIHelp::StrHeight(title) / 2), title, glm::vec4(1, 1, 1, 1));
+			UIHelp::DrawText(pos + glm::vec2(sx + 1 + tab_width-6, 8), "X", glm::vec4(1, 1, 1, 1),0.8);
+			m_ClosePos = glm::vec2(sx + 1 + tab_width - 6, 8);
+
 		}
 		else {
 //			UIHelp::DrawImageWithBG(pos + glm::vec2(sx, 0), glm::vec2(tab_width + 10, 20), glm::vec4(0.678 * 0.1, 0.847 * 0.1, 0.902 * 0.1, 0.8f));
@@ -128,7 +131,17 @@ void IWindow::OnMouseDown(int button)
 {
 
 
+	if (m_CurrentArea == AREA_TITLE || m_CurrentArea == AREA_RESIZER || m_CurrentArea == AREA_CLOSE || m_CurrentArea == AREA_LEFT || m_CurrentArea == AREA_BOTTOM || m_CurrentArea == AREA_RIGHT) {
 
+		m_Locked = true;
+		if (m_CurrentArea == AREA_CLOSE) {
+			Close();
+			return;
+		}
+			
+	}
+
+	
 
 	m_MouseIn = true;
 	if (m_ActiveMenu != nullptr) {
@@ -244,6 +257,7 @@ void IWindow::OnMouseUp(int button)
 	GameInput::m_Dragging = nullptr;
 	m_MouseIn = false;
 	std::cout << "Mouse Up:" << m_Text << std::endl;
+	m_Locked = false;
 }
 
 void IWindow::OnMouseDoubleClick()
@@ -261,7 +275,43 @@ void IWindow::OnMouseDoubleClick()
 
 void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 {
+
+
+
 	m_MousePos = position;
+
+	if (!m_Locked) {
+		if (m_MousePos.y < 20 && m_MousePos.x < m_Size.x)
+		{
+			m_CurrentArea = AREA_TITLE;
+		}
+
+		if (m_MousePos.x >= 0 && m_MousePos.x < 4 && m_MousePos.y>20 && m_MousePos.y <= m_Size.y) {
+			m_CurrentArea = AREA_LEFT;
+		}
+		if (m_MousePos.y > m_Size.y - 8 && m_MousePos.y <= m_Size.y) {
+			m_CurrentArea = AREA_BOTTOM;
+		}
+		if (m_MousePos.x > m_Size.x - 8 && m_MousePos.x <= m_Size.x)
+		{
+			if (m_MousePos.y > 20)
+			{
+				m_CurrentArea = AREA_RIGHT;
+			}
+
+		}
+		if (m_MousePos.x > m_Size.x - 12 && m_MousePos.y > m_Size.y - 12 && m_MousePos.x < m_Size.x && m_MousePos.y < m_Size.y)
+		{
+			m_CurrentArea = AREA_RESIZER;
+		}
+		if (m_MousePos.x > m_ClosePos.x && m_MousePos.x<m_ClosePos.x + 8 && m_MousePos.y > m_ClosePos.y && m_MousePos.y < m_ClosePos.y + 8)
+		{
+			m_CurrentArea = AREA_CLOSE;
+
+		}
+	}
+
+
 	if (m_Dragging) {
 
 		if (m_CurrentTab == 0) {
@@ -277,8 +327,79 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 					}
 				}
 			
-			
-				m_Position += delta;
+				if (m_Locked) {
+					switch (m_CurrentArea) {
+					case AREA_TITLE:
+						//if (m_CurrentArea == AREA_TITLE) {
+						m_Position += delta;
+						//}
+						break;
+					case AREA_RESIZER:
+
+						auto new_size = m_Size += delta;
+						if (new_size.x < 128) new_size.x = 128;
+						if (new_size.y < 128) new_size.y = 128;
+						Set(GetPosition(), new_size);
+
+
+						break;
+					case AREA_LEFT:
+					{
+						if (delta.x < 0) {
+							m_Position = m_Position + glm::vec2(delta.x,0);
+							auto new_size = m_Size;
+							new_size.x += -delta.x;
+							if (new_size.x < 128) new_size.x = 128;
+							if (new_size.y < 128) new_size.y = 128;
+							Set(m_Position, new_size);
+						}
+						else {
+							m_Position = m_Position + glm::vec2(delta.x, 0);
+							auto new_size = m_Size;
+							new_size.x -= delta.x;
+							if (new_size.x < 128) new_size.x = 128;
+							if (new_size.y < 128) new_size.y = 128;
+							Set(m_Position, new_size);
+						}
+					}
+						break;
+					case AREA_BOTTOM:
+
+						if (delta.y < 0) {
+
+							auto new_size = m_Size;
+							new_size.y += delta.y;
+							if (new_size.x < 128) new_size.x = 128;
+							if (new_size.y < 128) new_size.y = 128;
+							Set(m_Position, new_size);
+
+						}
+						else {
+
+							auto new_size = m_Size;
+							new_size.y += delta.y;
+
+							Set(m_Position, new_size);
+
+						}
+
+						break;
+					case AREA_RIGHT:
+						if (delta.x < 0) {
+							auto new_size = m_Size;
+							new_size.x += delta.x;
+							if (new_size.x < 128) new_size.x = 128;
+							Set(m_Position, new_size);
+						}
+						else {
+							auto new_size = m_Size;
+							new_size.x += delta.x;
+							Set(m_Position, new_size);
+						}
+
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -380,25 +501,25 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 
 bool IWindow::InBounds(glm::vec2 position)
 {
-
+	return IControl::InBounds(position);
 	int tab_width = UIHelp::StrWidth(m_Text)+10;
 
 	glm::vec2 root = GetRenderPosition();
 	if (position.x > root.x && position.x < root.x + m_Size.x &&
 		position.y > root.y && position.y < root.y + 16)
 	{
-		m_CurrentArea = AREA_TITLE;
+	//	m_CurrentArea = AREA_TITLE;
 		return true;
 	}
 
 	if (position.x > root.x + m_Size.x - 16 && position.x<root.x + m_Size.x &&
 		position.y>root.y + m_Size.y - 16 && position.y < root.y + m_Size.y)
 	{
-		m_CurrentArea = AREA_RESIZER;
+	//	m_CurrentArea = AREA_RESIZER;
 		return true;
 	}
 
-	m_CurrentArea = AREA_CLIENT;
+//	m_CurrentArea = AREA_CLIENT;
 	
 	if (position.x > root.x & position.x < root.x + m_Size.x - 18)
 	{
@@ -443,7 +564,7 @@ void IWindow::InitWindow() {
 	if (m_HasToolBar) {
 		m_ClientArea = new IControlGroup(glm::vec2(1, 66), glm::vec2(m_Size.x - 12, m_Size.y - 67));
 		m_ToolBar = new IToolBar;
-		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 40));
+		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 30));
 
 		AddChild(m_ToolBar);
 
@@ -545,7 +666,7 @@ void IWindow::AlignWindow() {
 	}
 
 	if (m_HasToolBar) {
-		m_ClientArea->Set(glm::vec2(1, 66), glm::vec2(m_Size.x - 12, m_Size.y - 67));
+		m_ClientArea->Set(glm::vec2(5, 66), glm::vec2(m_Size.x - 17, m_Size.y - 75));
 	}
 	else {
 		m_ClientArea->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));
@@ -583,7 +704,7 @@ void IWindow::AlignWindow() {
 
 
 	auto sv = m_YScroller->GetScrollPosition();
-	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 10, 21), glm::vec2(10, m_Size.y - 31));
+	m_YScroller = new IVerticalScroller(glm::vec2(m_Size.x - 18, 21), glm::vec2(10, m_Size.y - 31));
 	
 	AddChild(m_YScroller);
 	int m_Height = m_ClientArea->GetMaxHeight();
@@ -602,7 +723,7 @@ void IWindow::AlignWindow() {
 
 	RemoveChild(m_XScroller);
 	auto sh = m_XScroller->GetScrollPosition();
-	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 10), glm::vec2(m_Size.x - 13, 10));
+	m_XScroller = new IHorizontalScroller(glm::vec2(0, m_Size.y - 18), glm::vec2(m_Size.x - 13, 10));
 
 	AddChild(m_XScroller);
 	int m_Width = m_ClientArea->GetMaxWidth();
@@ -627,7 +748,7 @@ void IWindow::AlignWindow() {
 	//if(m_ClientArea->GetOffset().
 
 	if (m_HasToolBar) {
-		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 30));
+		m_ToolBar->Set(glm::vec2(0, 26), glm::vec2(m_Size.x, 33));
 		//m_ToolBar->SetDockType(DockType::m_Up);
 
 	}

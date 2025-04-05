@@ -10,14 +10,18 @@ public:
     IHorizontalScroller() : IControl(), m_ContentWidth(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
         m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollButtonHeight(15.0f) {
+    
         m_ScrollImage = new Texture2D("engine/ui/softrecth.png");;
+        m_Text = "HSCROLL";
     }
+
 
     IHorizontalScroller(glm::vec2 position, glm::vec2 size)
         : IControl(position, size), m_ContentWidth(0), m_ScrollPosition(0), m_ScrollButtonSize(0),
         m_IsScrolling(false), m_ScrollTrackColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)),
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollButtonHeight(15.0f) {
         m_ScrollImage = new Texture2D("engine/ui/softrecth.png");;
+        m_Text = "HSCROLL";
     }
 
     // Set the total content width that needs to be scrolled

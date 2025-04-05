@@ -12,6 +12,7 @@ public:
         m_IsHovering(false), m_CurrentButtonWidth(5.0f), m_ExpandedButtonWidth(10.0f),
         m_ContractedButtonWidth(5.0f), m_WidthTransitionSpeed(6.0f) {
         m_ScrollImage = new Texture2D("engine/ui/softrect.png");;
+        m_Text = "VSCROLL";
     }
 
     IVerticalScroller(glm::vec2 position, glm::vec2 size)
@@ -20,7 +21,7 @@ public:
         m_ScrollButtonColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f)), m_ScrollBarWidth(10.0f),
         m_IsHovering(false), m_CurrentButtonWidth(5.0f), m_ExpandedButtonWidth(10.0f),
         m_ContractedButtonWidth(5.0f), m_WidthTransitionSpeed(6.0f) {
-
+        m_Text = "VSCROLL";
         m_ScrollImage = new Texture2D("engine/ui/softrect.png");
     }
 
@@ -111,7 +112,7 @@ public:
     
 
         // Only draw the scroll button if content requires scrolling
-        if (m_ContentHeight > m_Size.y)
+    //    if (m_ContentHeight > m_Size.y)
         {
             UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollBarWidth, m_Size.y), m_ScrollTrackColor);
             // Calculate the position of the scroll button

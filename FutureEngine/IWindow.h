@@ -9,8 +9,9 @@ class IDocker;
 class IToolBar;
 
 enum WindowArea {
-    AREA_TITLE, AREA_LEFT, AREA_RIGHT, AREA_BOTTOM, AREA_RESIZER, AREA_CLIENT, AREA_NONE
+    AREA_TITLE, AREA_LEFT, AREA_RIGHT, AREA_BOTTOM, AREA_RESIZER, AREA_CLIENT, AREA_NONE,AREA_CLOSE
 };
+
 
 class IWindow :
     public IControl
@@ -102,4 +103,7 @@ private:
     IMainMenu* m_DefaultMenu = nullptr;
     bool m_HasToolBar = false;
     IToolBar* m_ToolBar = nullptr;
+    bool m_Locked = false;
+    glm::vec2 m_ClosePos;
+//    WindowInteract m_InteractMode = WI_None;
 };

@@ -51,7 +51,9 @@ public:
 		return CurrentScissor;
 	}
 	void Deactivate();
-
+	IControl* GetOverControl() {
+		return m_ControlOver;
+	}
 
 private:
 	glm::vec4 CurrentScissor;
