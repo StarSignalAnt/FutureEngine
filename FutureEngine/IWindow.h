@@ -29,6 +29,7 @@ public:
     void OnMouseMove(glm::vec2 position, glm::vec2 delta) override;
     void OnMouseDoubleClick() override;
 
+
     bool InBounds(glm::vec2 position) override;
     void AlignWindow();
     void AddClientControl(IControl* control);
@@ -72,6 +73,12 @@ public:
     bool BeingDragged() {
         return m_Dragging;
     }
+    void SetIsDocked(bool dock) {
+        m_IsDocked = dock;
+    }
+    bool GetIsDocked() {
+        return m_IsDocked;
+    }
 private:
 
 
@@ -105,5 +112,6 @@ private:
     IToolBar* m_ToolBar = nullptr;
     bool m_Locked = false;
     glm::vec2 m_ClosePos;
+    bool m_IsDocked = false;
 //    WindowInteract m_InteractMode = WI_None;
 };

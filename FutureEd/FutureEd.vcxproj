@@ -146,6 +146,7 @@
     <ClCompile Include="AppMenu.cpp" />
     <ClCompile Include="AppStart.cpp" />
     <ClCompile Include="ContentBrowser.cpp" />
+    <ClCompile Include="CreateMapWindow.cpp" />
     <ClCompile Include="DesktopWallpaper.cpp" />
     <ClCompile Include="FPApps.cpp" />
     <ClCompile Include="FSDesktop.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="AppMenu.h" />
     <ClInclude Include="AppStart.h" />
     <ClInclude Include="ContentBrowser.h" />
+    <ClInclude Include="CreateMapWindow.h" />
     <ClInclude Include="DesktopWallpaper.h" />
     <ClInclude Include="FPApps.h" />
     <ClInclude Include="FSDesktop.h" />

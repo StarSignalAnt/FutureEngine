@@ -20,6 +20,8 @@
 #include "GameObj.h"
 #include "IControlGroup.h"
 #include "IPropertyEditor.h"
+#include "CreateMapWindow.h"
+#include "FileRequester.h"
 
 AppMapEditor* AppMapEditor::m_Inst = nullptr;
 
@@ -151,6 +153,67 @@ void AppMapEditor::InitApp() {
 	edit_menu->AddItem(m_File);
 	edit_menu->AddItem(m_Add);
 	edit_menu->AddItem(m_tools);
+
+
+	auto new_map = new MenuItem("New Map");
+	auto open_map = new MenuItem("Open Map");
+	auto save_map = new MenuItem("Save Map");
+	auto save_as_map = new MenuItem("Save As Map");
+
+	m_File->AddItem(new_map);
+	m_File->AddItem(open_map);
+	m_File->AddItem(save_map);
+	m_File->AddItem(save_as_map);
+	auto exit = new MenuItem("Exit");
+	m_File->AddItem(exit);
+
+	new_map->OnClick = [&]() {
+
+		CreateMapWindow* mapWindow = new CreateMapWindow();
+
+		// Set up callback for when map is created
+		mapWindow->OnMapCreated = [&](GameMap* newMap) {
+			// Do something with the new map
+			// For example:
+			// m_CurrentMap = newMap;
+			// InitializeMap(newMap);
+			m_EditMap = newMap;
+			m_MapViewFB->SetMap(m_EditMap);
+			};
+
+		// Add window to UI
+		GameUI::m_Inst->GetWindowSurface()->AddChild(mapWindow);
+
+		};
+	
+	save_map->OnClick = [&]() {
+		std::vector<FileRequester::FileFilter> filters;
+		filters.push_back({ "Map Files", "*.map" });
+
+		// Get save location from user
+		std::string mapFilePath = FileRequester::SaveFile(
+			"Save Map File",  // Dialog title
+			filters,          // Only allow .map files
+			"new_map.map",    // Default filename
+			""                // No specific initial directory
+		);
+
+		m_EditMap->SaveMap(mapFilePath);
+
+		};
+
+	open_map->OnClick = [&]() {
+		std::vector<FileRequester::FileFilter> filters;
+		filters.push_back({ "Map Files", "*.map" });
+		// Get file location from user
+		std::string mapFilePath = FileRequester::OpenFile(
+			"Open Map File",  // Dialog title
+			filters,          // Only allow .map files
+			""                // No specific initial directory
+		);
+		m_EditMap->OpenMap(mapFilePath);
+		m_MapViewFB->SetMap(m_EditMap);
+		};
 
 	auto a_light = new MenuItem("Light");
 

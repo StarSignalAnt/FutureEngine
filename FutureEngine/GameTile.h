@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "BinaryFile.h"
 class Texture2D;
 
 class GameTile
@@ -41,7 +42,8 @@ public:
 	int GetFrameCount() {
 		return m_ColorFrames.size();
 	}
-
+	void Write(FFile* f);
+	void Read(FFile* f);
 private:
 
 	std::vector<Texture2D*> m_ColorFrames;

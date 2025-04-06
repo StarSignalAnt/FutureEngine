@@ -41,7 +41,7 @@ void ITextEdit::Render() {
     UIHelp::DrawRect(renderPos, m_Size, m_BackgroundColor);
 
     // Draw border
-    UIHelp::DrawOutlineRect(renderPos, m_Size, m_BorderColor);
+    UIHelp::DrawOutlineRect(renderPos, m_Size+glm::vec2(-1,-1), m_BorderColor);
 
     // Calculate visible text
     std::string displayText = m_Text;

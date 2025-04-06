@@ -112,7 +112,7 @@ public:
     
 
         // Only draw the scroll button if content requires scrolling
-    //    if (m_ContentHeight > m_Size.y)
+        if (m_ContentHeight > m_Size.y)
         {
             UIHelp::DrawRect(renderPos, glm::vec2(m_ScrollBarWidth, m_Size.y), m_ScrollTrackColor);
             // Calculate the position of the scroll button

@@ -41,3 +41,35 @@ void GameTile::SetNormalFrame(Texture2D* normal, int index) {
 	m_NormalFrames[index] = normal;
 
 }
+
+void GameTile::Write(FFile* f) {
+
+	f->writeInt(m_ColorFrames.size());
+	for (int i = 0; i < m_ColorFrames.size(); i++) {
+		f->writeString(m_ColorFrames[i]->GetPath());
+		f->writeString(m_NormalFrames[i]->GetPath());
+	}
+	f->writeString(m_Name);
+	f->writeBool(m_CastShadow);
+	f->writeBool(m_ReceivesShadow);
+	f->writeBool(m_ReceivesLight);
+
+
+}
+
+void GameTile::Read(FFile* f) {
+
+	int count = f->readInt();
+	for (int i = 0; i < count; i++) {
+		std::string colorPath = f->readString();
+		std::string normalPath = f->readString();
+		Texture2D* colorFrame = new Texture2D(colorPath);
+		Texture2D* normalFrame = new Texture2D(normalPath);
+		AddFrame(colorFrame, normalFrame);
+	}
+	m_Name = f->readString();
+	m_CastShadow = f->readBool();
+	m_ReceivesShadow = f->readBool();
+	m_ReceivesLight = f->readBool();
+
+}

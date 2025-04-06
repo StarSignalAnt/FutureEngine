@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObj.h"
 
+class FFile;
+
 class GameLight : public GameObj
 {
 public:
@@ -16,6 +18,9 @@ public:
 	{
 		return m_Diffuse;
 	}
+	void Write(FFile* f);
+	void Read(FFile* f);
+
 
 
 private:

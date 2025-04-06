@@ -708,6 +708,10 @@ void IDocker::Render()
 
 void IDocker::DockWindow(IWindow* window, DockArea darea) {
 
+
+    //window->SetIsDocked();
+    window->SetIsDocked(true);
+
     for (auto zone : m_DockZones) {
 
         if (zone.area == darea) {
@@ -745,6 +749,9 @@ void IDocker::DockWindow(IWindow* window, glm::vec2 position) {
         return;
    }
 
+
+    //window->SetIsDocked();
+
     auto zone = GetZoneAt(position);
 
     if (zone.area == DOCK_NONE) return;
@@ -756,6 +763,7 @@ void IDocker::DockWindow(IWindow* window, glm::vec2 position) {
     }
 
     zone.Window = window;
+    window->SetIsDocked(true);
 
     if (zone.area != DOCK_NONE) {
 

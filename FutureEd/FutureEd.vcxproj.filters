@@ -102,6 +102,9 @@
     <ClCompile Include="GroupView.cpp">
       <Filter>Apps\MapEditor\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="CreateMapWindow.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuturePlatform.h">
@@ -165,6 +168,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GroupView.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateMapWindow.h">
       <Filter>Apps\MapEditor\Controls</Filter>
     </ClInclude>
   </ItemGroup>

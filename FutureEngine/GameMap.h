@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "SmartDraw.h"
 
 class GameTile;
@@ -137,6 +138,11 @@ public:
 	GameObj* MouseOver(GameCam* cam, glm::vec2 pos);
 
 	bool IsWithin(GameCam* cam, glm::vec2 pos, glm::vec2 size,glm::vec2 mp);
+
+	void SaveMap(std::string path);
+	void OpenMap(std::string path);
+	std::vector<GameTile*> GatherTiles();
+
 private:
 
 	int m_Width, m_Height, m_Depth;

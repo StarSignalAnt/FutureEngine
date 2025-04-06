@@ -14,6 +14,7 @@
 #include "UIHelp.h"
 #include <cmath>
 #include <array>
+#include "BinaryFile.h"
 #include <cmath>
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -1537,3 +1538,138 @@ glm::vec2 GameMap::MapPosition(GameCam* cam,glm::vec2 position) {
 
 }
 
+bool VectorContainsTile(const std::vector<GameTile*>& tiles, GameTile* tileToCheck) {
+    // Use std::find to look for the pointer in the vector
+    // It returns an iterator to the element if found, or tiles.end() if not found
+    return std::find(tiles.begin(), tiles.end(), tileToCheck) != tiles.end();
+}
+int FindTileIndex(const std::vector<GameTile*>& tiles, GameTile* tileToFind) {
+    // Find the iterator to the element
+    auto it = std::find(tiles.begin(), tiles.end(), tileToFind);
+
+    // If the element was found, calculate its index
+    if (it != tiles.end()) {
+        return static_cast<int>(std::distance(tiles.begin(), it));
+    }
+
+    // Return -1 if the element wasn't found
+    return -1;
+}
+
+void GameMap::SaveMap(std::string file) {
+
+    FFile* f = new FFile(file, false);
+
+	f->writeInt(m_Width);
+	f->writeInt(m_Height);
+    f->writeInt(m_Depth);
+    f->writeInt(m_TileWidth);
+	f->writeInt(m_TileHeight);
+    
+    auto tiles = GatherTiles();
+
+	f->writeInt(tiles.size());  
+	for (int i = 0; i < tiles.size(); i++) {
+		
+        auto tile = tiles[i];
+        tile->Write(f);
+        
+	}
+
+	for (int z = 0; z < m_Depth; z++) {
+		for (int y = 0; y < m_Height; y++) {
+			for (int x = 0; x < m_Width; x++) {
+				auto tile = GetTile(x, y, z);
+				if (tile != nullptr) {
+			//		tile->Write(f);
+					int index = FindTileIndex(tiles, tile);
+                    f->writeInt(index);
+                }
+				else {
+					f->writeInt(-1);
+				}
+			}
+		}
+	}
+
+	f->writeInt(m_Lights.size());
+    for (int i = 0; i < m_Lights.size(); i++) {
+        auto light = m_Lights[i];
+        light->Write(f);
+    };
+
+    f->close();
+
+}
+
+std::vector<GameTile*> GameMap::GatherTiles() {
+
+    std::vector<GameTile*> tiles;
+
+    for (int z = 0; z < m_Depth; z++) {
+        for (int y = 0; y < m_Height; y++) {
+            for (int x = 0; x < m_Width; x++) {
+
+                auto tile = GetTile(x, y, z);
+                if (tile != nullptr) {
+
+                    if (!VectorContainsTile(tiles, tile)) {
+
+						tiles.push_back(tile);
+
+                    }
+
+                }
+
+            }
+        }
+    }
+    return tiles;
+}
+
+void GameMap::OpenMap(std::string path) {
+
+    FFile* f = new FFile(path, true);
+
+	m_Width = f->readInt();
+	m_Height = f->readInt();
+	m_Depth = f->readInt();
+	m_TileWidth = f->readInt();
+	m_TileHeight = f->readInt();
+
+	int tilesCount = f->readInt();
+
+    std::vector<GameTile*> tiles;
+
+    for (int i = 0; i < tilesCount; i++) {
+		auto tile = new GameTile();
+		tile->Read(f);
+		tiles.push_back(tile);
+    }
+
+    for (int z = 0; z < m_Depth; z++) {
+        for (int y = 0; y < m_Height; y++) {
+            for (int x = 0; x < m_Width; x++) {
+                int index = f->readInt();
+                if (index != -1) {
+                    auto tile = tiles[index];
+                    SetTile(x, y, z, tile);
+                }
+                else {
+                    SetTile(x, y, z, nullptr);
+                }
+            }
+        }
+    }
+
+	int lightCount = f->readInt();
+	for (int i = 0; i < lightCount; i++) {
+		auto light = new GameLight();
+		light->Read(f);
+		m_Lights.push_back(light);
+	}
+
+
+    f->close();
+
+}

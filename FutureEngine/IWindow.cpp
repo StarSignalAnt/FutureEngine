@@ -48,6 +48,7 @@ void IWindow::Render()
 //	UIHelp::DrawRect(pos, glm::vec2(m_Size.x, 20), glm::vec4(1,1,1, 1.0f));
 // 
 // 
+// 
 	//UIHelp::DrawImage(pos, glm::vec2(m_Size.x, 25),m_TitleBarImage, glm::vec4(0.678*1.8, 0.847*1.8, 0.902*1.8, 1));
 	//return;
 
@@ -289,7 +290,7 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 		if (m_MousePos.x >= 0 && m_MousePos.x < 4 && m_MousePos.y>20 && m_MousePos.y <= m_Size.y) {
 			m_CurrentArea = AREA_LEFT;
 		}
-		if (m_MousePos.y > m_Size.y - 8 && m_MousePos.y <= m_Size.y) {
+		if (m_MousePos.y > m_Size.y - 12 && m_MousePos.y <= m_Size.y) {
 			m_CurrentArea = AREA_BOTTOM;
 		}
 		if (m_MousePos.x > m_Size.x - 8 && m_MousePos.x <= m_Size.x)
@@ -319,11 +320,14 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 			if (delta.x != 0 || delta.y != 0)
 			{
 				if (m_Docked) {
-					if (m_Dock != nullptr) {
-						m_Dock->UndockWindow(this);
-						m_Dock = nullptr;
-						m_Docked = false;
-						return;
+					if (m_CurrentArea == AREA_TITLE) {
+						if (m_Dock != nullptr) {
+							m_Dock->UndockWindow(this);
+							m_Dock = nullptr;
+							m_Docked = false;
+							m_IsDocked = false;
+							return;
+						}
 					}
 				}
 			
@@ -336,67 +340,74 @@ void IWindow::OnMouseMove(glm::vec2 position, glm::vec2 delta)
 						break;
 					case AREA_RESIZER:
 
-						auto new_size = m_Size += delta;
-						if (new_size.x < 128) new_size.x = 128;
-						if (new_size.y < 128) new_size.y = 128;
-						Set(GetPosition(), new_size);
 
+						if (!m_IsDocked) {
+							auto new_size = m_Size += delta;
+							if (new_size.x < 128) new_size.x = 128;
+							if (new_size.y < 128) new_size.y = 128;
+							Set(GetPosition(), new_size);
+						}
 
 						break;
 					case AREA_LEFT:
 					{
-						if (delta.x < 0) {
-							m_Position = m_Position + glm::vec2(delta.x,0);
-							auto new_size = m_Size;
-							new_size.x += -delta.x;
-							if (new_size.x < 128) new_size.x = 128;
-							if (new_size.y < 128) new_size.y = 128;
-							Set(m_Position, new_size);
-						}
-						else {
-							m_Position = m_Position + glm::vec2(delta.x, 0);
-							auto new_size = m_Size;
-							new_size.x -= delta.x;
-							if (new_size.x < 128) new_size.x = 128;
-							if (new_size.y < 128) new_size.y = 128;
-							Set(m_Position, new_size);
+						if (!m_IsDocked) {
+							if (delta.x < 0) {
+								m_Position = m_Position + glm::vec2(delta.x, 0);
+								auto new_size = m_Size;
+								new_size.x += -delta.x;
+								if (new_size.x < 128) new_size.x = 128;
+								if (new_size.y < 128) new_size.y = 128;
+								Set(m_Position, new_size);
+							}
+							else {
+								m_Position = m_Position + glm::vec2(delta.x, 0);
+								auto new_size = m_Size;
+								new_size.x -= delta.x;
+								if (new_size.x < 128) new_size.x = 128;
+								if (new_size.y < 128) new_size.y = 128;
+								Set(m_Position, new_size);
+							}
 						}
 					}
 						break;
 					case AREA_BOTTOM:
 
-						if (delta.y < 0) {
+						if (!m_IsDocked) {
+							if (delta.y < 0) {
 
-							auto new_size = m_Size;
-							new_size.y += delta.y;
-							if (new_size.x < 128) new_size.x = 128;
-							if (new_size.y < 128) new_size.y = 128;
-							Set(m_Position, new_size);
+								auto new_size = m_Size;
+								new_size.y += delta.y;
+								if (new_size.x < 128) new_size.x = 128;
+								if (new_size.y < 128) new_size.y = 128;
+								Set(m_Position, new_size);
 
+							}
+							else {
+
+								auto new_size = m_Size;
+								new_size.y += delta.y;
+
+								Set(m_Position, new_size);
+
+							}
 						}
-						else {
-
-							auto new_size = m_Size;
-							new_size.y += delta.y;
-
-							Set(m_Position, new_size);
-
-						}
-
 						break;
 					case AREA_RIGHT:
-						if (delta.x < 0) {
-							auto new_size = m_Size;
-							new_size.x += delta.x;
-							if (new_size.x < 128) new_size.x = 128;
-							Set(m_Position, new_size);
-						}
-						else {
-							auto new_size = m_Size;
-							new_size.x += delta.x;
-							Set(m_Position, new_size);
-						}
+						if (!m_IsDocked) {
+							if (delta.x < 0) {
+								auto new_size = m_Size;
+								new_size.x += delta.x;
+								if (new_size.x < 128) new_size.x = 128;
+								Set(m_Position, new_size);
+							}
+							else {
+								auto new_size = m_Size;
+								new_size.x += delta.x;
+								Set(m_Position, new_size);
+							}
 
+						}
 						break;
 					}
 				}
@@ -570,7 +581,7 @@ void IWindow::InitWindow() {
 
 	}
 	else {
-		m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 27));
+		m_ClientArea = new IControlGroup(glm::vec2(1, 26), glm::vec2(m_Size.x - 12, m_Size.y - 32));
 	}
 	AddChild(m_ClientArea);
 	AddChild(m_YScroller);
@@ -669,7 +680,7 @@ void IWindow::AlignWindow() {
 		m_ClientArea->Set(glm::vec2(5, 66), glm::vec2(m_Size.x - 17, m_Size.y - 75));
 	}
 	else {
-		m_ClientArea->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 27));
+		m_ClientArea->Set(glm::vec2(5, 26), glm::vec2(m_Size.x - 22, m_Size.y - 32));
 	}
 	std::list<IControlGroup*> groups;
 
