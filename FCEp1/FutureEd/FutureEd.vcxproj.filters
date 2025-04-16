@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Users">
+      <UniqueIdentifier>{1ea581ef-cd5a-485a-8cdb-24c02abdbd60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{d3d8af8e-dfe0-49ed-9418-b7a11f9fa2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps">
+      <UniqueIdentifier>{cc829865-6906-4a3d-b0ee-e69e096f30b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\TestApp1">
+      <UniqueIdentifier>{a9b6e600-ed10-4686-9795-a71e2eab8e99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\MapEditor">
+      <UniqueIdentifier>{83d7e3b9-4fce-44dc-832d-0bd219335723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\MapEditor\Controls">
+      <UniqueIdentifier>{fc2f43e9-3b3a-4161-a97a-990e76e7ba59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\FutureTalk">
+      <UniqueIdentifier>{ee5b3484-b798-460d-857f-2377f2e8f80e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Apps\MapEditor\Source Files">
+      <UniqueIdentifier>{58278516-734d-4153-ad24-5aa23c02c3e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FutureEd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuturePlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FSLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FUsers.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+    <ClCompile Include="FUserProfile.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
+    <ClCompile Include="FSDesktop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DesktopWallpaper.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppBar.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStart.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FPApps.cpp">
+      <Filter>Apps</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApp1.cpp">
+      <Filter>Apps\TestApp1</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowTestApp.cpp">
+      <Filter>Apps\TestApp1</Filter>
+    </ClCompile>
+    <ClCompile Include="AppButton.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMenu.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMapEditor.cpp">
+      <Filter>Apps\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapViewFB.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentBrowser.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="FutureTalk.cpp">
+      <Filter>Apps\FutureTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="TileGroup.cpp">
+      <Filter>Apps\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TileView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupView.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateMapWindow.cpp">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FuturePlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FSLogin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FUsers.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="FUserProfile.h">
+      <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="FSDesktop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DesktopWallpaper.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppBar.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStart.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="FPApps.h">
+      <Filter>Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApp1.h">
+      <Filter>Apps\TestApp1</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowTestApp.h">
+      <Filter>Apps\TestApp1</Filter>
+    </ClInclude>
+    <ClInclude Include="AppButton.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMenu.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMapEditor.h">
+      <Filter>Apps\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapViewFB.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentBrowser.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="FutureTalk.h">
+      <Filter>Apps\FutureTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="TileGroup.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="TileView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupView.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateMapWindow.h">
+      <Filter>Apps\MapEditor\Controls</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

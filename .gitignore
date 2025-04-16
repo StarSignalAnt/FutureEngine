@@ -20,6 +20,8 @@
 *.mod
 *.smod
 
+*.ipch
+
 # Compiled Static libraries
 *.lai
 *.la
@@ -30,3 +32,4 @@
 *.exe
 *.out
 *.app
+*.pdb

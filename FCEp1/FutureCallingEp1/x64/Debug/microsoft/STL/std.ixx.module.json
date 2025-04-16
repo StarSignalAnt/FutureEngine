@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "x64\\Debug\\microsoft/STL\\std.ixx.obj",
+            "outputs": [
+                "C:\\project\\FCEp1\\FutureCallingEp1\\x64\\Debug\\vc143.pdb",
+                "x64\\Debug\\microsoft/STL\\",
+                "C:\\project\\FCEp1\\FutureCallingEp1\\x64\\Debug\\microsoft\\STL\\std.ixx.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "std",
+                    "source-path": "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.44.34918\\modules\\std.ixx",
+                    "is-interface": true
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

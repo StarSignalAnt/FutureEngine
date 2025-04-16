@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6e36be6a-6dbc-4bab-bac6-f540141d2f66}</ProjectGuid>
+    <RootNamespace>FutureEd</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>FuturePlatform</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;UNICODE;ENGINE_DLL=1;DILIGENT_RENDER_STATE_CACHE_SUPPORTED=1;PLATFORM_WIN32=1;D3D11_SUPPORTED=1;D3D12_SUPPORTED=1;GL_SUPPORTED=1;GLES_SUPPORTED=0;VULKAN_SUPPORTED=1;METAL_SUPPORTED=0;WEBGPU_SUPPORTED=0;DILIGENT_DEVELOPMENT;DILIGENT_DEBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureApp;C:\git\DiligentEngine\DiligentSamples\Samples\GLFWDemo\..\..\..\DiligentCore;C:\git\DiligentEngine\DiligentCore\Common\interface;C:\git\DiligentEngine\DiligentCore\Platforms\Win32\interface;C:\git\DiligentEngine\DiligentCore\Platforms\Basic\interface;C:\git\DiligentEngine\DiligentCore\Primitives\interface;C:\git\DiligentEngine\DiligentCore\Platforms\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsTools\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\git\DiligentEngine\DiligentTools\RenderStateNotation\interface;C:\git\DiligentEngine\DiligentSamples\ThirdParty\glfw\include;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;C:\project\FCEp1\FutureEngine\llama;C:\project\FCEp1\FutureEngine\llama\ggml-cpu;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\project\FCEp1\FutureEngine;C:\git\DiligentEngine\DiligentTools\TextureLoader\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <EnableModules>true</EnableModules>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FutureEngine.lib;FutureApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);WIN32;_WINDOWS;USE_D3D12_LOADER=1;D3D12_H_HAS_MESH_SHADER=1;PLATFORM_WIN32=1;D3D11_SUPPORTED=1;D3D12_SUPPORTED=1;GL_SUPPORTED=1;GLES_SUPPORTED=0;VULKAN_SUPPORTED=1;METAL_SUPPORTED=0;WEBGPU_SUPPORTED=0;DILIGENT_SPIRV_CROSS_NAMESPACE=diligent_spirv_cross;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <EnableModules>true</EnableModules>
+      <AdditionalIncludeDirectories>C:\project\FCEp1\FutureEngine;C:\git\DiligentEngine\DiligentSamples\Samples\GLFWDemo\..\..\..\DiligentCore;C:\git\DiligentEngine\DiligentCore\Common\interface;C:\git\DiligentEngine\DiligentCore\Platforms\Win32\interface;C:\git\DiligentEngine\DiligentCore\Platforms\Basic\interface;C:\git\DiligentEngine\DiligentCore\Primitives\interface;C:\git\DiligentEngine\DiligentCore\Platforms\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsTools\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\git\DiligentEngine\DiligentTools\RenderStateNotation\interface;C:\git\DiligentEngine\DiligentSamples\ThirdParty\glfw\include;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\git\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;C:\project\FCEp1\FutureEngine\llama;C:\project\FCEp1\FutureEngine\llama\ggml-cpu;C:\project\FCEp1\openal\include;C:\project\FCEp1\ffmpeg\include;C:\project\FCEp1\FreeType\include;C:\project\FCEp1\FutureEngine\include;C:\project\FCEp1\FutureEngine\include\;C:\project\FCEp1\FutureEngine\packages\glm.1.0.1\build\native\include;C:\git\DiligentEngine\DiligentTools\TextureLoader\interface;C:\project\FCEp1\FutureApp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>FutureEngine.lib;FutureApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\project\FCEp1\FutureEngine\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AppBar.cpp" />
+    <ClCompile Include="AppButton.cpp" />
+    <ClCompile Include="AppMapEditor.cpp" />
+    <ClCompile Include="AppMenu.cpp" />
+    <ClCompile Include="AppStart.cpp" />
+    <ClCompile Include="ContentBrowser.cpp" />
+    <ClCompile Include="CreateMapWindow.cpp" />
+    <ClCompile Include="DesktopWallpaper.cpp" />
+    <ClCompile Include="FPApps.cpp" />
+    <ClCompile Include="FSDesktop.cpp" />
+    <ClCompile Include="FSLogin.cpp" />
+    <ClCompile Include="FUserProfile.cpp" />
+    <ClCompile Include="FUsers.cpp" />
+    <ClCompile Include="FutureEd.cpp" />
+    <ClCompile Include="FuturePlatform.cpp" />
+    <ClCompile Include="FutureTalk.cpp" />
+    <ClCompile Include="GroupView.cpp" />
+    <ClCompile Include="MapViewFB.cpp" />
+    <ClCompile Include="TestApp1.cpp" />
+    <ClCompile Include="TileGroup.cpp" />
+    <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="TileView.cpp" />
+    <ClCompile Include="WindowTestApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppBar.h" />
+    <ClInclude Include="AppButton.h" />
+    <ClInclude Include="AppMapEditor.h" />
+    <ClInclude Include="AppMenu.h" />
+    <ClInclude Include="AppStart.h" />
+    <ClInclude Include="ContentBrowser.h" />
+    <ClInclude Include="CreateMapWindow.h" />
+    <ClInclude Include="DesktopWallpaper.h" />
+    <ClInclude Include="FPApps.h" />
+    <ClInclude Include="FSDesktop.h" />
+    <ClInclude Include="FSLogin.h" />
+    <ClInclude Include="FUserProfile.h" />
+    <ClInclude Include="FUsers.h" />
+    <ClInclude Include="FuturePlatform.h" />
+    <ClInclude Include="FutureTalk.h" />
+    <ClInclude Include="GroupView.h" />
+    <ClInclude Include="MapViewFB.h" />
+    <ClInclude Include="TestApp1.h" />
+    <ClInclude Include="TileGroup.h" />
+    <ClInclude Include="TileManager.h" />
+    <ClInclude Include="TileView.h" />
+    <ClInclude Include="WindowTestApp.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
